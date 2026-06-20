@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #f8f3eb;
+  color: #201d18;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+:where(a, button, input, textarea):focus-visible {
+  outline: 3px solid #a78d67;
+  outline-offset: 3px;
+}
