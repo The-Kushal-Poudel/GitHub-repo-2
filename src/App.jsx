@@ -6,6 +6,7 @@ import Footer from "./components/layout/Footer";
 import Hero from "./components/sections/Hero";
 import About from "./components/sections/About";
 import TechStack from "./components/sections/TechStack";
+import IntroScreen from "./components/layout/IntroScreen";
 import { usePortfolioData } from "./hooks/usePortfolioData";
 
 const Projects = lazy(() => import("./components/sections/Projects"));
@@ -18,17 +19,6 @@ const Contact = lazy(() => import("./components/sections/Contact"));
 export default function App() {
   const reducedMotion = useReducedMotion();
   const { data, loading, error } = usePortfolioData();
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#f8f3eb] text-[#201d18] transition-opacity duration-500 ease-in-out">
-        <div className="flex flex-col items-center gap-4">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#a78d67] border-t-transparent" />
-          <span className="font-serif text-lg italic text-[#8c806f]">Loading Kushal's Portfolio...</span>
-        </div>
-      </div>
-    );
-  }
 
   if (error || !data) {
     return (
@@ -66,6 +56,7 @@ export default function App() {
 
   return (
     <main className="min-h-screen w-full overflow-x-hidden scroll-smooth bg-[#f8f3eb] text-[#201d18] selection:bg-[#a78d67] selection:text-white">
+      <IntroScreen name={data.profile?.name?.split(" ")[0] || "Kushal"} reducedMotion={reducedMotion} />
       <ScrollProgress reducedMotion={reducedMotion} />
       <Header site={site} navItems={navItems} reducedMotion={reducedMotion} />
       <Hero profile={profile} hero={hero} reducedMotion={reducedMotion} />
