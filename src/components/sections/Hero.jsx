@@ -50,6 +50,48 @@ function FloatingChip({ children, className = "", delay = 0, reducedMotion }) {
   );
 }
 
+/** Typewriter effect — reveals text character by character with a blinking cursor. */
+function Typewriter({ text, className = "", reducedMotion }) {
+  if (reducedMotion) {
+    return <span className={className}>{text}</span>;
+  }
+
+  const chars = text.split("");
+  const charDuration = 0.035;
+  const totalDuration = chars.length * charDuration;
+
+  return (
+    <span className={className} aria-label={text}>
+      {chars.map((char, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 + i * charDuration, duration: 0.02 }}
+          aria-hidden="true"
+        >
+          {char}
+        </motion.span>
+      ))}
+      {/* Blinking cursor */}
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{
+          delay: 0.5 + totalDuration,
+          duration: 0.9,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+        className="ml-px inline-block font-light text-[#b69a70]"
+        aria-hidden="true"
+      >
+        |
+      </motion.span>
+    </span>
+  );
+}
+
 function AnimatedTitle({ children, className = "", reducedMotion }) {
   const words = children.split(" ");
 
@@ -97,7 +139,7 @@ export default function Hero({ profile, hero, reducedMotion }) {
               className="h-2 w-2 rounded-full bg-[#b69a70]"
               aria-hidden="true"
             />
-            {profile.role}
+            <Typewriter text={profile.role} reducedMotion={reducedMotion} />
           </motion.p>
 
           <AnimatedTitle reducedMotion={reducedMotion} className="max-w-[720px] font-serif text-[34px] leading-[1.08] tracking-tight text-[#1f1c18] sm:text-5xl lg:text-[70px]">

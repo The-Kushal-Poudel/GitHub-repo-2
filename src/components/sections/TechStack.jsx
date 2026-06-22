@@ -1,6 +1,49 @@
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { useRef, useMemo } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import Container from "../common/Container";
+
+/** Magnetic hover chip — icon follows cursor slightly on hover. */
+function MagneticChip({ children, reducedMotion }) {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 260, damping: 20, mass: 0.6 });
+  const springY = useSpring(y, { stiffness: 260, damping: 20, mass: 0.6 });
+
+  function handleMouseMove(e) {
+    if (reducedMotion || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width / 2);
+    const dy = e.clientY - (rect.top + rect.height / 2);
+    x.set(dx * 0.3);
+    y.set(dy * 0.3);
+  }
+
+  function handleMouseLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: reducedMotion ? 0 : springX, y: reducedMotion ? 0 : springY }}
+      whileHover={reducedMotion ? undefined : { scale: 1.12 }}
+      transition={{ type: "spring", stiffness: 220, damping: 18 }}
+      className="flex min-w-[130px] cursor-default items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-white/75 backdrop-blur transition-shadow hover:border-[#b9a17a]/40 hover:bg-white/[0.08] hover:text-white hover:shadow-lg hover:shadow-[#b9a17a]/10 sm:min-w-[145px] sm:px-5 sm:py-3"
+    >
+      <motion.span
+        className="h-1.5 w-1.5 rounded-full bg-[#b9a17a]"
+        aria-hidden="true"
+        animate={reducedMotion ? undefined : { scale: [1, 1.4, 1] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {children}
+    </motion.div>
+  );
+}
 
 export default function TechStack({ techStack, reducedMotion }) {
   const repeatedTech = useMemo(
@@ -38,13 +81,9 @@ export default function TechStack({ techStack, reducedMotion }) {
             className="flex w-max gap-3 sm:gap-4"
           >
             {repeatedTech.map((tech, index) => (
-              <motion.div
-                key={`${tech.id}-${index}`}
-                whileHover={reducedMotion ? undefined : { y: -8, scale: 1.08 }}
-                className="flex min-w-[130px] items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-white/75 backdrop-blur sm:min-w-[145px] sm:px-5 sm:py-3"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-[#b9a17a]" aria-hidden="true" /> {tech.label}
-              </motion.div>
+              <MagneticChip key={`${tech.id}-${index}`} reducedMotion={reducedMotion}>
+                {tech.label}
+              </MagneticChip>
             ))}
           </motion.div>
         </div>

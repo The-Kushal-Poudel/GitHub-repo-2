@@ -1,9 +1,54 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect } from "react";
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import Container from "../common/Container";
 import SectionHeading from "../common/SectionHeading";
 import { fadeLeft, popIn, stagger } from "../../lib/animations";
 import { iconMap } from "../../lib/iconMap";
 import { Code } from "lucide-react";
+
+/** Animated counter — counts from 0 to target when scrolled into view. */
+function AnimatedCounter({ value, suffix = "", reducedMotion }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const motionVal = useMotionValue(0);
+  const springVal = useSpring(motionVal, { stiffness: 80, damping: 28, mass: 1 });
+
+  useEffect(() => {
+    if (isInView) {
+      motionVal.set(reducedMotion ? value : value);
+    }
+  }, [isInView, value, motionVal, reducedMotion]);
+
+  useEffect(() => {
+    if (reducedMotion && ref.current) {
+      ref.current.textContent = value + suffix;
+      return;
+    }
+
+    const unsubscribe = springVal.on("change", (latest) => {
+      if (ref.current) {
+        ref.current.textContent = Math.round(latest) + suffix;
+      }
+    });
+    return unsubscribe;
+  }, [springVal, suffix, value, reducedMotion]);
+
+  return (
+    <motion.span
+      ref={ref}
+      className="text-3xl font-bold tabular-nums text-[#1f1c18] sm:text-4xl"
+    >
+      0{suffix}
+    </motion.span>
+  );
+}
+
+const stats = [
+  { id: "experience", value: 2, suffix: "+", label: "Years Experience" },
+  { id: "projects", value: 10, suffix: "+", label: "Projects Built" },
+  { id: "technologies", value: 9, suffix: "+", label: "Technologies" },
+  { id: "satisfaction", value: 100, suffix: "%", label: "Client Satisfaction" },
+];
 
 export default function About({ about, reducedMotion }) {
   return (
@@ -51,6 +96,30 @@ export default function About({ about, reducedMotion }) {
               </motion.div>
             );
           })}
+        </motion.div>
+      </Container>
+
+      {/* ── Animated Stats Counters ── */}
+      <Container className="mt-10 lg:mt-14">
+        <motion.div
+          initial={reducedMotion ? false : { opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="grid grid-cols-2 gap-6 rounded-2xl border border-[#e6ded0] bg-white/60 p-6 shadow-sm backdrop-blur sm:p-8 lg:grid-cols-4"
+        >
+          {stats.map((stat) => (
+            <div key={stat.id} className="flex flex-col items-center text-center">
+              <AnimatedCounter
+                value={stat.value}
+                suffix={stat.suffix}
+                reducedMotion={reducedMotion}
+              />
+              <span className="mt-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-[#8c806f] sm:text-[11px]">
+                {stat.label}
+              </span>
+            </div>
+          ))}
         </motion.div>
       </Container>
     </section>
