@@ -22,8 +22,8 @@ export default function Blogs({ blogsSection, reducedMotion }) {
             <motion.article
               key={blog.id}
               variants={popIn}
-              whileHover={reducedMotion ? undefined : { y: -14, scale: 1.02 }}
-              className="group rounded-xl border border-[#e6ded0] bg-[#f8f3eb]/85 p-5 shadow-sm transition hover:bg-white hover:shadow-2xl hover:shadow-black/10 sm:p-6"
+              whileHover={reducedMotion ? undefined : { y: -16, scale: 1.035, transition: { type: "spring", stiffness: 300, damping: 20 } }}
+              className="group rounded-xl border border-[#e6ded0] bg-[#f8f3eb]/85 p-5 shadow-sm transition-all hover:bg-white hover:shadow-2xl hover:shadow-black/15 sm:p-6"
             >
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <span className="rounded-full bg-[#151412] px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-white">

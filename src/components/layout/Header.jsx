@@ -1,15 +1,20 @@
 import { useState } from "react";
-import { motion, useScroll } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 import Container from "../common/Container";
 
 export function ScrollProgress({ reducedMotion }) {
   const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   return (
     <motion.div
       initial={false}
-      style={{ scaleX: reducedMotion ? 0 : scrollYProgress }}
+      style={{ scaleX: reducedMotion ? 0 : scaleX }}
       className="fixed left-0 top-0 z-[999] h-1 w-full origin-left bg-[#a78d67]"
       aria-hidden="true"
     />

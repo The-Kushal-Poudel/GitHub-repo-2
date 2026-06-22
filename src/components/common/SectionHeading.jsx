@@ -1,7 +1,33 @@
 import { motion } from "framer-motion";
-import { fadeUp } from "../../lib/animations";
+import { fadeUp, stagger } from "../../lib/animations";
 
-export default function SectionHeading({ label, title, description, align = "left", icon, iconImage }) {
+function AnimatedHeading({ text, className }) {
+  const words = text.split(" ");
+  return (
+    <motion.h2 variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.5 }} className={className}>
+      {words.map((word, index) => (
+        <motion.span
+          key={`${word}-${index}`}
+          variants={{
+            hidden: { opacity: 0, y: 30, rotateX: -60, filter: "blur(6px)" },
+            show: {
+              opacity: 1,
+              y: 0,
+              rotateX: 0,
+              filter: "blur(0px)",
+              transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+            },
+          }}
+          className="mr-[0.25em] inline-block origin-bottom"
+        >
+          {word}
+        </motion.span>
+      ))}
+    </motion.h2>
+  );
+}
+
+export default function SectionHeading({ label, title, description, align = "left", icon, iconImage, reducedMotion }) {
   const isCentered = align === "center";
 
   return (
@@ -18,9 +44,15 @@ export default function SectionHeading({ label, title, description, align = "lef
         )}
         {label}
       </p>
-      <h2 className="font-serif text-3xl leading-tight text-[#211f1a] sm:text-4xl lg:text-5xl">
-        {title}
-      </h2>
+      
+      {reducedMotion ? (
+        <h2 className="font-serif text-3xl leading-tight text-[#211f1a] sm:text-4xl lg:text-5xl">
+          {title}
+        </h2>
+      ) : (
+        <AnimatedHeading text={title} className="font-serif text-3xl leading-tight text-[#211f1a] sm:text-4xl lg:text-5xl" />
+      )}
+      
       {description && (
         <p className="mt-4 max-w-2xl text-sm leading-7 text-[#655d52] sm:text-[15px]">
           {description}

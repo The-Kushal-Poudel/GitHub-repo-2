@@ -30,8 +30,8 @@ export default function Projects({ projectsSection, reducedMotion }) {
             <motion.article
               key={project.id}
               variants={popIn}
-              whileHover={reducedMotion ? undefined : { y: -18, rotateX: 4, rotateY: -4, scale: 1.025, transition: { type: "spring", stiffness: 190, damping: 16 } }}
-              className="group overflow-hidden rounded-xl border border-[#e6ded0] bg-white shadow-sm transition hover:shadow-2xl hover:shadow-black/10"
+              whileHover={reducedMotion ? undefined : { y: -16, rotateX: 4, rotateY: -4, scale: 1.035, transition: { type: "spring", stiffness: 300, damping: 20 } }}
+              className="group overflow-hidden rounded-xl border border-[#e6ded0] bg-white shadow-sm transition-all hover:shadow-2xl hover:shadow-black/15"
             >
               <div className="relative h-40 overflow-hidden bg-[#ded4c4]">
                 <motion.img
