@@ -18,7 +18,7 @@ const Contact = lazy(() => import("./components/sections/Contact"));
 
 export default function App() {
   const reducedMotion = useReducedMotion();
-  const { data, loading, error } = usePortfolioData();
+  const { data, loading, error, ready } = usePortfolioData();
 
   if (!data) {
     return (
@@ -56,7 +56,7 @@ export default function App() {
 
   return (
     <main className="min-h-screen w-full overflow-x-hidden scroll-smooth bg-[#f8f3eb] text-[#201d18] selection:bg-[#a78d67] selection:text-white">
-      <IntroScreen name={data.profile?.name?.split(" ")[0] || "Kushal"} reducedMotion={reducedMotion} />
+      <IntroScreen name={data.profile?.name?.split(" ")[0] || "Kushal"} reducedMotion={reducedMotion} dataReady={ready} />
       <ScrollProgress reducedMotion={reducedMotion} />
       <Header site={site} navItems={navItems} reducedMotion={reducedMotion} />
       <Hero profile={profile} hero={hero} reducedMotion={reducedMotion} />
