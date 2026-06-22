@@ -20,7 +20,7 @@ export default function App() {
   const reducedMotion = useReducedMotion();
   const { data, loading, error } = usePortfolioData();
 
-  if (error || !data) {
+  if (!data) {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-[#f8f3eb] px-4 text-center text-[#201d18]">
         <div className="max-w-md rounded-2xl border border-[#e6ded0] bg-white p-8 shadow-xl">
