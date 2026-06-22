@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, CalendarDays } from "lucide-react";
 import Container from "../common/Container";
 import SectionHeading from "../common/SectionHeading";
@@ -37,15 +38,9 @@ export default function Blogs({ blogsSection, reducedMotion }) {
               <h3 className="text-xl font-bold leading-snug text-[#201d18] transition group-hover:text-[#a78d67]">{blog.title}</h3>
               <p className="mt-4 min-h-[98px] text-sm leading-7 text-[#655d52]">{blog.description}</p>
 
-              {blog.link ? (
-                <motion.a href={blog.link} target="_blank" rel="noreferrer" whileHover={reducedMotion ? undefined : { x: 8 }} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#a78d67]">
+                <Link to={`/blog/${blog.id}`} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#a78d67] transition hover:text-[#211f1a]">
                   Read Article <ArrowRight size={14} aria-hidden="true" />
-                </motion.a>
-              ) : (
-                <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#a78d67]">
-                  Draft Coming Soon <ArrowRight size={14} aria-hidden="true" />
-                </span>
-              )}
+                </Link>
             </motion.article>
           ))}
         </motion.div>

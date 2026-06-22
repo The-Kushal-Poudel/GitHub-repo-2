@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import Container from "../common/Container";
 import SectionHeading from "../common/SectionHeading";
@@ -78,21 +79,12 @@ export default function Projects({ projectsSection, reducedMotion }) {
                 </ul>
 
                 <div className="mt-5 flex flex-wrap gap-4">
-                  {project.liveLink ? (
-                    <motion.a
-                      href={project.liveLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      whileHover={reducedMotion ? undefined : { x: 8 }}
-                      className="inline-flex items-center gap-2 text-sm font-semibold text-[#a78d67]"
-                    >
-                      View Project <ExternalLink size={14} aria-hidden="true" />
-                    </motion.a>
-                  ) : (
-                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#a78d67]">
-                      Case Study Coming Soon <ArrowRight size={14} aria-hidden="true" />
-                    </span>
-                  )}
+                  <Link
+                    to={`/project/${project.slug}`}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#a78d67] transition hover:text-[#211f1a]"
+                  >
+                    View Case Study <ArrowRight size={14} aria-hidden="true" />
+                  </Link>
 
                   {project.githubLink ? (
                     <motion.a

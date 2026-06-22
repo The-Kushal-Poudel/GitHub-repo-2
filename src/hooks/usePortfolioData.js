@@ -292,6 +292,7 @@ export function usePortfolioData() {
                 ? new Date(blog.published_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })
                 : "Draft",
               description: blog.description,
+              content: blog.content,
               link: blog.link,
             })),
           },

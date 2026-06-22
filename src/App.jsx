@@ -1,20 +1,15 @@
 import { lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { useReducedMotion } from "framer-motion";
 import Header, { ScrollProgress } from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
-import Hero from "./components/sections/Hero";
-import About from "./components/sections/About";
-import TechStack from "./components/sections/TechStack";
 import IntroScreen from "./components/layout/IntroScreen";
 import { usePortfolioData } from "./hooks/usePortfolioData";
+import Home from "./pages/Home";
 
-const Projects = lazy(() => import("./components/sections/Projects"));
-const Blogs = lazy(() => import("./components/sections/Blogs"));
-const Experience = lazy(() => import("./components/sections/Experience"));
-const FAQ = lazy(() => import("./components/sections/FAQ"));
-const Reviews = lazy(() => import("./components/sections/Reviews"));
-const Contact = lazy(() => import("./components/sections/Contact"));
+const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
+const BlogDetail = lazy(() => import("./pages/BlogDetail"));
 
 export default function App() {
   const reducedMotion = useReducedMotion();
@@ -39,37 +34,20 @@ export default function App() {
     );
   }
 
-  const {
-    site,
-    navItems,
-    profile,
-    hero,
-    about,
-    techStack,
-    projectsSection,
-    blogsSection,
-    journeySection,
-    faqSection,
-    reviewsSection,
-    contact,
-  } = data;
+  const { site, navItems } = data;
 
   return (
     <main className="min-h-screen w-full overflow-x-hidden scroll-smooth bg-[#f8f3eb] text-[#201d18] selection:bg-[#a78d67] selection:text-white">
       <IntroScreen name={data.profile?.name?.split(" ")[0] || "Kushal"} reducedMotion={reducedMotion} dataReady={ready} />
       <ScrollProgress reducedMotion={reducedMotion} />
       <Header site={site} navItems={navItems} reducedMotion={reducedMotion} />
-      <Hero profile={profile} hero={hero} reducedMotion={reducedMotion} />
-      <About about={about} reducedMotion={reducedMotion} />
-      <TechStack techStack={techStack} reducedMotion={reducedMotion} />
-
-      <Suspense fallback={null}>
-        <Projects projectsSection={projectsSection} reducedMotion={reducedMotion} />
-        <Blogs blogsSection={blogsSection} reducedMotion={reducedMotion} />
-        <Experience journeySection={journeySection} reducedMotion={reducedMotion} />
-        <FAQ faqSection={faqSection} reducedMotion={reducedMotion} />
-        <Reviews reviewsSection={reviewsSection} reducedMotion={reducedMotion} />
-        <Contact contactData={contact} profile={profile} reducedMotion={reducedMotion} />
+      
+      <Suspense fallback={<div className="min-h-screen bg-[#f8f3eb]" />}>
+        <Routes>
+          <Route path="/" element={<Home data={data} reducedMotion={reducedMotion} />} />
+          <Route path="/project/:slug" element={<ProjectDetail data={data} reducedMotion={reducedMotion} />} />
+          <Route path="/blog/:id" element={<BlogDetail data={data} reducedMotion={reducedMotion} />} />
+        </Routes>
       </Suspense>
 
       <Footer site={site} reducedMotion={reducedMotion} />
