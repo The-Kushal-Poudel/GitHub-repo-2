@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { API_URL, apiUrl } from "../config/api.js";
+import { portfolioData as defaultData } from "../data/portfolioData.js";
 
 /** Prefix relative backend paths (e.g. /storage/…) with the API origin. */
 function resolveUrl(url) {
@@ -184,8 +185,8 @@ function updateMeta(seo = {}, profile = {}) {
 }
 
 export function usePortfolioData() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(defaultData);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -226,7 +227,7 @@ export function usePortfolioData() {
             location: profileData.location,
             email: profileData.email,
             phone: profileData.phone,
-            image: resolveUrl(profileData.image_url) || "/images/pic3.png",
+            image: resolveUrl(profileData.image_url) || "/images/pic3.webp",
             imageFallback: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=900&q=80",
             cv: resolveUrl(profileData.cv_url) || "/Kushal_Poudel_CV.pdf",
             cvFileName: "Kushal_Poudel_CV.pdf",
@@ -327,7 +328,7 @@ export function usePortfolioData() {
         console.error(err);
         if (active) setError(err.message);
       } finally {
-        if (active) setLoading(false);
+        // loading was never set to true; nothing to reset here
       }
     }
 
