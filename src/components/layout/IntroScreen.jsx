@@ -40,7 +40,12 @@ export default function IntroScreen({ name = "Kushal", reducedMotion, dataReady 
     useEffect(() => {
         if (minTimePassed && dataReady && !isClashing) {
             setIsClashing(true);
-            
+        }
+    }, [minTimePassed, dataReady, isClashing]);
+
+    // Handle visibility after clash
+    useEffect(() => {
+        if (isClashing) {
             // Wait for clash animation to finish before hiding the screen
             const t = setTimeout(() => {
                 setVisible(false);
@@ -48,7 +53,7 @@ export default function IntroScreen({ name = "Kushal", reducedMotion, dataReady 
             
             return () => clearTimeout(t);
         }
-    }, [minTimePassed, dataReady, isClashing]);
+    }, [isClashing]);
 
     return (
         <AnimatePresence>
