@@ -1,40 +1,68 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import angelImg from "../../assets/angel.jpg";
+import devilImg from "../../assets/devil.jpg";
+
+const MESSAGES = [
+    "Awakening spirits...",
+    "Balancing light and dark...",
+    "Summoning creativity...",
+    "Preparing your portfolio...",
+    "Almost ready..."
+];
 
 /**
- * Branded intro screen shown until API data is ready.
- * Waits for dataReady prop to be true, with a minimum display
- * time of 1500ms so the animation always plays fully.
- * Respects reduced-motion preference — skips animation immediately.
+ * Next-Level Intro Screen
+ * Features a playful clash between Angel and Devil characters.
  */
 export default function IntroScreen({ name = "Kushal", reducedMotion, dataReady = false }) {
     const [visible, setVisible] = useState(true);
     const [minTimePassed, setMinTimePassed] = useState(false);
+    const [messageIndex, setMessageIndex] = useState(0);
+    const [isClashing, setIsClashing] = useState(false);
 
+    // Minimum display time
     useEffect(() => {
-        const t = setTimeout(() => setMinTimePassed(true), 1500);
+        const t = setTimeout(() => setMinTimePassed(true), 2000);
         return () => clearTimeout(t);
     }, []);
 
+    // Cycle messages
     useEffect(() => {
-        if (minTimePassed && dataReady) {
-            setVisible(false);
+        if (isClashing || !visible) return;
+        const interval = setInterval(() => {
+            setMessageIndex((prev) => (prev + 1) % MESSAGES.length);
+        }, 600);
+        return () => clearInterval(interval);
+    }, [isClashing, visible]);
+
+    // Handle clash sequence when data is ready
+    useEffect(() => {
+        if (minTimePassed && dataReady && !isClashing) {
+            setIsClashing(true);
+            
+            // Wait for clash animation to finish before hiding the screen
+            const t = setTimeout(() => {
+                setVisible(false);
+            }, 800); // Clash duration
+            
+            return () => clearTimeout(t);
         }
-    }, [minTimePassed, dataReady]);
+    }, [minTimePassed, dataReady, isClashing]);
 
     return (
         <AnimatePresence>
             {visible && (
                 <motion.div
                     key="intro"
-                    initial={{ opacity: 1, y: 0 }}
-                    exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: "-100%" }}
-                    transition={{ duration: reducedMotion ? 0.2 : 0.75, ease: [0.76, 0, 0.24, 1] }}
+                    initial={{ opacity: 1 }}
+                    exit={reducedMotion ? { opacity: 0 } : { opacity: 0 }}
+                    transition={{ duration: 0.5 }}
                     style={{
                         position: "fixed",
                         inset: 0,
                         zIndex: 9999,
-                        background: "#201d18",
+                        background: "#0d0c0a", // Darker background for contrast
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -42,160 +70,142 @@ export default function IntroScreen({ name = "Kushal", reducedMotion, dataReady 
                         overflow: "hidden",
                     }}
                 >
-                    {/* Animated background blobs matching Hero's style */}
-                    <div
-                        aria-hidden="true"
-                        style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}
-                    >
+                    {/* Background glows */}
+                    <div aria-hidden="true" style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
                         <motion.div
-                            animate={{ x: [0, 60, -20, 0], y: [0, -50, 30, 0], scale: [1, 1.15, 0.95, 1] }}
-                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                            animate={{ opacity: isClashing ? 0 : 0.5, scale: [1, 1.2, 1] }}
+                            transition={{ duration: 4, repeat: Infinity }}
                             style={{
                                 position: "absolute",
-                                left: -80,
-                                top: 40,
-                                width: 280,
-                                height: 280,
+                                left: "20%",
+                                top: "50%",
+                                transform: "translate(-50%, -50%)",
+                                width: 400,
+                                height: 400,
                                 borderRadius: "50%",
-                                background: "rgba(167,141,103,0.18)",
-                                filter: "blur(60px)",
+                                background: "rgba(255, 255, 255, 0.1)",
+                                filter: "blur(80px)",
                             }}
                         />
                         <motion.div
-                            animate={{ x: [0, -80, 30, 0], y: [0, 45, -35, 0], scale: [1, 0.9, 1.18, 1] }}
-                            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                            animate={{ opacity: isClashing ? 0 : 0.5, scale: [1, 1.2, 1] }}
+                            transition={{ duration: 4, repeat: Infinity, delay: 2 }}
                             style={{
                                 position: "absolute",
-                                right: -80,
-                                top: 80,
-                                width: 320,
-                                height: 320,
+                                right: "20%",
+                                top: "50%",
+                                transform: "translate(50%, -50%)",
+                                width: 400,
+                                height: 400,
                                 borderRadius: "50%",
-                                background: "rgba(167,141,103,0.12)",
-                                filter: "blur(60px)",
-                            }}
-                        />
-                        {/* Rotating ring */}
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-                            style={{
-                                position: "absolute",
-                                left: "calc(50% - 160px)",
-                                top: "calc(50% - 160px)",
-                                width: 320,
-                                height: 320,
-                                borderRadius: "50%",
-                                border: "1px solid rgba(167,141,103,0.2)",
-                            }}
-                        />
-                        <motion.div
-                            animate={{ rotate: -360 }}
-                            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                            style={{
-                                position: "absolute",
-                                left: "calc(50% - 220px)",
-                                top: "calc(50% - 220px)",
-                                width: 440,
-                                height: 440,
-                                borderRadius: "50%",
-                                border: "1px dashed rgba(167,141,103,0.12)",
+                                background: "rgba(255, 0, 0, 0.1)",
+                                filter: "blur(80px)",
                             }}
                         />
                     </div>
 
-                    {/* Logo / name */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 24, filter: "blur(12px)" }}
-                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-                        style={{ textAlign: "center", position: "relative", zIndex: 1 }}
-                    >
+                    {/* Characters Container */}
+                    <div style={{ position: "relative", width: "100%", maxWidth: 600, height: 300, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        
+                        {/* Angel (Left) */}
                         <motion.div
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            style={{
-                                width: 64,
-                                height: 64,
-                                borderRadius: "50%",
-                                background: "#a78d67",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                margin: "0 auto 20px",
-                                fontSize: 24,
-                                fontWeight: 500,
-                                color: "#f8f3eb",
-                                fontFamily: "serif",
-                                letterSpacing: "-0.02em",
-                            }}
+                            initial={{ x: -200, opacity: 0 }}
+                            animate={isClashing ? { x: 200, scale: 1.2, rotate: 15 } : { x: 0, opacity: 1, y: [0, -15, 0] }}
+                            transition={isClashing 
+                                ? { duration: 0.4, ease: "easeIn" } 
+                                : { x: { duration: 0.8, ease: "easeOut" }, opacity: { duration: 0.8 }, y: { duration: 3, repeat: Infinity, ease: "easeInOut" } }
+                            }
+                            style={{ zIndex: 2 }}
                         >
-                            {name.charAt(0)}
+                            <img 
+                                src={angelImg} 
+                                alt="Angel" 
+                                style={{ width: 150, height: "auto", objectFit: "contain", dropShadow: "0 0 20px rgba(255,255,255,0.5)" }} 
+                                onError={(e) => {
+                                    e.target.style.display = 'none';
+                                    e.target.parentElement.innerHTML = '<div style="width:120px;height:120px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#000;font-weight:bold;">Angel</div>';
+                                }}
+                            />
                         </motion.div>
 
-                        <motion.p
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.35, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            style={{
-                                fontSize: 13,
-                                letterSpacing: "0.18em",
-                                textTransform: "uppercase",
-                                color: "#a78d67",
-                                margin: "0 0 10px",
-                                fontWeight: 500,
-                            }}
-                        >
-                            Portfolio
-                        </motion.p>
+                        {/* Flash on Clash */}
+                        <AnimatePresence>
+                            {isClashing && (
+                                <motion.div
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{ scale: 20, opacity: 1 }}
+                                    transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+                                    style={{
+                                        position: "absolute",
+                                        left: "50%",
+                                        top: "50%",
+                                        width: 100,
+                                        height: 100,
+                                        marginLeft: -50,
+                                        marginTop: -50,
+                                        borderRadius: "50%",
+                                        background: "#fff",
+                                        zIndex: 3,
+                                    }}
+                                />
+                            )}
+                        </AnimatePresence>
 
-                        <motion.h1
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.45, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                            style={{
-                                fontSize: "clamp(2rem, 6vw, 3.5rem)",
-                                fontWeight: 500,
-                                color: "#f8f3eb",
-                                margin: 0,
-                                fontFamily: "serif",
-                                letterSpacing: "-0.02em",
-                                lineHeight: 1.1,
-                            }}
+                        {/* Devil (Right) */}
+                        <motion.div
+                            initial={{ x: 200, opacity: 0 }}
+                            animate={isClashing ? { x: -200, scale: 1.2, rotate: -15 } : { x: 0, opacity: 1, y: [0, 15, 0] }}
+                            transition={isClashing 
+                                ? { duration: 0.4, ease: "easeIn" } 
+                                : { x: { duration: 0.8, ease: "easeOut" }, opacity: { duration: 0.8 }, y: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 } }
+                            }
+                            style={{ zIndex: 2 }}
                         >
-                            {name}
-                        </motion.h1>
-                    </motion.div>
+                            <img 
+                                src={devilImg} 
+                                alt="Devil" 
+                                style={{ width: 150, height: "auto", objectFit: "contain", dropShadow: "0 0 20px rgba(255,0,0,0.5)" }}
+                                onError={(e) => {
+                                    e.target.style.display = 'none';
+                                    e.target.parentElement.innerHTML = '<div style="width:120px;height:120px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;">Devil</div>';
+                                }}
+                            />
+                        </motion.div>
+                    </div>
 
-                    {/* Bottom loading bar */}
+                    {/* Progress Text and Loading Bar */}
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.8, duration: 0.4 }}
-                        style={{
-                            position: "absolute",
-                            bottom: 48,
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            width: 120,
-                            zIndex: 1,
-                        }}
+                        animate={{ opacity: isClashing ? 0 : 1 }}
+                        transition={{ duration: 0.3 }}
+                        style={{ marginTop: 40, textAlign: "center", zIndex: 1 }}
                     >
-                        <div
-                            style={{
-                                width: "100%",
-                                height: 1,
-                                background: "rgba(167,141,103,0.25)",
-                                borderRadius: 1,
-                                overflow: "hidden",
-                            }}
-                        >
+                        <AnimatePresence mode="wait">
+                            <motion.p
+                                key={messageIndex}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3 }}
+                                style={{
+                                    fontSize: 16,
+                                    letterSpacing: "0.1em",
+                                    textTransform: "uppercase",
+                                    color: "#a78d67",
+                                    margin: "0 0 20px",
+                                    fontWeight: 500,
+                                }}
+                            >
+                                {MESSAGES[messageIndex]}
+                            </motion.p>
+                        </AnimatePresence>
+
+                        {/* Loading Bar linking the two sides */}
+                        <div style={{ width: 240, height: 2, background: "rgba(167,141,103,0.2)", borderRadius: 2, overflow: "hidden", margin: "0 auto" }}>
                             <motion.div
                                 initial={{ width: "0%" }}
                                 animate={{ width: "100%" }}
-                                transition={{ delay: 0.9, duration: 1.4, ease: "easeInOut" }}
-                                style={{ height: "100%", background: "#a78d67", borderRadius: 1 }}
+                                transition={{ duration: 2, ease: "easeInOut" }}
+                                style={{ height: "100%", background: "#a78d67", borderRadius: 2 }}
                             />
                         </div>
                     </motion.div>
