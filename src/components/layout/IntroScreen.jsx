@@ -12,13 +12,9 @@ export default function IntroScreen({ name = "Kushal", reducedMotion, dataReady 
     const [minTimePassed, setMinTimePassed] = useState(false);
 
     useEffect(() => {
-        if (reducedMotion) {
-            setVisible(false);
-            return;
-        }
         const t = setTimeout(() => setMinTimePassed(true), 1500);
         return () => clearTimeout(t);
-    }, [reducedMotion]);
+    }, []);
 
     useEffect(() => {
         if (minTimePassed && dataReady) {
@@ -32,8 +28,8 @@ export default function IntroScreen({ name = "Kushal", reducedMotion, dataReady 
                 <motion.div
                     key="intro"
                     initial={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: "-100%" }}
-                    transition={{ duration: 0.75, ease: [0.76, 0, 0.24, 1] }}
+                    exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: "-100%" }}
+                    transition={{ duration: reducedMotion ? 0.2 : 0.75, ease: [0.76, 0, 0.24, 1] }}
                     style={{
                         position: "fixed",
                         inset: 0,
