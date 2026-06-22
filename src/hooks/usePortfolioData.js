@@ -188,6 +188,7 @@ export function usePortfolioData() {
   const [data, setData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -324,9 +325,11 @@ export function usePortfolioData() {
         };
 
         setData(mappedData);
+        if (active) setReady(true);
       } catch (err) {
         console.error(err);
         if (active) setError(err.message);
+        if (active) setReady(true);
       } finally {
         // loading was never set to true; nothing to reset here
       }
@@ -339,5 +342,5 @@ export function usePortfolioData() {
     };
   }, []);
 
-  return { data, loading, error };
+  return { data, loading, error, ready };
 }

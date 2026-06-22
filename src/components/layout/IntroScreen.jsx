@@ -2,21 +2,29 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 /**
- * Branded intro screen shown for ~2.5s on first page load.
- * Fades and slides away to reveal the portfolio beneath.
+ * Branded intro screen shown until API data is ready.
+ * Waits for dataReady prop to be true, with a minimum display
+ * time of 1500ms so the animation always plays fully.
  * Respects reduced-motion preference — skips animation immediately.
  */
-export default function IntroScreen({ name = "Kushal", reducedMotion }) {
+export default function IntroScreen({ name = "Kushal", reducedMotion, dataReady = false }) {
     const [visible, setVisible] = useState(true);
+    const [minTimePassed, setMinTimePassed] = useState(false);
 
     useEffect(() => {
         if (reducedMotion) {
             setVisible(false);
             return;
         }
-        const t = setTimeout(() => setVisible(false), 2500);
+        const t = setTimeout(() => setMinTimePassed(true), 1500);
         return () => clearTimeout(t);
     }, [reducedMotion]);
+
+    useEffect(() => {
+        if (minTimePassed && dataReady) {
+            setVisible(false);
+        }
+    }, [minTimePassed, dataReady]);
 
     return (
         <AnimatePresence>
