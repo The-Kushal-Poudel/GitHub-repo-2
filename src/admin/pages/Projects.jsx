@@ -14,8 +14,7 @@ const initialForm = {
   features: "",
   github_link: "",
   live_link: "",
-  image_url: "",
-  image_alt: "",
+  images: [],
   status: "",
   sort_order: 0,
   is_visible: true,
@@ -77,8 +76,7 @@ export default function Projects() {
         : "",
       github_link: project.github_link || "",
       live_link: project.live_link || "",
-      image_url: project.image_url || "",
-      image_alt: project.image_alt || "",
+      images: Array.isArray(project.images) && project.images.length > 0 ? project.images : [],
       status: project.status || "",
       sort_order: project.sort_order || 0,
       is_visible: project.is_visible !== false,
@@ -225,10 +223,10 @@ export default function Projects() {
                 projects.map((project) => (
                   <tr key={project.id} className="hover:bg-[#f8f3eb]/20">
                     <td className="px-6 py-4">
-                      {project.image_url ? (
+                      {project.images && project.images.length > 0 && project.images[0].url ? (
                         <img
-                          src={project.image_url}
-                          alt={project.title}
+                          src={project.images[0].url}
+                          alt={project.images[0].alt || project.title}
                           className="h-10 w-16 rounded object-cover border border-[#e6ded0]"
                         />
                       ) : (
@@ -446,29 +444,73 @@ export default function Projects() {
                 </div>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
-                <ImageUpload
-                  label="Project Image"
-                  value={form.image_url}
-                  onUpload={handleImageUpload}
-                />
+              <div className="sm:col-span-2">
+                <div className="flex items-center justify-between mb-4">
+                  <label className="block text-xs font-black uppercase tracking-[0.18em] text-[#8c806f]">
+                    Project Images
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setForm(prev => ({ ...prev, images: [...prev.images, { url: "", alt: "" }] }))}
+                    className="text-xs font-semibold text-[#a78d67] hover:text-[#151412] transition-colors"
+                  >
+                    + Add Image
+                  </button>
+                </div>
+                
+                <div className="space-y-4 mb-5">
+                  {form.images.map((img, index) => (
+                    <div key={index} className="flex flex-col sm:flex-row gap-4 p-4 border border-[#e9e2d7] rounded-lg bg-[#f8f3eb]/50">
+                      <div className="flex-1">
+                        <ImageUpload
+                          label={`Image ${index + 1}`}
+                          value={img.url}
+                          onUpload={(url) => {
+                            const newImages = [...form.images];
+                            newImages[index].url = url;
+                            setForm(prev => ({ ...prev, images: newImages }));
+                          }}
+                        />
+                      </div>
+                      <div className="flex-1 flex flex-col justify-end">
+                        <label className="block text-xs font-black uppercase tracking-[0.18em] text-[#8c806f] mb-2">
+                          Alt Text
+                        </label>
+                        <input
+                          type="text"
+                          value={img.alt}
+                          onChange={(e) => {
+                            const newImages = [...form.images];
+                            newImages[index].alt = e.target.value;
+                            setForm(prev => ({ ...prev, images: newImages }));
+                          }}
+                          placeholder="Image description"
+                          className="h-11 w-full rounded-md border border-[#e9e2d7] bg-white px-4 text-sm outline-none transition focus:border-[#a78d67]"
+                        />
+                      </div>
+                      <div className="flex flex-col justify-end pb-1">
+                         <button
+                           type="button"
+                           onClick={() => {
+                             const newImages = form.images.filter((_, i) => i !== index);
+                             setForm(prev => ({ ...prev, images: newImages }));
+                           }}
+                           className="text-red-500 hover:bg-red-50 p-2 rounded transition-colors"
+                           title="Remove Image"
+                         >
+                           <Trash2 size={18} />
+                         </button>
+                      </div>
+                    </div>
+                  ))}
+                  {form.images.length === 0 && (
+                    <div className="text-sm text-[#8c806f] italic p-6 text-center border border-dashed border-[#e9e2d7] rounded-lg">
+                      No images added yet. Click "+ Add Image" above.
+                    </div>
+                  )}
+                </div>
 
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-black uppercase tracking-[0.18em] text-[#8c806f] mb-2">
-                      Image Alt Attribute
-                    </label>
-                    <input
-                      type="text"
-                      name="image_alt"
-                      value={form.image_alt}
-                      onChange={handleChange}
-                      placeholder="My project screenshot preview"
-                      className="h-11 w-full rounded-md border border-[#e9e2d7] bg-white px-4 text-sm outline-none transition focus:border-[#a78d67]"
-                    />
-                    {errors.image_alt && <p className="mt-1 text-xs text-red-700 font-medium">{errors.image_alt}</p>}
-                  </div>
-
+                <div className="grid gap-5 sm:grid-cols-2">
                   <div>
                     <label className="block text-xs font-black uppercase tracking-[0.18em] text-[#8c806f] mb-2">
                       Sorting Order
@@ -484,7 +526,7 @@ export default function Projects() {
                     {errors.sort_order && <p className="mt-1 text-xs text-red-700 font-medium">{errors.sort_order}</p>}
                   </div>
 
-                  <div className="flex items-center gap-3 pt-2">
+                  <div className="flex items-center gap-3 pt-6">
                     <input
                       type="checkbox"
                       id="is_visible"

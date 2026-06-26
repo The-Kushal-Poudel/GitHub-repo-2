@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Download, Mail, MapPin, Phone } from "lucide-react";
 import Button from "../common/Button";
@@ -124,6 +125,7 @@ export default function Hero({ profile, hero, reducedMotion }) {
   const heroY = useTransform(scrollYProgress, [0, 0.35], [0, reducedMotion ? 0 : -90]);
   const imageY = useTransform(scrollYProgress, [0, 0.35], [0, reducedMotion ? 0 : 70]);
   const imageRotate = useTransform(scrollYProgress, [0, 0.35], [0, reducedMotion ? 0 : -4]);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <section id="home" className="relative overflow-hidden bg-[#f8f3eb]">
@@ -190,7 +192,7 @@ export default function Hero({ profile, hero, reducedMotion }) {
           <motion.div
             whileHover={reducedMotion ? undefined : { scale: 1.035, rotate: -1.5 }}
             transition={{ type: "spring", stiffness: 180, damping: 18 }}
-            className="absolute right-0 top-0 h-[330px] w-[88%] overflow-hidden rounded-[18px] bg-[#d8cbb8] shadow-2xl shadow-black/15 sm:h-[410px]"
+            className={`absolute right-0 top-0 h-[330px] w-[88%] overflow-hidden rounded-[18px] shadow-2xl shadow-black/15 sm:h-[410px] ${!imageLoaded ? "animate-pulse bg-[#c8b9a6]" : "bg-[#d8cbb8]"}`}
           >
             <motion.img
               src={profile.image}
@@ -199,12 +201,13 @@ export default function Hero({ profile, hero, reducedMotion }) {
               height="1448"
               loading="eager"
               fetchPriority="high"
+              onLoad={() => setImageLoaded(true)}
               onError={(event) => {
                 event.currentTarget.src = profile.imageFallback;
               }}
               whileHover={reducedMotion ? undefined : { scale: 1.08 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="h-full w-full object-cover object-center"
+              className={`h-full w-full object-cover object-center transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
             />
           </motion.div>
 

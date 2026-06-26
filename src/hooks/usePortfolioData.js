@@ -262,20 +262,30 @@ export function usePortfolioData() {
           ctaText: "Contact Me",
           ctaLink: "#contact",
           ...(settings.projectsSection || {}),
-          items: (payload.projects || []).map((project) => ({
-            id: project.id.toString(),
-            slug: project.slug,
-            title: project.title,
-            description: project.description,
-            techStack: arrayFromJson(project.tech_stack),
-            role: project.role,
-            features: arrayFromJson(project.features),
-            githubLink: project.github_link,
-            liveLink: project.live_link,
-            status: project.status,
-            image: resolveUrl(project.image_url),
-            imageAlt: project.image_alt,
-          })),
+          items: (payload.projects || []).map((project) => {
+            const parsedImages = arrayFromJson(project.images);
+            const formattedImages = parsedImages.map(img => ({
+              ...img,
+              url: resolveUrl(img.url)
+            }));
+            const firstImage = formattedImages.length > 0 ? formattedImages[0] : {};
+
+            return {
+              id: project.id.toString(),
+              slug: project.slug,
+              title: project.title,
+              description: project.description,
+              techStack: arrayFromJson(project.tech_stack),
+              role: project.role,
+              features: arrayFromJson(project.features),
+              githubLink: project.github_link,
+              liveLink: project.live_link,
+              status: project.status,
+              images: formattedImages,
+              image: firstImage.url || null,
+              imageAlt: firstImage.alt || null,
+            };
+          }),
         },
         blogsSection: {
           label: "Latest Blogs",

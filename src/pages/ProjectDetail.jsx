@@ -68,12 +68,29 @@ export default function ProjectDetail({ data, reducedMotion }) {
           initial={reducedMotion ? false : { opacity: 0, y: 30 }}
           whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 overflow-hidden rounded-2xl border border-[#e6ded0] bg-white shadow-xl"
+          className="mb-16"
         >
-          {project.image ? (
-            <img src={project.image} alt={project.imageAlt} className="w-full h-auto object-cover" />
+          {project.images && project.images.length > 0 ? (
+            <div className="relative">
+              <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                {project.images.map((img, idx) => (
+                  <div key={idx} className="min-w-full md:min-w-[85%] snap-center shrink-0 overflow-hidden rounded-2xl border border-[#e6ded0] bg-white shadow-xl">
+                    <img src={img.url} alt={img.alt || `${project.title} screenshot ${idx + 1}`} className="w-full h-auto object-cover" />
+                  </div>
+                ))}
+              </div>
+              {project.images.length > 1 && (
+                <div className="flex justify-center gap-2 mt-2">
+                  {project.images.map((_, idx) => (
+                    <div key={idx} className="w-2 h-2 rounded-full bg-[#d0c5b5]" />
+                  ))}
+                </div>
+              )}
+            </div>
           ) : (
-            <div className="flex h-64 items-center justify-center bg-[#ded4c4] text-[#a78d67]">No image available</div>
+            <div className="overflow-hidden rounded-2xl border border-[#e6ded0] bg-white shadow-xl flex h-64 items-center justify-center bg-[#ded4c4] text-[#a78d67]">
+              No image available
+            </div>
           )}
         </motion.div>
 
