@@ -186,162 +186,167 @@ function updateMeta(seo = {}, profile = {}) {
 
 export function usePortfolioData() {
   const [data, setData] = useState(defaultData);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [ready, setReady] = useState(false);
 
-  useEffect(() => {
-    let active = true;
+  async function fetchData(active = true, signal = null) {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(apiUrl("/api/portfolio"), {
+        headers: { Accept: "application/json" },
+        ...(signal && { signal }),
+      });
 
-    async function fetchData() {
-      try {
-        const response = await fetch(apiUrl("/api/portfolio"), {
-          headers: { Accept: "application/json" },
-        });
+      if (!response.ok) {
+        throw new Error(`Failed to fetch portfolio data: ${response.statusText}`);
+      }
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch portfolio data: ${response.statusText}`);
-        }
+      const payload = await response.json();
+      if (!active) return;
 
-        const payload = await response.json();
-        if (!active) return;
+      const settings = payload.settings || {};
+      const profileData = payload.profile;
+      if (!profileData) {
+        throw new Error("No profile found in database. Run backend migrations and seeders first.");
+      }
 
-        const settings = payload.settings || {};
-        const profileData = payload.profile;
-        if (!profileData) {
-          throw new Error("No profile found in database. Run backend migrations and seeders first.");
-        }
+      const seo = settings.seo || {};
+      updateMeta(seo, profileData);
 
-        const seo = settings.seo || {};
-        updateMeta(seo, profileData);
+      const mappedData = {
+        site: {
+          ...defaultSite,
+          ...(settings.site || {}),
+          footerCopyright: settings.site?.footerCopyright || `Copyright ${new Date().getFullYear()} ${profileData.name}. All rights reserved.`,
+        },
+        navItems: Array.isArray(settings.navItems) && settings.navItems.length > 0 ? settings.navItems : defaultNavItems,
+        profile: {
+          name: profileData.name,
+          role: profileData.role,
+          location: profileData.location,
+          email: profileData.email,
+          phone: profileData.phone,
+          image: resolveUrl(profileData.image_url) || "/images/pic3.webp",
+          imageFallback: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=900&q=80",
+          cv: resolveUrl(profileData.cv_url) || "/Kushal_Poudel_CV.pdf",
+          cvFileName: "Kushal_Poudel_CV.pdf",
+          github: profileData.github_url || "#",
+          linkedin: profileData.linkedin_url || "#",
+          availability: profileData.availability || "Available for work",
+          bio: profileData.bio,
+        },
+        hero: {
+          ...defaultHero,
+          ...(settings.hero || {}),
+          description: settings.hero?.description || profileData.bio,
+          chips: settings.hero?.chips || defaultHero.chips,
+        },
+        about: {
+          ...defaultAbout,
+          ...(settings.about || {}),
+          description: settings.about?.description || profileData.bio,
+        },
+        techStack: {
+          label: settings.techStack?.label || "Technologies I Work With",
+          items: (payload.skills || []).map((skill) => ({
+            id: skill.id.toString(),
+            label: skill.label,
+            icon: skill.icon,
+          })),
+        },
+        projectsSection: {
+          label: "Featured Projects",
+          title: "Some things I have built.",
+          ctaText: "Contact Me",
+          ctaLink: "#contact",
+          ...(settings.projectsSection || {}),
+          items: (payload.projects || []).map((project) => ({
+            id: project.id.toString(),
+            slug: project.slug,
+            title: project.title,
+            description: project.description,
+            techStack: arrayFromJson(project.tech_stack),
+            role: project.role,
+            features: arrayFromJson(project.features),
+            githubLink: project.github_link,
+            liveLink: project.live_link,
+            status: project.status,
+            image: resolveUrl(project.image_url),
+            imageAlt: project.image_alt,
+          })),
+        },
+        blogsSection: {
+          label: "Latest Blogs",
+          title: "Thoughts, learning and development notes.",
+          description: "I write about Laravel, React, backend development, project building, and my developer journey.",
+          ctaText: "Suggest a Topic",
+          ctaLink: "#contact",
+          ...(settings.blogsSection || {}),
+          items: (payload.blogs || []).map((blog) => ({
+            id: blog.id.toString(),
+            title: blog.title,
+            category: blog.category,
+            date: blog.published_at
+              ? new Date(blog.published_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+              : "Draft",
+            description: blog.description,
+            content: blog.content,
+            link: blog.link,
+          })),
+        },
+        journeySection: {
+          label: "My Journey",
+          title: "Education and Experience",
+          ...(settings.journeySection || {}),
+          items: (payload.experience || []).map((exp) => ({
+            id: exp.id.toString(),
+            year: exp.year_label,
+            title: exp.title,
+            company: exp.company,
+            icon: exp.icon,
+            text: exp.description,
+          })),
+        },
+        faqSection: {
+          ...defaultFaqSection,
+          ...(settings.faqSection || {}),
+          items: payload.faqs || defaultFaqSection.items,
+        },
+        reviewsSection: {
+          ...defaultReviewsSection,
+          ...(settings.reviewsSection || {}),
+          items: payload.reviews || defaultReviewsSection.items,
+        },
+        contact: {
+          ...defaultContact,
+          ...(settings.contact || {}),
+        },
+      };
 
-        const mappedData = {
-          site: {
-            ...defaultSite,
-            ...(settings.site || {}),
-            footerCopyright: settings.site?.footerCopyright || `Copyright ${new Date().getFullYear()} ${profileData.name}. All rights reserved.`,
-          },
-          navItems: Array.isArray(settings.navItems) && settings.navItems.length > 0 ? settings.navItems : defaultNavItems,
-          profile: {
-            name: profileData.name,
-            role: profileData.role,
-            location: profileData.location,
-            email: profileData.email,
-            phone: profileData.phone,
-            image: resolveUrl(profileData.image_url) || "/images/pic3.webp",
-            imageFallback: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=900&q=80",
-            cv: resolveUrl(profileData.cv_url) || "/Kushal_Poudel_CV.pdf",
-            cvFileName: "Kushal_Poudel_CV.pdf",
-            github: profileData.github_url || "#",
-            linkedin: profileData.linkedin_url || "#",
-            availability: profileData.availability || "Available for work",
-            bio: profileData.bio,
-          },
-          hero: {
-            ...defaultHero,
-            ...(settings.hero || {}),
-            description: settings.hero?.description || profileData.bio,
-            chips: settings.hero?.chips || defaultHero.chips,
-          },
-          about: {
-            ...defaultAbout,
-            ...(settings.about || {}),
-            description: settings.about?.description || profileData.bio,
-          },
-          techStack: {
-            label: settings.techStack?.label || "Technologies I Work With",
-            items: (payload.skills || []).map((skill) => ({
-              id: skill.id.toString(),
-              label: skill.label,
-              icon: skill.icon,
-            })),
-          },
-          projectsSection: {
-            label: "Featured Projects",
-            title: "Some things I have built.",
-            ctaText: "Contact Me",
-            ctaLink: "#contact",
-            ...(settings.projectsSection || {}),
-            items: (payload.projects || []).map((project) => ({
-              id: project.id.toString(),
-              slug: project.slug,
-              title: project.title,
-              description: project.description,
-              techStack: arrayFromJson(project.tech_stack),
-              role: project.role,
-              features: arrayFromJson(project.features),
-              githubLink: project.github_link,
-              liveLink: project.live_link,
-              status: project.status,
-              image: resolveUrl(project.image_url),
-              imageAlt: project.image_alt,
-            })),
-          },
-          blogsSection: {
-            label: "Latest Blogs",
-            title: "Thoughts, learning and development notes.",
-            description: "I write about Laravel, React, backend development, project building, and my developer journey.",
-            ctaText: "Suggest a Topic",
-            ctaLink: "#contact",
-            ...(settings.blogsSection || {}),
-            items: (payload.blogs || []).map((blog) => ({
-              id: blog.id.toString(),
-              title: blog.title,
-              category: blog.category,
-              date: blog.published_at
-                ? new Date(blog.published_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })
-                : "Draft",
-              description: blog.description,
-              content: blog.content,
-              link: blog.link,
-            })),
-          },
-          journeySection: {
-            label: "My Journey",
-            title: "Education and Experience",
-            ...(settings.journeySection || {}),
-            items: (payload.experience || []).map((exp) => ({
-              id: exp.id.toString(),
-              year: exp.year_label,
-              title: exp.title,
-              company: exp.company,
-              icon: exp.icon,
-              text: exp.description,
-            })),
-          },
-          faqSection: {
-            ...defaultFaqSection,
-            ...(settings.faqSection || {}),
-            items: payload.faqs || defaultFaqSection.items,
-          },
-          reviewsSection: {
-            ...defaultReviewsSection,
-            ...(settings.reviewsSection || {}),
-            items: payload.reviews || defaultReviewsSection.items,
-          },
-          contact: {
-            ...defaultContact,
-            ...(settings.contact || {}),
-          },
-        };
-
-        setData(mappedData);
-        if (active) setReady(true);
-      } catch (err) {
-        console.error(err);
-        if (active) setError(err.message);
-        if (active) setReady(true);
-      } finally {
-        // loading was never set to true; nothing to reset here
+      setData(mappedData);
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+      console.error(err);
+      if (active) setError(err.message);
+    } finally {
+      if (active) {
+        setLoading(false);
+        setReady(true);
       }
     }
+  }
 
-    fetchData();
-
+  useEffect(() => {
+    let active = true;
+    const controller = new AbortController();
+    fetchData(active, controller.signal);
     return () => {
       active = false;
+      controller.abort();
     };
   }, []);
 
-  return { data, loading, error, ready };
+  return { data, loading, error, ready, refetch: () => fetchData(true) };
 }

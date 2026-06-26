@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import Container from "../common/Container";
 import SectionHeading from "../common/SectionHeading";
 import { fadeUp, popIn, stagger } from "../../lib/animations";
