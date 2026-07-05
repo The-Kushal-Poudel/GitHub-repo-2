@@ -165,15 +165,8 @@ export default function Reviews({ reviewsSection, reducedMotion }) {
                   ? undefined
                   : { y: -12, scale: 1.025, transition: { type: "spring", stiffness: 220, damping: 16 } }
               }
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-sm backdrop-blur-sm transition hover:border-white/20 hover:bg-white/[0.08] hover:shadow-xl hover:shadow-black/20 sm:p-6"
+              className="group relative rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-sm backdrop-blur-sm transition hover:border-white/20 hover:bg-white/[0.08] hover:shadow-xl hover:shadow-black/20 sm:p-6"
             >
-              {!review.is_approved && (
-                <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full border border-yellow-500/20 bg-yellow-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-yellow-500">
-                  <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-yellow-500" />
-                  Pending
-                </div>
-              )}
-
               {/* Quote icon */}
               <div className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-[#b9a17a]/15 text-[#b9a17a] transition group-hover:bg-[#b9a17a] group-hover:text-[#151513]">
                 <Quote size={18} />
