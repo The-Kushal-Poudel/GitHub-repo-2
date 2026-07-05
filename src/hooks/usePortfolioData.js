@@ -11,6 +11,14 @@ function resolveUrl(url) {
   return `${API_URL}${url.startsWith("/") ? "" : "/"}${url}`;
 }
 
+function getDownloadUrl(url) {
+  if (!url) return url;
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+    return url.replace("/upload/", "/upload/fl_attachment/");
+  }
+  return url;
+}
+
 const defaultSite = {
   logoInitial: "K.",
   logoName: "Kushal",
