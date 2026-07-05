@@ -127,10 +127,16 @@ export default function Hero({ profile, hero, reducedMotion }) {
   const imageRotate = useTransform(scrollYProgress, [0, 0.35], [0, reducedMotion ? 0 : -4]);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadPos, setDownloadPos] = useState(null);
 
-  const handleDownloadClick = () => {
+  const handleDownloadClick = (e) => {
+    // Capture exact click coordinates for the animation start point
+    setDownloadPos({ x: e.clientX, y: e.clientY });
     setIsDownloading(true);
-    setTimeout(() => setIsDownloading(false), 2000);
+    setTimeout(() => {
+      setIsDownloading(false);
+      setDownloadPos(null);
+    }, 2000);
   };
 
   return (
@@ -159,25 +165,27 @@ export default function Hero({ profile, hero, reducedMotion }) {
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <div className="relative">
+            <div>
               <Button href={profile.cv} download={profile.cvFileName} onClick={handleDownloadClick}>
                 {hero.primaryButton} <Download size={16} aria-hidden="true" />
               </Button>
               
               {/* Premium Floating PDF Animation */}
               <AnimatePresence>
-                {isDownloading && !reducedMotion && (
+                {isDownloading && downloadPos && !reducedMotion && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.5, rotate: -10 }}
+                    key="pdf-animation"
+                    initial={{ opacity: 0, y: 0, x: 0, scale: 0.5, rotate: -15 }}
                     animate={{ 
                       opacity: [0, 1, 1, 0], 
-                      y: [10, -60, -70, -400], 
-                      x: [0, 10, 15, 300],
-                      scale: [0.5, 1.1, 1, 0.3],
-                      rotate: [-10, 0, 5, 25]
+                      y: [0, -80, -90, -window.innerHeight + 100], 
+                      x: [0, 15, 20, window.innerWidth / 2],
+                      scale: [0.5, 1.2, 1.1, 0.2],
+                      rotate: [-15, 0, 5, 35]
                     }}
                     transition={{ duration: 1.8, times: [0, 0.2, 0.6, 1], ease: "easeInOut" }}
-                    className="absolute left-1/2 top-0 z-50 flex pointer-events-none origin-bottom -ml-6 -mt-12"
+                    style={{ left: downloadPos.x, top: downloadPos.y }}
+                    className="fixed z-[99999] flex pointer-events-none origin-bottom -ml-6 -mt-12"
                   >
                     <div className="relative flex h-16 w-12 flex-col items-center justify-center rounded-sm border-[1.5px] border-[#a78d67] bg-white shadow-2xl">
                       <div className="absolute top-0 left-0 w-full h-4 bg-[#a78d67] rounded-t-[1px]" />
