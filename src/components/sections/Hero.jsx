@@ -130,13 +130,24 @@ export default function Hero({ profile, hero, reducedMotion }) {
   const [downloadPos, setDownloadPos] = useState(null);
 
   const handleDownloadClick = (e) => {
+    e.preventDefault(); // Stop browser from immediately navigating/freezing
+
     // Capture exact click coordinates for the animation start point
     setDownloadPos({ x: e.clientX, y: e.clientY });
     setIsDownloading(true);
+
+    // Programmatically trigger the download so it happens in the background
+    const link = document.createElement("a");
+    link.href = profile.cv;
+    link.download = profile.cvFileName || "CV.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
     setTimeout(() => {
       setIsDownloading(false);
       setDownloadPos(null);
-    }, 2000);
+    }, 2500);
   };
 
   return (
@@ -172,7 +183,7 @@ export default function Hero({ profile, hero, reducedMotion }) {
               
               {/* Premium Floating PDF Animation */}
               <AnimatePresence>
-                {isDownloading && downloadPos && !reducedMotion && (
+                {isDownloading && downloadPos && (
                   <motion.div
                     key="pdf-animation"
                     initial={{ opacity: 0, y: 0, x: 0, scale: 0.5, rotate: -15 }}
@@ -183,7 +194,7 @@ export default function Hero({ profile, hero, reducedMotion }) {
                       scale: [0.5, 1.2, 1.1, 0.2],
                       rotate: [-15, 0, 5, 35]
                     }}
-                    transition={{ duration: 1.8, times: [0, 0.2, 0.6, 1], ease: "easeInOut" }}
+                    transition={{ duration: 2.2, times: [0, 0.2, 0.6, 1], ease: "easeInOut" }}
                     style={{ left: downloadPos.x, top: downloadPos.y }}
                     className="fixed z-[99999] flex pointer-events-none origin-bottom -ml-6 -mt-12"
                   >
