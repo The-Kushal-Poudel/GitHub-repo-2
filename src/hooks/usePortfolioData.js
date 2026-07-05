@@ -230,7 +230,7 @@ export function usePortfolioData() {
           phone: profileData.phone,
           image: resolveUrl(profileData.image_url) || "/images/pic3.webp",
           imageFallback: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=900&q=80",
-          cv: resolveUrl(profileData.cv_url) || "/Kushal_Poudel_CV.pdf",
+          cv: getDownloadUrl(resolveUrl(profileData.cv_url)) || "/Kushal_Poudel_CV.pdf",
           cvFileName: "Kushal_Poudel_CV.pdf",
           github: profileData.github_url || "#",
           linkedin: profileData.linkedin_url || "#",
