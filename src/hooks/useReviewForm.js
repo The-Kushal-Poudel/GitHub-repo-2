@@ -6,17 +6,9 @@ const initialForm = {
   role: "",
   rating: 5,
   text: "",
-  social_link: "",
 };
 
-function isValidUrl(string) {
-  try {
-    new URL(string);
-    return true;
-  } catch {
-    return false;
-  }
-}
+// URL validation removed
 
 function validateForm(form) {
   const errors = {};
@@ -33,12 +25,6 @@ function validateForm(form) {
     errors.text = "Please write a review.";
   } else if (form.text.trim().length < 5) {
     errors.text = "Please write a little more.";
-  }
-
-  if (!form.social_link.trim()) {
-    errors.social_link = "Please provide your social media link to verify you are a real person.";
-  } else if (!isValidUrl(form.social_link)) {
-    errors.social_link = "Please enter a valid URL (e.g., https://facebook.com/yourname).";
   }
 
   return errors;
@@ -69,7 +55,7 @@ export function useReviewForm() {
     setErrors((prev) => ({ ...prev, rating: undefined }));
   };
 
-  const handleSubmit = async (event) => {
+  const validateAndProceed = (event) => {
     event.preventDefault();
 
     const nextErrors = validateForm(form);
@@ -80,9 +66,12 @@ export function useReviewForm() {
         type: "error",
         message: "Please fix the highlighted fields before submitting.",
       });
-      return;
+      return false;
     }
+    return true;
+  };
 
+  const handleSubmit = async (googleToken) => {
     setIsSubmitting(true);
     setStatus(null);
 
@@ -98,7 +87,7 @@ export function useReviewForm() {
           role: form.role.trim(),
           rating: form.rating,
           text: form.text.trim(),
-          social_link: form.social_link.trim(),
+          google_token: googleToken,
         }),
       });
 
@@ -136,6 +125,7 @@ export function useReviewForm() {
     errors,
     form,
     handleChange,
+    validateAndProceed,
     handleSubmit,
     setRating,
     isSubmitting,

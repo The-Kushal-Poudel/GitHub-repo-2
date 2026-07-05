@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Send, Star } from "lucide-react";
+import { useGoogleLogin } from "@react-oauth/google";
 import { fadeUp } from "../../lib/animations";
 import { useReviewForm } from "../../hooks/useReviewForm";
 
@@ -17,15 +18,32 @@ export default function ReviewForm({ reducedMotion }) {
     errors,
     form,
     handleChange,
+    validateAndProceed,
     handleSubmit,
     setRating,
     isSubmitting,
     status,
   } = useReviewForm();
 
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      handleSubmit(tokenResponse.access_token);
+    },
+    onError: () => {
+      console.error("Login Failed");
+    },
+  });
+
+  const onSubmitClick = (e) => {
+    e.preventDefault();
+    if (validateAndProceed(e)) {
+      login();
+    }
+  };
+
   return (
     <motion.form
-      onSubmit={handleSubmit}
+      onSubmit={onSubmitClick}
       variants={fadeUp}
       initial={reducedMotion ? false : "hidden"}
       whileInView="show"
@@ -118,27 +136,6 @@ export default function ReviewForm({ reducedMotion }) {
         <FieldError message={errors.text} />
       </div>
 
-      <div className="mt-5 rounded-lg border border-[#b9a17a]/20 bg-[#b9a17a]/5 p-4">
-        <label htmlFor="social-link" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#b9a17a]">
-          Social Media Link <span className="text-red-400">*</span>
-        </label>
-        <p className="mb-3 text-sm text-white/70">
-          Please provide a link to your LinkedIn, Facebook, Instagram, Twitter, or GitHub profile to verify you are a real person.
-        </p>
-        <motion.input
-          id="social-link"
-          name="social_link"
-          type="url"
-          value={form.social_link}
-          onChange={handleChange}
-          whileFocus={reducedMotion ? undefined : { scale: 1.01 }}
-          className="h-12 w-full rounded-md border border-white/10 bg-white/5 px-4 text-sm text-white outline-none transition focus:border-[#b9a17a] focus:bg-white/10"
-          placeholder="https://facebook.com/yourname"
-          aria-invalid={Boolean(errors.social_link)}
-        />
-        <FieldError message={errors.social_link} />
-      </div>
-
       {status && (
         <p
           role="status"
@@ -159,7 +156,7 @@ export default function ReviewForm({ reducedMotion }) {
         whileTap={isSubmitting ? undefined : { scale: 0.98 }}
         className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-md bg-[#b9a17a] text-sm font-bold text-[#151513] transition hover:bg-white hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {isSubmitting ? "Submitting..." : "Submit Review"}
+        {isSubmitting ? "Submitting..." : "Continue with Google to Submit"}
         <Send size={16} />
       </motion.button>
     </motion.form>
