@@ -187,14 +187,23 @@ export default function Reviews({ reviewsSection, reducedMotion }) {
 
               {/* Reviewer */}
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#b9a17a] to-[#8b7455] text-sm font-bold text-[#151513]">
-                  {review.name
-                    .split(" ")
-                    .map((w) => w[0])
-                    .join("")
-                    .slice(0, 2)
-                    .toUpperCase()}
-                </div>
+                {review.avatar ? (
+                  <img
+                    src={review.avatar}
+                    alt={`${review.name}'s avatar`}
+                    className="h-10 w-10 rounded-full object-cover shadow-sm"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#b9a17a] to-[#8b7455] text-sm font-bold text-[#151513]">
+                    {review.name
+                      .split(" ")
+                      .map((w) => w[0])
+                      .join("")
+                      .slice(0, 2)
+                      .toUpperCase()}
+                  </div>
+                )}
                 <div>
                   <p className="text-sm font-bold text-white">{review.name}</p>
                   {review.role && (
