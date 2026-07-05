@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Download, Mail, MapPin, Phone } from "lucide-react";
 import Button from "../common/Button";
 import Container from "../common/Container";
@@ -126,6 +126,12 @@ export default function Hero({ profile, hero, reducedMotion }) {
   const imageY = useTransform(scrollYProgress, [0, 0.35], [0, reducedMotion ? 0 : 70]);
   const imageRotate = useTransform(scrollYProgress, [0, 0.35], [0, reducedMotion ? 0 : -4]);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadClick = () => {
+    setIsDownloading(true);
+    setTimeout(() => setIsDownloading(false), 2000);
+  };
 
   return (
     <section id="home" className="relative overflow-hidden bg-[#f8f3eb]">
@@ -153,9 +159,39 @@ export default function Hero({ profile, hero, reducedMotion }) {
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Button href={profile.cv} download={profile.cvFileName}>
-              {hero.primaryButton} <Download size={16} aria-hidden="true" />
-            </Button>
+            <div className="relative">
+              <Button href={profile.cv} download={profile.cvFileName} onClick={handleDownloadClick}>
+                {hero.primaryButton} <Download size={16} aria-hidden="true" />
+              </Button>
+              
+              {/* Premium Floating PDF Animation */}
+              <AnimatePresence>
+                {isDownloading && !reducedMotion && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.5, rotate: -10 }}
+                    animate={{ 
+                      opacity: [0, 1, 1, 0], 
+                      y: [10, -60, -70, -400], 
+                      x: [0, 10, 15, 300],
+                      scale: [0.5, 1.1, 1, 0.3],
+                      rotate: [-10, 0, 5, 25]
+                    }}
+                    transition={{ duration: 1.8, times: [0, 0.2, 0.6, 1], ease: "easeInOut" }}
+                    className="absolute left-1/2 top-0 z-50 flex pointer-events-none origin-bottom -ml-6 -mt-12"
+                  >
+                    <div className="relative flex h-16 w-12 flex-col items-center justify-center rounded-sm border-[1.5px] border-[#a78d67] bg-white shadow-2xl">
+                      <div className="absolute top-0 left-0 w-full h-4 bg-[#a78d67] rounded-t-[1px]" />
+                      <span className="z-10 mt-2 text-[9px] font-black tracking-wider text-[#a78d67]">PDF</span>
+                      <div className="mt-1.5 flex flex-col gap-0.5 w-7">
+                        <div className="h-0.5 w-full bg-[#e6ded0] rounded-full" />
+                        <div className="h-0.5 w-4/5 bg-[#e6ded0] rounded-full" />
+                        <div className="h-0.5 w-full bg-[#e6ded0] rounded-full" />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             <Button href={hero.secondaryLink} variant="secondary">
               {hero.secondaryButton} <ArrowRight size={16} aria-hidden="true" />
