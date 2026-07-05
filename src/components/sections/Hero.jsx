@@ -211,37 +211,7 @@ export default function Hero({ profile, hero, reducedMotion }) {
             />
           </motion.div>
 
-          <motion.div
-            initial={reducedMotion ? false : { opacity: 0, x: -60, y: 30 }}
-            animate={reducedMotion ? undefined : { opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={reducedMotion ? undefined : { y: -8, scale: 1.02 }}
-            className="absolute bottom-8 left-0 w-[92%] max-w-[410px] rounded-xl border border-white/10 bg-[#171614]/90 p-4 text-white shadow-2xl shadow-black/25 backdrop-blur-xl sm:left-8 sm:p-5"
-          >
-            <div className="grid gap-3 text-sm sm:gap-4">
-              <div className="flex items-center gap-4">
-                <MapPin size={17} aria-hidden="true" />
-                <span className="text-white/80">{profile.location}</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <Mail size={17} aria-hidden="true" />
-                <span className="text-white/80">{profile.email}</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <Phone size={17} aria-hidden="true" />
-                <span className="text-white/80">{profile.phone}</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <motion.span
-                  animate={reducedMotion ? undefined : { scale: [1, 1.55, 1], opacity: [1, 0.55, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="h-3 w-3 rounded-full bg-green-500 shadow-lg shadow-green-500/40"
-                  aria-hidden="true"
-                />
-                <span className="font-semibold">{profile.availability}</span>
-              </div>
-            </div>
-          </motion.div>
+
 
           <motion.div
             animate={reducedMotion ? undefined : { y: [0, 18, 0] }}
