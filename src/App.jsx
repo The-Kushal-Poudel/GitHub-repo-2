@@ -6,7 +6,6 @@ import Header, { ScrollProgress } from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import { usePortfolioData } from "./hooks/usePortfolioData";
 import Home from "./pages/Home";
-import PortfolioColdStartLoader from "./components/common/PortfolioColdStartLoader";
 
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const BlogDetail = lazy(() => import("./pages/BlogDetail"));
@@ -35,16 +34,6 @@ export default function App() {
         <Footer site={site} reducedMotion={reducedMotion} />
         <Analytics />
       </main>
-
-      <PortfolioColdStartLoader
-        loading={loading}
-        error={error}
-        hasCachedData={hasCachedData}
-        onRetry={refetch}
-        onContinue={() => {
-          // Cached portfolio remains visible.
-        }}
-      />
     </>
   );
 }
