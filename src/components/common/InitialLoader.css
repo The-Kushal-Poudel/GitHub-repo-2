@@ -1,111 +1,268 @@
 /* InitialLoader.css */
-.cinematic-loader {
+.premium-loader {
   position: fixed;
   inset: 0;
   z-index: 9999;
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #0a0a0a; /* Deep cinematic black */
-  perspective: 800px;
+  background: #f8f3eb; /* var(--cream) */
+  font-family: Georgia, "Times New Roman", serif;
+  color: #151412;
 }
 
-.mark-container {
+/* Soft paper-style texture */
+.premium-loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.22;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(21, 20, 18, 0.08) 0.55px, transparent 0.55px);
+  background-size: 5px 5px;
+}
+
+/* Very subtle light sweep */
+.premium-loader::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -30%;
+  z-index: 0;
+  width: 20%;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+
+.premium-loader.is-running::after {
+  animation: lightSweep 2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+@keyframes lightSweep {
+  0% { left: -30%; opacity: 0; }
+  20% { opacity: 0.6; }
+  100% { left: 120%; opacity: 0; }
+}
+
+.loader-inner {
   position: relative;
-  width: 200px;
-  height: 200px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(320px, calc(100vw - 48px));
+}
+
+/* AMBIENT MARK AREA */
+.mark-stage {
+  position: relative;
   display: grid;
   place-items: center;
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
+  width: 190px;
+  height: 190px;
 }
 
-.cinematic-loader.is-complete .mark-container {
-  animation: cinematicZoom 0.85s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+.ambient-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(167, 141, 103, 0.28) 0%, rgba(167, 141, 103, 0.1) 38%, transparent 72%);
+  filter: blur(8px);
+  opacity: 0;
 }
 
-@keyframes cinematicZoom {
-  0% {
-    transform: scale(1) translateZ(0);
-    opacity: 1;
-    filter: blur(0px);
-  }
-  30% {
-    opacity: 1;
-  }
-  100% {
-    /* Scale enormously so the user flies "through" the logo */
-    transform: scale(60) translateZ(400px);
-    opacity: 0;
-    filter: blur(3px);
-  }
+.premium-loader.is-running .ambient-glow {
+  animation: glowEnter 1s cubic-bezier(0.22, 1, 0.36, 1) forwards, glowBreathe 2.8s ease-in-out 1s infinite;
 }
 
+@keyframes glowEnter {
+  from { opacity: 0; transform: scale(0.75); }
+  to { opacity: 0.8; transform: scale(1); }
+}
+
+@keyframes glowBreathe {
+  0%, 100% { opacity: 0.55; transform: scale(0.94); }
+  50% { opacity: 0.95; transform: scale(1.07); }
+}
+
+.orbit {
+  position: absolute;
+  border: 1px solid rgba(167, 141, 103, 0.19);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.75);
+}
+
+.orbit-one { width: 142px; height: 142px; }
+.orbit-two { width: 176px; height: 176px; }
+
+.premium-loader.is-running .orbit-one { animation: orbitEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards; }
+.premium-loader.is-running .orbit-two { animation: orbitEnter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards; }
+
+@keyframes orbitEnter {
+  to { opacity: 1; transform: scale(1); }
+}
+
+.orbit-dot {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: #a78d67;
+  box-shadow: 0 0 18px rgba(167, 141, 103, 0.65);
+  opacity: 0;
+  transform-origin: 2.5px 75px;
+}
+
+.premium-loader.is-running .orbit-dot {
+  animation: dotEnter 0.4s ease 0.7s forwards, orbitRotate 5.5s linear 0.7s infinite;
+}
+
+@keyframes dotEnter { to { opacity: 1; } }
+@keyframes orbitRotate { to { transform: rotate(360deg); } }
+
+/* MONOGRAM */
 .mark {
-  width: 100%;
-  height: 100%;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
 }
-
-.mark svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  filter: drop-shadow(0 0 15px rgba(167, 141, 103, 0.4));
-}
-
-.cinematic-loader.is-complete .mark svg {
-  animation: splitColors 0.85s cubic-bezier(0.76, 0, 0.24, 1) forwards;
-}
-
-@keyframes splitColors {
-  0% {
-    filter: drop-shadow(0 0 15px rgba(167, 141, 103, 0.4));
-  }
-  100% {
-    /* Subtle RGB split effect as it zooms past the camera */
-    filter: drop-shadow(-15px 0 25px rgba(255, 50, 50, 0.7))
-            drop-shadow(15px 0 25px rgba(50, 50, 255, 0.7));
-  }
-}
-
+.mark svg { width: 100%; height: 100%; overflow: visible; }
 .letter-segment {
   fill: none;
-  stroke: #a78d67; /* Gold */
-  stroke-width: 10;
-  stroke-linecap: butt; /* Square cuts for cinematic block feel */
-  stroke-linejoin: miter;
+  stroke: #a78d67;
+  stroke-width: 5.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
 }
+.premium-loader.is-running .segment-one { animation: drawLine 0.75s cubic-bezier(0.65, 0, 0.35, 1) 0.18s forwards; }
+.premium-loader.is-running .segment-two { animation: drawLine 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.58s forwards; }
+.premium-loader.is-running .segment-three { animation: drawLine 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.78s forwards; }
 
-.cinematic-loader.is-running .segment-one { 
-  animation: ribbonDrop 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; 
+@keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+.center-dot {
+  fill: #a78d67;
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: center;
+  transform-box: fill-box;
 }
-.cinematic-loader.is-running .segment-two { 
-  animation: ribbonDrop 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards; 
+.premium-loader.is-running .center-dot {
+  animation: dotPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 1.12s forwards;
 }
-.cinematic-loader.is-running .segment-three { 
-  animation: ribbonDrop 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards; 
+@keyframes dotPop { to { opacity: 1; transform: scale(1); } }
+
+/* LOADER INFORMATION */
+.loader-copy { width: 100%; margin-top: 14px; text-align: center; }
+.brand-name {
+  margin: 0;
+  color: #151412;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: translateY(8px);
+}
+.premium-loader.is-running .brand-name {
+  animation: copyEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards;
 }
 
-@keyframes ribbonDrop { 
-  0% {
-    stroke-dashoffset: 100;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
+.loader-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 150px;
+  margin: 15px auto 9px;
+  color: #746f67;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(6px);
+}
+.premium-loader.is-running .loader-meta {
+  animation: copyEnter 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.05s forwards;
 }
 
-/* Reduced Motion Fallback */
+@keyframes copyEnter { to { opacity: 1; transform: translateY(0); } }
+
+.loader-status { transition: color 0.3s ease; }
+.premium-loader.is-complete .loader-status { color: #a78d67; }
+
+.loader-percentage { min-width: 30px; text-align: right; letter-spacing: 0.08em; }
+
+/* PROGRESS */
+.progress {
+  position: relative;
+  width: 150px;
+  height: 1px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #e4dacb;
+  opacity: 0;
+  transform: scaleX(0.8);
+}
+.premium-loader.is-running .progress {
+  animation: progressEnter 0.5s ease 1.05s forwards;
+}
+@keyframes progressEnter { to { opacity: 1; transform: scaleX(1); } }
+
+.progress-bar {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #a78d67, #c8b495);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.loader-caption {
+  margin: 17px 0 0;
+  color: rgba(21, 20, 18, 0.42);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+.premium-loader.is-running .loader-caption {
+  animation: captionEnter 0.7s ease 1.25s forwards;
+}
+@keyframes captionEnter { to { opacity: 1; } }
+
+/* RESPONSIVE */
+@media (max-width: 520px) {
+  .mark-stage { width: 170px; height: 170px; }
+  .orbit-one { width: 132px; height: 132px; }
+  .orbit-two { width: 160px; height: 160px; }
+  .mark { width: 84px; height: 84px; }
+}
+
+/* REDUCED MOTION */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
   .letter-segment { stroke-dashoffset: 0; }
-  .cinematic-loader.is-complete .mark-container {
-    animation: none;
-    opacity: 0;
+  .center-dot, .brand-name, .loader-meta, .progress, .loader-caption, .ambient-glow, .orbit {
+    opacity: 1; transform: none;
   }
+  .orbit-dot { display: none; }
 }
