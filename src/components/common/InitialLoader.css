@@ -341,11 +341,11 @@ body.is-loading-tech {
 
 .tech-node img {
   position: absolute;
-  width: 28px;
-  height: 28px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
-  opacity: .68;
-  filter: grayscale(1) sepia(.34) saturate(.75) contrast(.95);
+  opacity: 1;
+  /* Removed grayscale/sepia filter for original colors */
   transition: opacity 0.3s ease;
 }
 
@@ -506,7 +506,7 @@ body.is-loading-tech {
     border-radius: 16px;
   }
 
-  .tech-node img { width: 25px; height: 25px; }
+  .tech-node img { width: 34px; height: 34px; }
 
   .tech-node:nth-child(1) { --x: 0px; --y: -121px; }
   .tech-node:nth-child(2) { --x: 105px; --y: -60px; }
