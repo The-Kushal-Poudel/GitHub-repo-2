@@ -32,7 +32,7 @@ export default function App() {
           </Routes>
         </Suspense>
 
-        <Footer site={site} reducedMotion={reducedMotion} />
+        <Footer site={site} profile={data?.profile} reducedMotion={reducedMotion} />
         <Analytics />
       </main>
 
