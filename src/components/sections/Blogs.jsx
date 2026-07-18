@@ -6,6 +6,8 @@ import SectionHeading from "../common/SectionHeading";
 import { fadeUp, popIn, stagger } from "../../lib/animations";
 
 export default function Blogs({ blogsSection, reducedMotion }) {
+  if (!blogsSection?.items || blogsSection.items.length === 0) return null;
+
   return (
     <section id="blogs" className="relative overflow-hidden border-y border-[#e6ded0] bg-white py-12 lg:py-14">
       <div className="absolute inset-0 opacity-[0.35] [background-image:radial-gradient(#d2c4ae_1px,transparent_1px)] [background-size:30px_30px]" aria-hidden="true" />

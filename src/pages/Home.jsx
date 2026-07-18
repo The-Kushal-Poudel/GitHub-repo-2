@@ -35,7 +35,7 @@ export default function Home({ data, reducedMotion }) {
         <Blogs blogsSection={blogsSection} reducedMotion={reducedMotion} />
         <Experience journeySection={journeySection} reducedMotion={reducedMotion} />
         <FAQ faqSection={faqSection} reducedMotion={reducedMotion} />
-        <Reviews reviewsSection={reviewsSection} reducedMotion={reducedMotion} />
+        {/* <Reviews reviewsSection={reviewsSection} reducedMotion={reducedMotion} /> */}
         <Contact contactData={contact} profile={profile} reducedMotion={reducedMotion} />
       </Suspense>
     </>
