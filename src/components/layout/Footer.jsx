@@ -19,12 +19,12 @@ export default function Footer({ site, profile, reducedMotion }) {
         <p>{site?.footerCredit}</p>
       </Container>
 
-      <div className="w-full flex justify-center pointer-events-none select-none overflow-hidden mt-8">
+      <div className="w-full flex justify-center pointer-events-none select-none overflow-hidden mt-8 px-4">
         <h1 
-          className="text-[14vw] md:text-[12vw] leading-[0.7] font-black tracking-tighter text-[#3a3a3a] whitespace-nowrap"
+          className="text-[12vw] sm:text-[10vw] md:text-[8.5vw] lg:text-[7.5vw] leading-[0.7] font-black tracking-tighter text-[#4a4a4a] whitespace-nowrap"
           style={{
-            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 85%)",
-            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 85%)"
+            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 95%)",
+            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 95%)"
           }}
         >
           {name}
