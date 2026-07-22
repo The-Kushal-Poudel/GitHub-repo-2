@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thekushalpoudel.com.np/sitemap.xml
+Sitemap: https://kushalpoudel2060.com.np/sitemap.xml

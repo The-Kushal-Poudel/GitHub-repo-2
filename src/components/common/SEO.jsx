@@ -5,15 +5,15 @@ export default function SEO({ title, description, keywords, type, url, image, sc
   const siteName = "Kushal Poudel Portfolio";
   const defaultTitle = "Kushal Poudel | Backend Java & Laravel Developer";
   const defaultDescription = "Portfolio of Kushal Poudel, a backend Java and full-stack Laravel developer from Kathmandu building clean, fast web applications with PHP, SQL, React, and Tailwind CSS.";
-  const defaultImage = "https://thekushalpoudel.com.np/images/og-image.jpg";
-  const defaultUrl = "https://thekushalpoudel.com.np/";
+  const defaultImage = "https://kushalpoudel2060.com.np/images/og-image.jpg";
+  const defaultUrl = "https://kushalpoudel2060.com.np/";
   const defaultKeywords = "Kushal Poudel, Backend Java Developer, Laravel Developer, PHP Developer, React Developer, Kathmandu Developer";
 
   const seo = {
     title: title ? `${title} | ${siteName}` : defaultTitle,
     description: description || defaultDescription,
-    image: image ? (image.startsWith('http') ? image : `https://thekushalpoudel.com.np${image}`) : defaultImage,
-    url: url ? `https://thekushalpoudel.com.np${url}` : defaultUrl,
+    image: image ? (image.startsWith('http') ? image : `https://kushalpoudel2060.com.np${image}`) : defaultImage,
+    url: url ? `https://kushalpoudel2060.com.np${url}` : defaultUrl,
     type: type || 'website',
     keywords: keywords || defaultKeywords,
   };

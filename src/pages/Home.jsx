@@ -30,20 +30,20 @@ export default function Home({ data, reducedMotion }) {
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://thekushalpoudel.com.np/#website",
-        "url": "https://thekushalpoudel.com.np/",
+        "@id": "https://kushalpoudel2060.com.np/#website",
+        "url": "https://kushalpoudel2060.com.np/",
         "name": "Kushal Poudel Portfolio",
         "description": "Backend Java and full-stack Laravel developer from Kathmandu building clean, fast web applications.",
         "publisher": {
-          "@id": "https://thekushalpoudel.com.np/#person"
+          "@id": "https://kushalpoudel2060.com.np/#person"
         }
       },
       {
         "@type": "Person",
-        "@id": "https://thekushalpoudel.com.np/#person",
+        "@id": "https://kushalpoudel2060.com.np/#person",
         "name": profile?.name || "Kushal Poudel",
-        "url": "https://thekushalpoudel.com.np/",
-        "image": "https://thekushalpoudel.com.np/images/og-image.jpg",
+        "url": "https://kushalpoudel2060.com.np/",
+        "image": "https://kushalpoudel2060.com.np/images/og-image.jpg",
         "jobTitle": profile?.roles?.join(", ") || "Backend Java & Laravel Developer",
         "sameAs": [
           profile?.github,

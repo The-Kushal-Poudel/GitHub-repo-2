@@ -33,8 +33,8 @@ export default function ProjectDetail({ data, reducedMotion }) {
     "@type": "CreativeWork",
     "name": project.title,
     "description": project.description,
-    "url": `https://thekushalpoudel.com.np/project/${project.slug}`,
-    "image": project.images?.[0]?.url ? `https://thekushalpoudel.com.np${project.images[0].url}` : "https://thekushalpoudel.com.np/images/og-image.jpg",
+    "url": `https://kushalpoudel2060.com.np/project/${project.slug}`,
+    "image": project.images?.[0]?.url ? `https://kushalpoudel2060.com.np${project.images[0].url}` : "https://kushalpoudel2060.com.np/images/og-image.jpg",
     "author": {
       "@type": "Person",
       "name": profile?.name || "Kushal Poudel"

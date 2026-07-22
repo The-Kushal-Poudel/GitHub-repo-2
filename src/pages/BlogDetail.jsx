@@ -32,7 +32,7 @@ export default function BlogDetail({ data, reducedMotion }) {
     "@type": "BlogPosting",
     "headline": blog.title,
     "description": blog.description || blog.excerpt || blog.title,
-    "url": `https://thekushalpoudel.com.np/blog/${blog.id}`,
+    "url": `https://kushalpoudel2060.com.np/blog/${blog.id}`,
     "datePublished": blog.date ? new Date(blog.date).toISOString() : undefined,
     "author": {
       "@type": "Person",
