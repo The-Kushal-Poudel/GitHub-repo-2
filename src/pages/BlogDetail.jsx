@@ -3,10 +3,12 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, CalendarDays } from "lucide-react";
 import Container from "../components/common/Container";
+import SEO from "../components/common/SEO";
 
 export default function BlogDetail({ data, reducedMotion }) {
   const { id } = useParams();
   const blog = data.blogsSection.items.find((b) => b.id === id);
+  const profile = data.profile;
 
   // Scroll to top on mount
   useEffect(() => {
@@ -25,8 +27,28 @@ export default function BlogDetail({ data, reducedMotion }) {
     );
   }
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": blog.title,
+    "description": blog.description || blog.excerpt || blog.title,
+    "url": `https://thekushalpoudel.com.np/blog/${blog.id}`,
+    "datePublished": blog.date ? new Date(blog.date).toISOString() : undefined,
+    "author": {
+      "@type": "Person",
+      "name": profile?.name || "Kushal Poudel"
+    }
+  };
+
   return (
     <article className="pt-8 pb-20 lg:pt-12 lg:pb-28">
+      <SEO 
+        title={blog.title} 
+        description={blog.description || blog.excerpt} 
+        url={`/blog/${blog.id}`}
+        type="article"
+        schema={schema}
+      />
       <Container className="max-w-4xl">
         <div className="mb-8">
           <Link to="/" className="inline-flex items-center gap-2 text-sm font-bold text-[#a78d67] transition hover:text-[#151412]">

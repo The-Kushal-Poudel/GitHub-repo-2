@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import Hero from "../components/sections/Hero";
 import About from "../components/sections/About";
 import TechStack from "../components/sections/TechStack";
+import SEO from "../components/common/SEO";
 
 const Projects = lazy(() => import("../components/sections/Projects"));
 const Blogs = lazy(() => import("../components/sections/Blogs"));
@@ -24,8 +25,38 @@ export default function Home({ data, reducedMotion }) {
     contact,
   } = data;
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://thekushalpoudel.com.np/#website",
+        "url": "https://thekushalpoudel.com.np/",
+        "name": "Kushal Poudel Portfolio",
+        "description": "Backend Java and full-stack Laravel developer from Kathmandu building clean, fast web applications.",
+        "publisher": {
+          "@id": "https://thekushalpoudel.com.np/#person"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://thekushalpoudel.com.np/#person",
+        "name": profile?.name || "Kushal Poudel",
+        "url": "https://thekushalpoudel.com.np/",
+        "image": "https://thekushalpoudel.com.np/images/og-image.jpg",
+        "jobTitle": profile?.roles?.join(", ") || "Backend Java & Laravel Developer",
+        "sameAs": [
+          profile?.github,
+          profile?.linkedin,
+          profile?.twitter
+        ].filter(Boolean)
+      }
+    ]
+  };
+
   return (
     <>
+      <SEO schema={schema} />
       <Hero profile={profile} hero={hero} reducedMotion={reducedMotion} />
       <About about={about} reducedMotion={reducedMotion} />
       <TechStack techStack={techStack} reducedMotion={reducedMotion} />

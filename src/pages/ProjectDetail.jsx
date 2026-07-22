@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { GitHubIcon } from "../lib/icons";
 import Container from "../components/common/Container";
+import SEO from "../components/common/SEO";
 
 export default function ProjectDetail({ data, reducedMotion }) {
   const { slug } = useParams();
   const project = data.projectsSection.items.find((p) => p.slug === slug);
+  const profile = data.profile;
 
   // Scroll to top on mount
   useEffect(() => {
@@ -26,8 +28,29 @@ export default function ProjectDetail({ data, reducedMotion }) {
     );
   }
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": project.title,
+    "description": project.description,
+    "url": `https://thekushalpoudel.com.np/project/${project.slug}`,
+    "image": project.images?.[0]?.url ? `https://thekushalpoudel.com.np${project.images[0].url}` : "https://thekushalpoudel.com.np/images/og-image.jpg",
+    "author": {
+      "@type": "Person",
+      "name": profile?.name || "Kushal Poudel"
+    }
+  };
+
   return (
     <article className="pt-8 pb-20 lg:pt-12 lg:pb-28">
+      <SEO 
+        title={project.title} 
+        description={project.description} 
+        image={project.images?.[0]?.url} 
+        url={`/project/${project.slug}`}
+        type="article"
+        schema={schema}
+      />
       <Container>
         <div className="mb-8">
           <Link to="/" className="inline-flex items-center gap-2 text-sm font-bold text-[#a78d67] transition hover:text-[#151412]">
