@@ -1,16 +1,53 @@
 import { useState } from "react";
-import { ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Mail } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "../../lib/icons";
+import { API_ENABLED, apiUrl } from "../../config/api";
 import Container from "../common/Container";
 
 export default function Contact({ contactData, profile }) {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState(null);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const openEmail = () => {
     const subject = encodeURIComponent(`Portfolio enquiry from ${form.name || "a visitor"}`);
     const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`);
     window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setStatus(null);
+
+    if (!API_ENABLED) {
+      openEmail();
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const response = await fetch(apiUrl("/api/messages"), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload.message || "Could not send your message.");
+      }
+
+      setForm({ name: "", email: "", message: "" });
+      setStatus({ type: "success", message: "Message saved. I’ll get back to you soon." });
+    } catch (error) {
+      setStatus({ type: "error", message: "Local backend is unavailable. Opening your email app instead." });
+      setTimeout(openEmail, 450);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -38,6 +75,15 @@ export default function Contact({ contactData, profile }) {
               <ArrowUpRight size={18} className="text-[#91a6f0]" />
             </div>
 
+            {status && (
+              <div className={`mb-5 rounded-xl border px-4 py-3 text-sm ${status.type === "success" ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : "border-amber-300/20 bg-amber-300/10 text-amber-100"}`}>
+                <span className="inline-flex items-center gap-2">
+                  {status.type === "success" && <CheckCircle2 size={15} />}
+                  {status.message}
+                </span>
+              </div>
+            )}
+
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="grid gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/32">
                 Name
@@ -52,8 +98,8 @@ export default function Contact({ contactData, profile }) {
               Message
               <textarea required rows="6" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="resize-none rounded-xl border border-white/10 bg-transparent px-4 py-3.5 text-sm font-medium normal-case tracking-normal text-white outline-none transition placeholder:text-white/18 focus:border-[#91a6f0]" placeholder="Project, role, product idea…" />
             </label>
-            <button type="submit" className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3.5 text-sm font-bold text-[#171817] transition duration-300 hover:bg-[#91a6f0]">
-              Open email <ArrowUpRight size={15} />
+            <button disabled={submitting} type="submit" className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3.5 text-sm font-bold text-[#171817] transition duration-300 hover:bg-[#91a6f0] disabled:cursor-wait disabled:opacity-60">
+              {submitting ? "Sending…" : API_ENABLED ? "Send message" : "Open email"} <ArrowUpRight size={15} />
             </button>
           </form>
         </div>
