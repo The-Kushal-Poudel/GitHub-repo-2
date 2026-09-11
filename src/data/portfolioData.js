@@ -29,21 +29,22 @@ export const portfolioData = {
   },
 
   hero: {
-    eyebrow: "FULL-STACK DEVELOPER · BACKEND-LED PRODUCT BUILDER",
-    title: "I build web products with backend depth and polished interfaces.",
+    eyebrow: "FULL-STACK DEVELOPER · I BUILD THE HARD PARTS",
+    title: "Products that look sharp and hold up underneath.",
     description:
-      "I work across Laravel, Spring Boot, React and modern databases to turn real workflows into reliable products — from booking platforms and CMS systems to signing workflows and utility tools.",
+      "I’m backend-led, but I don’t hide behind APIs. I design the flow, model the data, lock down the rules, build the interface, debug the ugly edge cases, and ship the product.",
     primaryButton: "View selected work",
     primaryLink: "#projects",
     secondaryButton: "Download CV",
     stack: ["Laravel", "Spring Boot", "React", "PostgreSQL", "MySQL"],
+    signals: ["Backend-led", "Product-minded", "End-to-end", "Built beyond CRUD"],
   },
 
   about: {
     label: "HOW I WORK",
-    title: "I like owning the whole product flow, not just one layer.",
+    title: "Proof over buzzwords.",
     description:
-      "My strongest work sits where product thinking and backend engineering meet: data models, APIs, permissions, admin workflows, business rules, and the interface people actually use. I care about clean architecture, but I care just as much about whether the final product feels clear and useful.",
+      "My best work sits where product thinking and backend engineering meet: data models, APIs, permissions, admin workflows, business rules, and the interface people actually use. I like owning enough of the stack to fix the real problem instead of passing it to the next person.",
     principles: [
       {
         id: "backend-systems",
@@ -84,9 +85,9 @@ export const portfolioData = {
 
   projectsSection: {
     label: "SELECTED WORK",
-    title: "Products and systems I’ve built.",
+    title: "Serious systems. Clean interfaces.",
     description:
-      "A selection of projects where I worked on real workflows, backend logic, admin systems and user-facing product experiences.",
+      "These are not tutorial CRUD apps. They include permissions, lifecycle rules, admin operations, billing, booking logic, file workflows and the user-facing layer around them.",
     items: [
       {
         id: "mark-instantly",
@@ -236,7 +237,7 @@ export const portfolioData = {
 
   journeySection: {
     label: "EXPERIENCE",
-    title: "Learning by shipping real work.",
+    title: "I learn fastest when the work gets real.",
     items: [
       {
         id: "current-work",
@@ -264,7 +265,7 @@ export const portfolioData = {
 
   blogsSection: {
     label: "NOTES",
-    title: "Writing from the build process.",
+    title: "Notes from the parts that fought back.",
     description:
       "Short notes about architecture, debugging and lessons that came from actually building products.",
     items: [
@@ -312,8 +313,8 @@ export const portfolioData = {
 
   contact: {
     label: "CONTACT",
-    title: "Have a product, role or problem worth solving?",
+    title: "Bring me the messy problem.",
     description:
-      "I’m open to full-time opportunities and serious product work. The easiest way to reach me is by email or LinkedIn.",
+      "I’m open to full-time roles and serious product work — especially the kind with real workflows, edge cases and room to improve the system, not just repaint the screen.",
   },
 };
