@@ -135,6 +135,8 @@ export default function Hero({ profile, hero, reducedMotion }) {
                 <img
                   src={profile.image}
                   alt={profile.name}
+                  fetchPriority="high"
+                  decoding="async"
                   className="h-full w-full object-cover object-center grayscale-[12%] contrast-[1.02] saturate-[.9] transition duration-700 sm:hover:scale-[1.012] sm:hover:grayscale-0 sm:hover:saturate-100"
                 />
                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/42 via-black/9 to-transparent sm:h-36" aria-hidden="true" />

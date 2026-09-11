@@ -76,7 +76,11 @@ export default function Contact({ contactData, profile }) {
             </div>
 
             {status && (
-              <div className={`mb-5 rounded-xl border px-4 py-3 text-sm ${status.type === "success" ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : "border-amber-300/20 bg-amber-300/10 text-amber-100"}`}>
+              <div
+                role={status.type === "error" ? "alert" : "status"}
+                aria-live="polite"
+                className={`mb-5 rounded-xl border px-4 py-3 text-sm ${status.type === "success" ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-100" : "border-amber-300/20 bg-amber-300/10 text-amber-100"}`}
+              >
                 <span className="inline-flex items-center gap-2">
                   {status.type === "success" && <CheckCircle2 size={15} />}
                   {status.message}
@@ -87,18 +91,18 @@ export default function Contact({ contactData, profile }) {
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="grid gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/32">
                 Name
-                <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="min-h-12 rounded-xl border border-white/10 bg-transparent px-4 py-3.5 text-base font-medium normal-case tracking-normal text-white outline-none transition placeholder:text-white/18 focus:border-[#91a6f0] sm:text-sm" placeholder="Your name" />
+                <input required autoComplete="name" maxLength={80} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="min-h-12 rounded-xl border border-white/10 bg-transparent px-4 py-3.5 text-base font-medium normal-case tracking-normal text-white outline-none transition placeholder:text-white/18 focus:border-[#91a6f0] sm:text-sm" placeholder="Your name" />
               </label>
               <label className="grid gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/32">
                 Email
-                <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="min-h-12 rounded-xl border border-white/10 bg-transparent px-4 py-3.5 text-base font-medium normal-case tracking-normal text-white outline-none transition placeholder:text-white/18 focus:border-[#91a6f0] sm:text-sm" placeholder="you@example.com" />
+                <input required type="email" autoComplete="email" maxLength={160} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="min-h-12 rounded-xl border border-white/10 bg-transparent px-4 py-3.5 text-base font-medium normal-case tracking-normal text-white outline-none transition placeholder:text-white/18 focus:border-[#91a6f0] sm:text-sm" placeholder="you@example.com" />
               </label>
             </div>
             <label className="mt-4 grid gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/32">
               Message
-              <textarea required rows="6" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="resize-none rounded-xl border border-white/10 bg-transparent px-4 py-3.5 text-base font-medium normal-case tracking-normal text-white outline-none transition placeholder:text-white/18 focus:border-[#91a6f0] sm:text-sm" placeholder="Project, role, product idea…" />
+              <textarea required rows="6" maxLength={3000} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="resize-none rounded-xl border border-white/10 bg-transparent px-4 py-3.5 text-base font-medium normal-case tracking-normal text-white outline-none transition placeholder:text-white/18 focus:border-[#91a6f0] sm:text-sm" placeholder="Project, role, product idea…" />
             </label>
-            <button disabled={submitting} type="submit" className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-[#171817] transition duration-300 hover:bg-[#91a6f0] disabled:cursor-wait disabled:opacity-60">
+            <button disabled={submitting} aria-busy={submitting} type="submit" className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-[#171817] transition duration-300 hover:bg-[#91a6f0] disabled:cursor-wait disabled:opacity-60">
               {submitting ? "Sending…" : API_ENABLED ? "Send message" : "Open email"} <ArrowUpRight size={15} />
             </button>
           </form>

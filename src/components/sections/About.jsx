@@ -47,6 +47,8 @@ export default function About({ about, profile, reducedMotion }) {
               <img
                 src={profile.image}
                 alt={profile.name}
+                loading="lazy"
+                decoding="async"
                 className="h-12 w-12 rounded-xl object-cover grayscale-[12%]"
               />
               <div>
