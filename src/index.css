@@ -57,3 +57,12 @@ button, input, textarea { font: inherit; }
     transition-duration: 0.01ms !important;
   }
 }
+
+.project-rail {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.project-rail::-webkit-scrollbar {
+  display: none;
+}

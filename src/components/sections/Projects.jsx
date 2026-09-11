@@ -1,6 +1,7 @@
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import Container from "../common/Container";
 
 const tones = {
@@ -12,89 +13,205 @@ const tones = {
   plum: "bg-[#56546c] text-white",
 };
 
-function ProjectVisual({ project, featured }) {
+function ProjectVisual({ project }) {
   if (project.image) {
     return (
-      <div className="relative h-full w-full overflow-hidden bg-[#1d201f]">
-        <img src={project.image} alt="" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+      <div className="relative h-full w-full overflow-hidden bg-[#ece9e2]">
+        <img
+          src={project.image}
+          alt={`${project.title} project preview`}
+          className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.025]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
       </div>
     );
   }
 
   return (
     <div className={`relative h-full w-full overflow-hidden ${tones[project.tone] || tones.ink}`}>
-      <div className="absolute inset-x-0 top-0 h-px bg-white/20" />
-      <div className="relative flex h-full flex-col justify-between p-7 sm:p-9 lg:p-10">
-        <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.16em] opacity-55">
+      <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,.35)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.35)_1px,transparent_1px)] [background-size:42px_42px]" />
+      <div className="absolute -right-10 -top-12 h-40 w-40 rounded-full border border-current/15" />
+      <div className="absolute -right-2 -top-3 h-24 w-24 rounded-full border border-current/10" />
+      <div className="relative flex h-full flex-col justify-between p-7 sm:p-8">
+        <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.16em] opacity-60">
           <span>{project.kicker}</span>
-          <span>{featured ? "Selected work" : "Case study"}</span>
+          <span>{project.status}</span>
         </div>
         <div>
-          <p className={`${featured ? "max-w-[82%] text-5xl sm:text-7xl" : "max-w-[85%] text-4xl sm:text-5xl"} font-black leading-[0.9] tracking-[-0.06em]`}>{project.title}</p>
-          <p className="mt-5 max-w-md text-sm leading-6 opacity-60">{project.role}</p>
+          <p className="max-w-[90%] text-[2.4rem] font-black leading-[0.9] tracking-[-0.06em] sm:text-5xl">
+            {project.title}
+          </p>
+          <p className="mt-4 max-w-xs text-xs leading-5 opacity-60">{project.role}</p>
         </div>
       </div>
     </div>
   );
 }
 
+function formatIndex(value) {
+  return String(value).padStart(2, "0");
+}
+
 export default function Projects({ projectsSection, reducedMotion }) {
+  const scrollerRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const projects = projectsSection.items;
+
+  const scrollToProject = (index) => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const cards = Array.from(scroller.querySelectorAll("[data-project-card]"));
+    const card = cards[index];
+    if (!card) return;
+
+    scroller.scrollTo({
+      left: card.offsetLeft - scroller.offsetLeft,
+      behavior: reducedMotion ? "auto" : "smooth",
+    });
+    setActiveIndex(index);
+  };
+
+  const goPrev = () => scrollToProject(Math.max(0, activeIndex - 1));
+  const goNext = () => scrollToProject(Math.min(projects.length - 1, activeIndex + 1));
+
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return undefined;
+
+    const handleScroll = () => {
+      const cards = Array.from(scroller.querySelectorAll("[data-project-card]"));
+      if (!cards.length) return;
+
+      const scrollerLeft = scroller.getBoundingClientRect().left;
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+
+      cards.forEach((card, index) => {
+        const distance = Math.abs(card.getBoundingClientRect().left - scrollerLeft);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setActiveIndex(closestIndex);
+    };
+
+    scroller.addEventListener("scroll", handleScroll, { passive: true });
+    return () => scroller.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const progress = projects.length > 1 ? ((activeIndex + 1) / projects.length) * 100 : 100;
+
   return (
-    <section id="projects" className="border-b border-black/[0.07] bg-[#fbfaf7] py-20 sm:py-24 lg:py-28">
+    <section id="projects" className="overflow-hidden border-b border-black/[0.07] bg-[#f6f5f2] py-20 sm:py-24 lg:py-28">
       <Container>
-        <div className="grid gap-8 lg:grid-cols-[.78fr_1.22fr] lg:items-end">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3557c8]">{projectsSection.label}</p>
-            <h2 className="text-balance mt-4 text-4xl font-black leading-[0.95] tracking-[-0.055em] text-[#171817] sm:text-5xl lg:text-7xl">{projectsSection.title}</h2>
+            <h2 className="mt-4 max-w-3xl text-4xl font-black leading-[0.95] tracking-[-0.055em] text-[#171817] sm:text-5xl lg:text-6xl">
+              {projectsSection.title}
+            </h2>
           </div>
-          <p className="max-w-xl text-sm leading-7 text-black/52 lg:justify-self-end sm:text-base">{projectsSection.description}</p>
+          <p className="max-w-xl text-sm leading-7 text-black/52 sm:text-base lg:text-right">
+            {projectsSection.description}
+          </p>
         </div>
 
-        <div className="mt-12 grid gap-5 lg:mt-16 lg:grid-cols-2">
-          {projectsSection.items.map((project, index) => {
-            const featured = index === 0;
-            return (
-              <motion.article
-                key={project.id}
-                initial={reducedMotion ? false : { opacity: 0, y: 18 }}
-                whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.12 }}
-                transition={{ duration: 0.55, delay: (index % 2) * 0.05 }}
-                className={`group overflow-hidden rounded-[22px] border border-black/[0.08] bg-white transition duration-300 hover:border-black/[0.16] ${featured ? "lg:col-span-2 lg:grid lg:grid-cols-[1.2fr_.8fr]" : ""}`}
-              >
-                <Link to={`/project/${project.slug}`} className={`block overflow-hidden ${featured ? "min-h-[380px] lg:min-h-[500px]" : "aspect-[16/10]"}`}>
-                  <ProjectVisual project={project} featured={featured} />
+        <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <div className="flex min-w-0 items-center gap-3 text-[11px] font-semibold text-[#171817]">
+            <span className="tabular-nums">{formatIndex(activeIndex + 1)}</span>
+            <div className="relative h-px min-w-0 flex-1 bg-black/15">
+              <div
+                className="absolute inset-y-0 left-0 bg-[#3557c8] transition-[width] duration-500 ease-out"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <span className="tabular-nums text-black/45">{formatIndex(projects.length)}</span>
+          </div>
+
+          <div className="flex items-center justify-between gap-5 lg:justify-end">
+            <button
+              type="button"
+              onClick={goPrev}
+              disabled={activeIndex === 0}
+              className="group inline-flex items-center gap-2 text-xs font-semibold text-[#171817] transition disabled:cursor-default disabled:opacity-30"
+              aria-label="Previous project"
+            >
+              <ChevronLeft size={15} className="transition-transform group-hover:-translate-x-0.5" />
+              Prev
+            </button>
+            <div className="h-px w-12 bg-[#3557c8]" />
+            <button
+              type="button"
+              onClick={goNext}
+              disabled={activeIndex === projects.length - 1}
+              className="group inline-flex items-center gap-2 text-xs font-semibold text-[#171817] transition disabled:cursor-default disabled:opacity-30"
+              aria-label="Next project"
+            >
+              Next
+              <ChevronRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+            </button>
+          </div>
+        </div>
+
+        <div
+          ref={scrollerRef}
+          className="project-rail -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:gap-5 lg:px-8"
+        >
+          {projects.map((project, index) => (
+            <motion.article
+              key={project.id}
+              data-project-card
+              initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+              whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, delay: Math.min(index, 2) * 0.04 }}
+              className="group min-w-[86%] snap-start overflow-hidden rounded-[18px] border border-black/[0.08] bg-white shadow-[0_10px_28px_rgba(20,20,20,0.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(20,20,20,0.08)] sm:min-w-[62%] lg:min-w-[38%] xl:min-w-[32%]"
+            >
+              <Link to={`/project/${project.slug}`} className="block aspect-[1.42/1] overflow-hidden">
+                <ProjectVisual project={project} />
+              </Link>
+
+              <div className="p-6">
+                <Link
+                  to={`/project/${project.slug}`}
+                  className="flex items-start justify-between gap-5 text-[#171817]"
+                >
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-[0.17em] text-[#3557c8]">{project.kicker}</p>
+                    <h3 className="mt-2 text-xl font-black tracking-[-0.035em] sm:text-[1.35rem]">{project.title}</h3>
+                  </div>
+                  <ArrowUpRight size={17} className="mt-1 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
 
-                <div className={`p-6 sm:p-7 ${featured ? "flex flex-col justify-center lg:p-10" : ""}`}>
-                  <div className="mb-4 flex items-center justify-between gap-4">
-                    <p className="text-[9px] font-black uppercase tracking-[0.18em] text-[#3557c8]">{project.kicker}</p>
-                    <span className="text-[9px] font-semibold text-black/30">{project.status}</span>
-                  </div>
-                  <h3 className={`${featured ? "text-3xl sm:text-4xl" : "text-2xl sm:text-3xl"} font-black tracking-[-0.045em] text-[#171817]`}>{project.title}</h3>
-                  <p className="mt-4 text-sm leading-7 text-black/55 sm:text-[15px]">{project.description}</p>
+                <p className="mt-3 line-clamp-3 text-sm leading-6 text-black/52">{project.description}</p>
 
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {project.techStack.slice(0, featured ? 5 : 4).map((tech) => (
-                      <span key={tech} className="rounded-full bg-[#f2f0eb] px-3 py-1.5 text-[10px] font-semibold text-black/48">{tech}</span>
-                    ))}
-                  </div>
+                <div className="my-5 h-px bg-black/10" />
 
-                  <div className="mt-7 flex flex-wrap items-center gap-5">
-                    <Link to={`/project/${project.slug}`} className="inline-flex items-center gap-2 text-sm font-bold text-[#171817] transition hover:text-[#3557c8]">
-                      View case study <ArrowUpRight size={14} />
-                    </Link>
-                    {project.liveLink && (
-                      <a href={project.liveLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs font-semibold text-black/40 transition hover:text-black">
-                        Live site <ExternalLink size={13} />
-                      </a>
-                    )}
-                  </div>
+                <div className="flex items-center justify-between gap-4">
+                  <Link
+                    to={`/project/${project.slug}`}
+                    className="inline-flex items-center rounded-full bg-[#171817] px-4 py-2.5 text-[11px] font-bold text-white transition hover:bg-[#3557c8]"
+                  >
+                    View project
+                  </Link>
+
+                  {project.liveLink && (
+                    <a
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-black/45 transition hover:text-black"
+                    >
+                      Live site <ExternalLink size={12} />
+                    </a>
+                  )}
                 </div>
-              </motion.article>
-            );
-          })}
+              </div>
+            </motion.article>
+          ))}
         </div>
       </Container>
     </section>
