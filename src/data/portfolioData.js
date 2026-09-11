@@ -110,6 +110,18 @@ export const portfolioData = {
           "The core challenge was keeping signing, billing and document state consistent when several operations could happen concurrently or fail mid-flow.",
         outcome:
           "The architecture was hardened around lifecycle guards, idempotency, transaction boundaries and safer document finalization so the product can evolve without fragile state transitions.",
+        problem:
+          "Signing looks simple from the outside, but the backend has to coordinate documents, signers, fields, sessions, files, billing limits and notifications without letting one failed step corrupt the rest of the transaction.",
+        contribution:
+          "I worked on the backend architecture and product rules: tightening document lifecycle guards, securing signer access, hardening finalization, introducing usage and storage controls, and making billing and email processing resilient to retries and partial failure.",
+        architecture: ["Transaction", "Signer sessions", "Field workflow", "Final PDF", "Billing + outbox"],
+        decisions: [
+          "Make illegal state transitions impossible at the service layer instead of relying on the UI.",
+          "Finalize signed documents after commit and use locking so concurrent requests cannot generate conflicting final files.",
+          "Treat Stripe webhooks and background email delivery as retryable, idempotent workflows.",
+        ],
+        takeaway:
+          "This project is the clearest example of how I approach backend work: model the lifecycle first, then make every edge case obey it.",
         tone: "ink",
         status: "Private product",
       },
@@ -134,6 +146,18 @@ export const portfolioData = {
           "The system grew across many business modules, so maintaining clean boundaries between customer flows, admin operations and booking state became essential.",
         outcome:
           "The project evolved into a broader hospitality system rather than a brochure site, with reusable admin patterns and more reliable booking logic.",
+        problem:
+          "The product had to serve guests and hotel staff at the same time. Rooms, dining, wellness, events and offers each had different workflows, while availability, pricing and status changes still needed to stay consistent.",
+        contribution:
+          "I built across the Laravel stack: customer booking flows, availability rules, admin CMS modules, notification behavior, account separation, pricing breakdowns and the interface around those workflows.",
+        architecture: ["Guest journey", "Availability + pricing", "Booking state", "Admin operations", "Notifications"],
+        decisions: [
+          "Keep customer and administrative concerns separated even when they operate on the same booking records.",
+          "Protect reservation time slots and status transitions in backend logic rather than trusting form state.",
+          "Reuse CMS and notification patterns across modules without forcing every hospitality feature into one generic model.",
+        ],
+        takeaway:
+          "The value here is not a single booking page; it is turning a growing hospitality site into an operational product without losing control of the workflows.",
         tone: "forest",
         status: "Active development",
       },
@@ -157,6 +181,18 @@ export const portfolioData = {
           "Each utility has different file constraints and processing behavior, but the product still needs to feel like one consistent system.",
         outcome:
           "The platform uses shared interaction patterns while allowing individual tools to use the best client-side or server-side processing path.",
+        problem:
+          "A utility platform can become messy fast: every tool accepts different inputs, has different limits and may need a completely different processing strategy, yet the experience still has to feel consistent.",
+        contribution:
+          "I shaped the shared tool UI, validation patterns and processing boundaries while keeping individual utilities free to use browser-side or server-side conversion where each approach made the most sense.",
+        architecture: ["Input", "Validation", "Tool engine", "Result", "Download"],
+        decisions: [
+          "Use a common interaction shell so new utilities feel familiar without duplicating UI logic.",
+          "Prefer local browser processing when it improves speed or privacy, and use the server only where it earns its complexity.",
+          "Keep production bundles and worker behavior in mind because conversion tools can easily make a lightweight site feel heavy.",
+        ],
+        takeaway:
+          "ConvertTree shows the product side of my work: keeping dozens of small workflows coherent instead of treating them like unrelated pages.",
         tone: "sand",
         status: "Product build",
         liveLink: "https://www.converttree.com/",
@@ -183,6 +219,18 @@ export const portfolioData = {
           "The app needed to stay simple for daily use while supporting budgeting, recurring money flows, local storage and privacy-sensitive features.",
         outcome:
           "The core feature set was completed and the Android build verified successfully with the security and data-management flows integrated.",
+        problem:
+          "Personal finance apps only work when entering data is quick enough to become a habit. The app needed richer budgeting and recurring features without turning everyday expense entry into work.",
+        contribution:
+          "I built the app with Compose, Room and MVVM, covering transaction flows, budgets, recurring entries, local insights, backup and restore, bilingual UI, and privacy controls such as PIN and biometric locking.",
+        architecture: ["Compose UI", "ViewModel", "Room data", "Insights", "Backup + security"],
+        decisions: [
+          "Keep financial data local-first so the core app remains fast, private and usable without an account.",
+          "Separate recurring rules from generated transactions so automation stays understandable and reversible.",
+          "Make security lifecycle-aware so sensitive screens re-lock correctly when the app leaves the foreground.",
+        ],
+        takeaway:
+          "This project pushed me beyond web development and reinforced the same principle: good product architecture should make the safe path the easy path.",
         tone: "blue",
         status: "Android app",
       },
@@ -205,6 +253,18 @@ export const portfolioData = {
           "The goal was to keep content manageable for administrators while presenting destinations and packages clearly on the public site.",
         outcome:
           "The result is a live, content-driven travel site that can be maintained without code changes for routine updates.",
+        problem:
+          "The public site needed to sell destinations visually, while the team behind it needed a straightforward way to keep packages and travel content current without developer involvement.",
+        contribution:
+          "I implemented the Laravel content structure, responsive public pages and enquiry flow, with a backend that keeps recurring content updates inside the admin experience.",
+        architecture: ["Admin content", "Packages", "Destinations", "Public pages", "Enquiries"],
+        decisions: [
+          "Model repeatable travel content in the CMS instead of hard-coding marketing pages.",
+          "Keep the enquiry path visible and lightweight rather than forcing users through a heavy booking process.",
+          "Use the public visual hierarchy to sell the destination while keeping editing workflows practical for administrators.",
+        ],
+        takeaway:
+          "Sayumi is a good example of balancing a polished marketing surface with a backend that non-developers can actually maintain.",
         tone: "sunset",
         status: "Live",
         liveLink: "https://sayumiglobal.com/",
@@ -229,6 +289,18 @@ export const portfolioData = {
           "The site needed to explain a formal service simply and move visitors quickly from understanding the process to making contact.",
         outcome:
           "The build prioritizes clear service communication and lightweight conversion paths rather than unnecessary application complexity.",
+        problem:
+          "Company registration is a trust-heavy service. The site had to explain the process clearly, answer the important questions quickly and move serious visitors toward direct contact without clutter.",
+        contribution:
+          "I translated the service into a focused Laravel website with clear information architecture, responsive pages, SEO-friendly content structure and direct WhatsApp and email conversion paths.",
+        architecture: ["Service story", "Process", "Trust content", "SEO", "Direct enquiry"],
+        decisions: [
+          "Prioritize clarity over feature count because the product goal is confidence and conversion, not account creation.",
+          "Keep contact actions close to decision points instead of hiding them at the bottom of the site.",
+          "Structure service content so search engines and first-time visitors can understand the offering with minimal context.",
+        ],
+        takeaway:
+          "This project demonstrates restraint: not every business problem needs a complex application, but simple work still deserves strong structure and execution.",
         tone: "plum",
         status: "Website",
       },

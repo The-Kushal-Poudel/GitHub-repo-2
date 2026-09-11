@@ -61,8 +61,48 @@ button, input, textarea { font: inherit; }
 .project-rail {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  overscroll-behavior-inline: contain;
+  scroll-padding-inline: 1rem;
+  -webkit-overflow-scrolling: touch;
 }
 
 .project-rail::-webkit-scrollbar {
   display: none;
+}
+
+.project-rail > [data-project-card] {
+  scroll-snap-stop: always;
+}
+
+@media (min-width: 640px) {
+  .project-rail { scroll-padding-inline: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .project-rail { scroll-padding-inline: 2rem; }
+}
+
+/* Mobile polish */
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 72px;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+@media (max-width: 639px) {
+  html {
+    scroll-padding-top: 64px;
+  }
+
+  .project-rail {
+    scroll-padding-inline: 18px;
+  }
 }

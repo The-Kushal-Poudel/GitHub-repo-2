@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
@@ -18,14 +18,31 @@ export function ScrollProgress({ reducedMotion }) {
 export default function Header({ site, navItems, reducedMotion }) {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
+
   return (
-    <header className="sticky top-0 z-[9999] border-b border-black/[0.07] bg-[#f5f3ee]/92 text-[#171817] backdrop-blur-xl">
-      <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
-        <a href="/#home" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-[#171817] text-[10px] font-black tracking-tight text-white transition duration-300 group-hover:bg-[#3557c8]">
+    <header className="sticky top-0 z-[9999] border-b border-black/[0.07] bg-[#f5f3ee]/94 text-[#171817] backdrop-blur-xl">
+      <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-[18px] sm:h-[72px] sm:px-6 lg:px-12">
+        <a href="/#home" className="group flex min-w-0 items-center gap-2.5 sm:gap-3" onClick={() => setOpen(false)}>
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] bg-[#171817] text-[10px] font-black tracking-tight text-white transition duration-300 group-hover:bg-[#3557c8]">
             {site.logoInitial}
           </span>
-          <span className="text-sm font-bold tracking-[-0.02em] sm:text-base">
+          <span className="truncate text-[13px] font-bold tracking-[-0.02em] sm:text-base">
             {site.logoName} <span className="font-medium text-black/35">{site.logoHighlight}</span>
           </span>
         </a>
@@ -38,30 +55,62 @@ export default function Header({ site, navItems, reducedMotion }) {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <a href="/#contact" className="hidden items-center gap-2 rounded-full bg-[#171817] px-5 py-2.5 text-xs font-bold text-white transition duration-300 hover:bg-[#3557c8] sm:inline-flex">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <a href="/#contact" className="hidden min-h-11 items-center gap-2 rounded-full bg-[#171817] px-5 text-xs font-bold text-white transition duration-300 hover:bg-[#3557c8] sm:inline-flex">
             Let’s talk <ArrowUpRight size={14} />
           </a>
-          <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-black/10 bg-white/50 lg:hidden" onClick={() => setOpen((value) => !value)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}>
+          <button
+            type="button"
+            className="grid h-11 w-11 place-items-center rounded-full border border-black/10 bg-white/55 transition active:scale-[0.98] lg:hidden"
+            onClick={() => setOpen((value) => !value)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
+          >
             {open ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>
 
       {open && (
-        <motion.nav
-          initial={reducedMotion ? false : { opacity: 0, y: -6 }}
-          animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-          className="border-t border-black/[0.07] bg-[#f5f3ee] px-5 py-5 lg:hidden"
+        <motion.div
+          id="mobile-navigation"
+          initial={reducedMotion ? false : { opacity: 0 }}
+          animate={reducedMotion ? undefined : { opacity: 1 }}
+          className="fixed inset-x-0 top-16 h-[calc(100dvh-4rem)] bg-black/10 backdrop-blur-[2px] sm:top-[72px] sm:h-[calc(100dvh-72px)] lg:hidden"
+          onClick={() => setOpen(false)}
         >
-          <div className="mx-auto grid max-w-[1440px] gap-1">
-            {navItems.map((item) => (
-              <a key={item.id} href={`/${item.href}`} onClick={() => setOpen(false)} className="rounded-lg px-3 py-3 text-sm font-semibold text-black/60 hover:bg-black/[0.04] hover:text-black">
-                {item.label}
+          <motion.nav
+            initial={reducedMotion ? false : { opacity: 0, y: -8 }}
+            animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="max-h-full overflow-y-auto border-b border-black/[0.07] bg-[#f5f3ee] px-[18px] pb-6 pt-3 shadow-[0_18px_45px_rgba(23,24,23,.08)] sm:px-6"
+            aria-label="Mobile navigation"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mx-auto grid max-w-[1440px] gap-1">
+              {navItems.map((item, index) => (
+                <a
+                  key={item.id}
+                  href={`/${item.href}`}
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-12 items-center justify-between rounded-xl px-3 text-[15px] font-semibold text-black/65 transition hover:bg-black/[0.04] hover:text-black"
+                >
+                  <span>{item.label}</span>
+                  <span className="text-[9px] font-black tabular-nums text-black/20">{String(index + 1).padStart(2, "0")}</span>
+                </a>
+              ))}
+
+              <a
+                href="/#contact"
+                onClick={() => setOpen(false)}
+                className="mt-3 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#171817] px-5 text-sm font-bold text-white"
+              >
+                Let’s talk <ArrowUpRight size={15} />
               </a>
-            ))}
-          </div>
-        </motion.nav>
+            </div>
+          </motion.nav>
+        </motion.div>
       )}
     </header>
   );
