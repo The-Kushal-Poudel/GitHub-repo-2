@@ -1,31 +1,37 @@
-# Dynamic React Portfolio
+# Kushal Poudel Portfolio
 
-React + Vite frontend with a Laravel API and admin panel.
+Frontend-only React portfolio built with Vite, Tailwind CSS and Framer Motion.
 
-## Local development
+## What changed
+
+- Public portfolio content now lives in `src/data/portfolioData.js`.
+- The live site does **not** require Laravel, a database, Google OAuth, or `VITE_API_URL`.
+- Project and blog detail pages are client-side React routes.
+- The contact form opens the visitor's email app with a pre-filled message instead of posting to an API.
+- The old backend/admin source can remain separate for future use; it is not part of the public runtime.
+
+## Run locally
 
 ```bash
-cp .env.example .env
 npm install
 npm run dev
 ```
 
-Set the backend URL in `.env`:
+No `.env` file is required for the public portfolio.
 
-```env
-VITE_API_URL=http://localhost:8000
+## Production build
+
+```bash
+npm run build
+npm run preview
 ```
 
-The public site runs at `http://localhost:5173` and the admin panel is available at `/admin`.
+## Deploy to Vercel
 
-## Production
+Import this folder as the project root. Vercel should detect Vite automatically.
 
-Deploy this folder to Vercel and set:
+- Build command: `npm run build`
+- Output directory: `dist`
+- Environment variables: none required
 
-```env
-VITE_API_URL=https://your-api.onrender.com
-```
-
-The Laravel backend is in the separate `portfolio-backend` folder. Create its administrator securely with `php artisan admin:create`; no default production credentials are included.
-
-See `DEPLOYMENT_FREE.md` in the parent project for complete Vercel, Render, Neon, and Cloudinary instructions.
+`vercel.json` already includes SPA rewrites for project and blog detail routes.

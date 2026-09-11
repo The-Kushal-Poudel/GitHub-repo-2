@@ -1,20 +1,15 @@
 import { useState } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import { ArrowRight, Menu, X, User } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 
 export function ScrollProgress({ reducedMotion }) {
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  const scaleX = useSpring(scrollYProgress, { stiffness: 110, damping: 30, restDelta: 0.001 });
 
   return (
     <motion.div
-      initial={false}
       style={{ scaleX: reducedMotion ? 0 : scaleX }}
-      className="fixed left-0 top-0 z-[99999] h-1 w-full origin-left bg-[#a78d67]"
+      className="fixed left-0 top-0 z-[10000] h-[3px] w-full origin-left bg-[#d8ff57]"
       aria-hidden="true"
     />
   );
@@ -22,111 +17,66 @@ export function ScrollProgress({ reducedMotion }) {
 
 export default function Header({ site, navItems, reducedMotion }) {
   const [open, setOpen] = useState(false);
-  const menuId = "mobile-navigation";
 
   return (
-    <div className="sticky top-4 z-[9999] px-4 sm:px-6 md:px-8 mb-4">
-      <motion.header
-        initial={reducedMotion ? false : { y: -80, opacity: 0 }}
-        animate={reducedMotion ? undefined : { y: 0, opacity: 1 }}
-        transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-        className="relative mx-auto flex max-w-screen-2xl items-center justify-between rounded-full border border-[#e6ded0]/80 bg-white/95 py-2 pl-6 pr-2 shadow-lg shadow-[#151412]/5 backdrop-blur-xl"
-      >
-        {/* Left: Logo */}
-        <motion.a
-          href="#home"
-          whileHover={reducedMotion ? undefined : { scale: 1.02 }}
-          className="flex min-w-0 shrink-0 items-center gap-3"
-          aria-label="Go to home section"
-          onClick={() => setOpen(false)}
-        >
-          <motion.span
-            animate={reducedMotion ? undefined : { rotate: [0, 4, -4, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="font-serif text-2xl font-black leading-none tracking-tight text-[#151412] sm:text-3xl"
-          >
+    <header className="sticky top-0 z-[9999] border-b border-black/10 bg-[#f4f0e8]/90 backdrop-blur-xl">
+      <div className="mx-auto flex h-[74px] w-full max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
+        <a href="/#home" className="flex items-center gap-3" onClick={() => setOpen(false)}>
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-[#171712] text-[11px] font-black tracking-tight text-white">
             {site.logoInitial}
-          </motion.span>
-          <span className="block truncate font-serif text-[15px] font-bold tracking-wide text-[#29251f] sm:text-[17px]">
-            {site.logoName} <span className="text-[#a78d67]">{site.logoHighlight}</span>
           </span>
-        </motion.a>
+          <span className="text-sm font-bold tracking-[-0.02em] sm:text-base">
+            {site.logoName} <span className="text-black/45">{site.logoHighlight}</span>
+          </span>
+        </a>
 
-        {/* Center: Pill Navigation */}
-        <nav className="hidden items-center rounded-full bg-[#f8f3eb] px-2 py-1.5 border border-[#e6ded0]/60 lg:flex" aria-label="Primary navigation">
-          {navItems.map((item, index) => (
-            <motion.a
-              key={item.id}
-              initial={reducedMotion ? false : { opacity: 0, y: -10 }}
-              animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: index * 0.06 }}
-              href={item.href}
-              className="rounded-full px-4 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#332f29] transition hover:bg-white hover:text-[#a78d67] hover:shadow-sm"
-            >
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
+          {navItems.map((item) => (
+            <a key={item.id} href={`/${item.href}`} className="text-xs font-semibold uppercase tracking-[0.14em] text-black/55 transition hover:text-black">
               {item.label}
-            </motion.a>
+            </a>
           ))}
         </nav>
 
-        {/* Right: Contact/Account Button & Mobile Menu Toggle */}
-        <div className="flex items-center gap-2">
-          <motion.a
-            href="#contact"
-            whileHover={reducedMotion ? undefined : { scale: 1.03 }}
-            whileTap={{ scale: 0.96 }}
-            className="hidden items-center gap-2.5 rounded-full border border-[#e6ded0] bg-white pl-2 pr-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-[#151412] shadow-sm transition hover:bg-[#f8f3eb] lg:flex"
+        <div className="flex items-center gap-3">
+          <a
+            href="/#contact"
+            className="hidden items-center gap-2 rounded-full bg-[#171712] px-5 py-2.5 text-xs font-bold text-white transition hover:-translate-y-0.5 hover:bg-black sm:inline-flex"
           >
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#f8f3eb] text-[#332f29]">
-              <User size={13} strokeWidth={2.5} />
-            </div>
-            Contact Me
-            <ArrowRight size={13} className="ml-0.5 text-[#8c806f]" />
-          </motion.a>
-
-          {/* Mobile Toggle */}
+            Let’s talk <ArrowUpRight size={14} />
+          </a>
           <button
             type="button"
-            onClick={() => setOpen((currentOpen) => !currentOpen)}
-            aria-label={open ? "Close mobile menu" : "Open mobile menu"}
+            className="grid h-10 w-10 place-items-center rounded-full border border-black/15 lg:hidden"
+            onClick={() => setOpen((value) => !value)}
+            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            aria-controls={menuId}
-            className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#e6ded0] bg-[#f8f3eb] text-[#151412] shadow-sm lg:hidden"
           >
-            {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+            {open ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
+      </div>
 
-        {/* Mobile Menu Dropdown */}
-        {open && (
-          <motion.nav
-            id={menuId}
-            initial={reducedMotion ? false : { opacity: 0, y: -12, scale: 0.98 }}
-            animate={reducedMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-            className="absolute left-0 right-0 top-full mt-3 rounded-2xl border border-[#e6ded0] bg-white p-4 shadow-2xl lg:hidden"
-            aria-label="Mobile navigation"
-          >
-            <div className="grid gap-1">
-              {navItems.map((item) => (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="rounded-xl px-4 py-3 text-[13px] font-bold uppercase tracking-[0.08em] text-[#332f29] transition hover:bg-[#f8f3eb] hover:text-[#a78d67]"
-                >
-                  {item.label}
-                </a>
-              ))}
+      {open && (
+        <motion.nav
+          initial={reducedMotion ? false : { opacity: 0, y: -8 }}
+          animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          className="border-t border-black/10 bg-[#f4f0e8] px-5 py-5 lg:hidden"
+        >
+          <div className="mx-auto grid max-w-[1440px] gap-1">
+            {navItems.map((item) => (
               <a
-                href="#contact"
+                key={item.id}
+                href={`/${item.href}`}
                 onClick={() => setOpen(false)}
-                className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-[#151412] px-4 py-3.5 text-[13px] font-bold uppercase tracking-[0.08em] text-white transition hover:bg-[#2a2824]"
+                className="rounded-xl px-3 py-3 text-sm font-semibold hover:bg-black/5"
               >
-                Contact Me <ArrowRight size={14} />
+                {item.label}
               </a>
-            </div>
-          </motion.nav>
-        )}
-      </motion.header>
-    </div>
+            ))}
+          </div>
+        </motion.nav>
+      )}
+    </header>
   );
 }

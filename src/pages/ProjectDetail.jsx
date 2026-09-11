@@ -1,154 +1,139 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowLeft, ExternalLink } from "lucide-react";
-import { GitHubIcon } from "../lib/icons";
+import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react";
 import Container from "../components/common/Container";
 import SEO from "../components/common/SEO";
 
-export default function ProjectDetail({ data, reducedMotion }) {
-  const { slug } = useParams();
-  const project = data.projectsSection.items.find((p) => p.slug === slug);
-  const profile = data.profile;
+const tones = {
+  ink: "bg-[#181813] text-white",
+  forest: "bg-[#1f3a31] text-white",
+  sand: "bg-[#d6a66d] text-[#171712]",
+  blue: "bg-[#9fc3df] text-[#171712]",
+  sunset: "bg-[#d78663] text-[#171712]",
+  plum: "bg-[#a898bd] text-[#171712]",
+};
 
-  // Scroll to top on mount
+export default function ProjectDetail({ data }) {
+  const { slug } = useParams();
+  const project = data.projectsSection.items.find((item) => item.slug === slug);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [slug]);
 
   if (!project) {
     return (
-      <Container className="flex min-h-[70vh] flex-col items-center justify-center py-20 text-center">
-        <h1 className="font-serif text-3xl font-bold text-red-700">Project Not Found</h1>
-        <p className="mt-4 text-[#655d52]">The case study you are looking for does not exist.</p>
-        <Link to="/" className="mt-6 inline-flex items-center gap-2 rounded-md bg-[#151412] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#a78d67]">
-          <ArrowLeft size={16} /> Back to Home
+      <Container className="flex min-h-[70vh] flex-col items-start justify-center py-20">
+        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">404</p>
+        <h1 className="mt-4 text-5xl font-black tracking-[-0.05em]">Project not found.</h1>
+        <Link to="/" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#171712] px-5 py-3 text-sm font-bold text-white">
+          <ArrowLeft size={15} /> Back home
         </Link>
       </Container>
     );
   }
 
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    "name": project.title,
-    "description": project.description,
-    "url": `https://kushalpoudel2060.com.np/project/${project.slug}`,
-    "image": project.images?.[0]?.url ? `https://kushalpoudel2060.com.np${project.images[0].url}` : "https://kushalpoudel2060.com.np/images/og-image.jpg",
-    "author": {
-      "@type": "Person",
-      "name": profile?.name || "Kushal Poudel"
-    }
-  };
-
   return (
-    <article className="pt-8 pb-20 lg:pt-12 lg:pb-28">
-      <SEO 
-        title={project.title} 
-        description={project.description} 
-        image={project.images?.[0]?.url} 
-        url={`/project/${project.slug}`}
-        type="article"
-        schema={schema}
-      />
-      <Container>
-        <div className="mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 text-sm font-bold text-[#a78d67] transition hover:text-[#151412]">
-            <ArrowLeft size={16} /> Back to Portfolio
+    <article className="bg-[#f4f0e8]">
+      <SEO title={project.title} description={project.description} url={`/project/${project.slug}`} type="article" />
+
+      <section className="border-b border-black/10 py-12 sm:py-16">
+        <Container>
+          <Link to="/" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.14em] text-black/45 hover:text-black">
+            <ArrowLeft size={14} /> Back to portfolio
           </Link>
-        </div>
 
-        <header className="mb-12 md:mb-16">
-          <p className="mb-4 text-[11px] font-black uppercase tracking-[0.25em] text-[#a78d67]">
-            {project.techStack.join(" / ")}
-          </p>
-          <motion.h1
-            initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-            animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-            className="font-serif text-4xl font-bold leading-tight text-[#201d18] md:text-5xl lg:text-6xl"
-          >
-            {project.title}
-          </motion.h1>
-          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[#655d52]">
-            {project.description}
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-4">
-            {project.liveLink && (
-              <a href={project.liveLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-[#151412] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#292723]">
-                Visit Live Site <ExternalLink size={16} />
-              </a>
-            )}
-            {project.githubLink && (
-              <a href={project.githubLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md border border-[#beb3a2] bg-white/30 px-6 py-3 text-sm font-semibold text-[#1d1b17] transition hover:bg-white">
-                View Source <GitHubIcon size={16} />
-              </a>
-            )}
-          </div>
-        </header>
-
-        <motion.div
-          initial={reducedMotion ? false : { opacity: 0, y: 30 }}
-          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          {project.images && project.images.length > 0 ? (
-            <div className="relative">
-              <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                {project.images.map((img, idx) => (
-                  <div key={idx} className="min-w-full md:min-w-[85%] snap-center shrink-0 overflow-hidden rounded-2xl border border-[#e6ded0] bg-white shadow-xl">
-                    <img src={img.url} alt={img.alt || `${project.title} screenshot ${idx + 1}`} className="w-full h-auto object-cover" />
-                  </div>
+          <div className="mt-12 grid gap-10 lg:grid-cols-[1.05fr_.95fr] lg:items-end">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-black/40">{project.kicker}</p>
+              <h1 className="mt-4 text-[clamp(3.7rem,8vw,7.8rem)] font-black leading-[0.86] tracking-[-0.075em]">{project.title}</h1>
+            </div>
+            <div>
+              <p className="max-w-2xl text-base leading-8 text-black/58">{project.description}</p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {project.techStack.map((tech) => (
+                  <span key={tech} className="rounded-full border border-black/12 px-3 py-1.5 text-xs font-bold text-black/55">{tech}</span>
                 ))}
               </div>
-              {project.images.length > 1 && (
-                <div className="flex justify-center gap-2 mt-2">
-                  {project.images.map((_, idx) => (
-                    <div key={idx} className="w-2 h-2 rounded-full bg-[#d0c5b5]" />
-                  ))}
-                </div>
-              )}
             </div>
-          ) : (
-            <div className="overflow-hidden rounded-2xl border border-[#e6ded0] bg-white shadow-xl flex h-64 items-center justify-center bg-[#ded4c4] text-[#a78d67]">
-              No image available
-            </div>
-          )}
-        </motion.div>
-
-        <div className="grid gap-12 md:grid-cols-[1fr_250px] lg:gap-20">
-          <div>
-            <h2 className="mb-6 font-serif text-2xl font-bold text-[#201d18] md:text-3xl">Key Features</h2>
-            <ul className="space-y-4 text-[#655d52]">
-              {project.features.map((feature, idx) => (
-                <li key={idx} className="flex gap-4">
-                  <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#b9a17a]" aria-hidden="true" />
-                  <span className="text-base leading-7">{feature}</span>
-                </li>
-              ))}
-            </ul>
           </div>
-          
-          <aside className="rounded-xl border border-[#e6ded0] bg-white/50 p-6 shadow-sm self-start">
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-[#a78d67]">Project Details</h3>
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-xs font-semibold text-[#8c806f]">Role</h4>
-                <p className="mt-1 font-medium text-[#201d18]">{project.role}</p>
-              </div>
-              {project.status && (
-                <div>
-                  <h4 className="text-xs font-semibold text-[#8c806f]">Status</h4>
-                  <p className="mt-1 inline-flex rounded-full bg-[#151412] px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-white">
-                    {project.status}
-                  </p>
+        </Container>
+      </section>
+
+      <section className="border-b border-black/10 py-8 sm:py-10">
+        <Container>
+          <div className={`relative min-h-[360px] overflow-hidden rounded-[30px] ${tones[project.tone] || tones.ink}`}>
+            {project.image ? (
+              <img src={project.image} alt={`${project.title} project preview`} className="h-full min-h-[360px] w-full object-cover" />
+            ) : (
+              <>
+                <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.35)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.35)_1px,transparent_1px)] [background-size:42px_42px]" />
+                <div className="relative flex min-h-[360px] flex-col justify-between p-8 sm:p-12">
+                  <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] opacity-55">
+                    <span>Case study</span><span>{project.status}</span>
+                  </div>
+                  <div>
+                    <p className="max-w-4xl text-5xl font-black leading-[0.88] tracking-[-0.065em] sm:text-7xl">{project.title}</p>
+                    <p className="mt-5 max-w-xl text-sm font-semibold opacity-65 sm:text-base">{project.role}</p>
+                  </div>
                 </div>
+              </>
+            )}
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-16 sm:py-20 lg:py-24">
+        <Container className="grid gap-14 lg:grid-cols-[.62fr_1.38fr] lg:gap-20">
+          <aside>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Project details</p>
+            <div className="mt-6 space-y-6 border-t border-black/10 pt-6">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-black/32">Role</p>
+                <p className="mt-2 text-sm font-bold">{project.role}</p>
+              </div>
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-black/32">Status</p>
+                <p className="mt-2 text-sm font-bold">{project.status}</p>
+              </div>
+              {project.liveLink && (
+                <a href={project.liveLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-black">
+                  Visit live site <ExternalLink size={14} />
+                </a>
               )}
             </div>
           </aside>
-        </div>
-      </Container>
+
+          <div className="space-y-14">
+            <section>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">What I built</p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {project.features.map((feature, index) => (
+                  <div key={feature} className="rounded-2xl border border-black/10 bg-white/45 p-5">
+                    <p className="text-[10px] font-black text-black/25">0{index + 1}</p>
+                    <p className="mt-3 text-sm font-bold leading-6">{feature}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="grid gap-8 border-t border-black/10 pt-10 md:grid-cols-2">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Engineering challenge</p>
+                <p className="mt-4 text-base leading-8 text-black/60">{project.challenge}</p>
+              </div>
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Result</p>
+                <p className="mt-4 text-base leading-8 text-black/60">{project.outcome}</p>
+              </div>
+            </section>
+
+            <Link to="/#projects" className="inline-flex items-center gap-2 rounded-full bg-[#171712] px-5 py-3 text-sm font-bold text-white">
+              See more work <ArrowUpRight size={15} />
+            </Link>
+          </div>
+        </Container>
+      </section>
     </article>
   );
 }

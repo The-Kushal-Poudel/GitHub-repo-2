@@ -1,57 +1,45 @@
 import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import Container from "../common/Container";
-import SectionHeading from "../common/SectionHeading";
-import { fadeLeft, popIn, stagger } from "../../lib/animations";
-import { iconMap } from "../../lib/iconMap";
-import { Code } from "lucide-react";
 
-export default function About({ about, reducedMotion }) {
+export default function About({ about, profile, reducedMotion }) {
   return (
-    <section id="about" className="relative overflow-hidden border-y border-[#e6ded0] bg-[#f8f3eb] py-12 lg:py-14">
-      <motion.div
-        animate={reducedMotion ? undefined : { rotate: 360 }}
-        transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-        className="absolute -left-24 top-10 h-52 w-52 rounded-full border border-dashed border-[#d6c7ad]"
-        aria-hidden="true"
-      />
+    <section id="about" className="border-b border-black/10 bg-[#f4f0e8] py-20 sm:py-24 lg:py-28">
+      <Container>
+        <div className="grid gap-12 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-black/42">{about.label}</p>
+            <h2 className="mt-4 max-w-xl text-4xl font-black leading-[0.98] tracking-[-0.055em] sm:text-5xl lg:text-6xl">{about.title}</h2>
+            <p className="mt-7 max-w-xl text-sm leading-7 text-black/58 sm:text-base sm:leading-8">{about.description}</p>
 
-      <Container className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr]">
-        <motion.div variants={fadeLeft} initial={reducedMotion ? false : "hidden"} whileInView="show" viewport={{ once: true, amount: 0.3 }}>
-          <SectionHeading label={about.label} title={about.title} description={about.description} iconImage={about.iconImage} />
-          <motion.p
-            whileInView={reducedMotion ? undefined : { x: [0, 8, 0] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-            className="mt-5 font-serif text-3xl italic text-[#a78d67]"
-          >
-            {about.signature}
-          </motion.p>
-        </motion.div>
+            <div className="mt-8 flex items-center gap-4">
+              <img src={profile.image} alt={profile.name} className="h-14 w-14 rounded-2xl object-cover" />
+              <div>
+                <p className="text-sm font-black">{profile.name}</p>
+                <a href={profile.linkedin} target="_blank" rel="noreferrer" className="mt-1 inline-flex items-center gap-1.5 text-xs font-semibold text-black/45 hover:text-black">
+                  LinkedIn <ArrowUpRight size={12} />
+                </a>
+              </div>
+            </div>
+          </div>
 
-        <motion.div variants={stagger} initial={reducedMotion ? false : "hidden"} whileInView="show" viewport={{ once: true, amount: 0.2 }} className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:gap-8">
-          {about.cards.map((card) => {
-            const Icon = iconMap[card.icon] || Code;
-
-            return (
+          <div className="grid border-t border-l border-black/10 sm:grid-cols-2">
+            {about.principles.map((item, index) => (
               <motion.div
-                key={card.id}
-                variants={popIn}
-                whileHover={reducedMotion ? undefined : { y: -14, rotate: -1.5, scale: 1.035, transition: { type: "spring", stiffness: 220, damping: 16 } }}
-                className="group rounded-2xl border border-[#e6ded0] bg-white/55 p-5 shadow-sm transition hover:bg-white hover:shadow-xl hover:shadow-black/5"
+                key={item.id}
+                initial={reducedMotion ? false : { opacity: 0, y: 12 }}
+                whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.07 }}
+                className="min-h-[230px] border-b border-r border-black/10 p-6 sm:p-7"
               >
-                <motion.div
-                  whileHover={reducedMotion ? undefined : { rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
-                  className="mb-6 grid h-[52px] w-[52px] place-items-center rounded-full bg-[#f0eadf] text-[#1c1a17] transition group-hover:bg-[#1c1a17] group-hover:text-white"
-                  aria-hidden="true"
-                >
-                  <Icon size={23} />
-                </motion.div>
-                <h3 className="mb-3 text-base font-bold text-[#211f1a]">{card.title}</h3>
-                <p className="text-sm leading-7 text-[#665e53]">{card.text}</p>
+                <p className="text-[10px] font-black tracking-[0.2em] text-black/30">{item.number}</p>
+                <h3 className="mt-12 text-xl font-black tracking-[-0.03em]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-black/55">{item.text}</p>
               </motion.div>
-            );
-          })}
-        </motion.div>
+            ))}
+          </div>
+        </div>
       </Container>
     </section>
   );
