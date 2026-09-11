@@ -1,0 +1,579 @@
+{
+  "settings": {
+    "site": {
+      "logoInitial": "KP",
+      "logoName": "Kushal",
+      "logoHighlight": "Poudel",
+      "footerCopyright": "© 2026 Kushal Poudel",
+      "footerCredit": "Designed and built with React"
+    },
+    "navItems": [
+      {
+        "id": "work",
+        "label": "Work",
+        "href": "#projects"
+      },
+      {
+        "id": "about",
+        "label": "About",
+        "href": "#about"
+      },
+      {
+        "id": "experience",
+        "label": "Experience",
+        "href": "#experience"
+      },
+      {
+        "id": "writing",
+        "label": "Writing",
+        "href": "#blogs"
+      },
+      {
+        "id": "contact",
+        "label": "Contact",
+        "href": "#contact"
+      }
+    ],
+    "hero": {
+      "eyebrow": "FULL-STACK DEVELOPER · I BUILD THE HARD PARTS",
+      "description": "I’m backend-led, but I don’t hide behind APIs. I design the flow, model the data, lock down the rules, build the interface, debug the ugly edge cases, and ship the product.",
+      "primaryButton": "View selected work",
+      "primaryLink": "#projects",
+      "secondaryButton": "Download CV",
+      "stack": [
+        "Laravel",
+        "Spring Boot",
+        "React",
+        "PostgreSQL",
+        "MySQL"
+      ],
+      "signals": [
+        "Backend-led",
+        "Product-minded",
+        "End-to-end",
+        "Built beyond CRUD"
+      ]
+    },
+    "about": {
+      "label": "HOW I WORK",
+      "title": "Proof over buzzwords.",
+      "description": "My best work sits where product thinking and backend engineering meet: data models, APIs, permissions, admin workflows, business rules, and the interface people actually use. I like owning enough of the stack to fix the real problem instead of passing it to the next person.",
+      "principles": [
+        {
+          "id": "backend-systems",
+          "number": "01",
+          "title": "Backend systems",
+          "text": "REST APIs, authentication, roles, queues, data modeling, workflows, integrations and lifecycle rules."
+        },
+        {
+          "id": "product-ui",
+          "number": "02",
+          "title": "Product UI",
+          "text": "Responsive interfaces, dashboards and complex forms that stay understandable as features grow."
+        },
+        {
+          "id": "security-data",
+          "number": "03",
+          "title": "Data & security",
+          "text": "Validation, authorization, safer state transitions, transactional thinking and defensive backend design."
+        },
+        {
+          "id": "shipping",
+          "number": "04",
+          "title": "Shipping",
+          "text": "Git workflows, production builds, deployment, debugging and improving products after the first version ships."
+        }
+      ]
+    },
+    "techStack": {
+      "label": "TOOLS I USE"
+    },
+    "projectsSection": {
+      "label": "SELECTED WORK",
+      "title": "Serious systems. Clean interfaces.",
+      "description": "These are not tutorial CRUD apps. They include permissions, lifecycle rules, admin operations, billing, booking logic, file workflows and the user-facing layer around them."
+    },
+    "blogsSection": {
+      "label": "NOTES",
+      "title": "Notes from the parts that fought back.",
+      "description": "Short notes about architecture, debugging and lessons that came from actually building products."
+    },
+    "journeySection": {
+      "label": "EXPERIENCE",
+      "title": "I learn fastest when the work gets real."
+    },
+    "contact": {
+      "label": "CONTACT",
+      "title": "Bring me the messy problem.",
+      "description": "I’m open to full-time roles and serious product work — especially the kind with real workflows, edge cases and room to improve the system, not just repaint the screen."
+    },
+    "seo": {
+      "title": "Kushal Poudel | Full-Stack Developer",
+      "description": "Portfolio of Kushal Poudel — full-stack developer building production-minded products with Laravel, Spring Boot, React and SQL.",
+      "ogImage": "/images/pic3.webp"
+    },
+    "theme": {
+      "primary": "#171817",
+      "accent": "#3557c8",
+      "background": "#f5f3ee"
+    }
+  },
+  "profile": {
+    "id": 1,
+    "name": "Kushal Poudel",
+    "role": "Full-Stack Developer",
+    "location": "Kathmandu, Nepal",
+    "email": "kushalpoudel240@gmail.com",
+    "phone": "",
+    "image_url": "/images/pic3.webp",
+    "cv_url": "/Kushal_Poudel_CV.pdf",
+    "github_url": "https://github.com/The-Kushal-Poudel",
+    "linkedin_url": "https://www.linkedin.com/in/kushal-poudel-317b25241/",
+    "availability": "Open to full-time and product opportunities",
+    "bio": "Backend-led full-stack developer building production-minded products with Laravel, Spring Boot, React, SQL, admin workflows, integrations, and reliable business logic.",
+    "created_at": "2026-09-11T16:38:32.000000Z",
+    "updated_at": "2026-09-11T16:38:32.000000Z"
+  },
+  "projects": [
+    {
+      "id": 1,
+      "title": "Mark Instantly",
+      "slug": "mark-instantly",
+      "description": "A document signing product with transaction workflows, signer sessions, PDF finalization, billing entitlements and durable background processing.",
+      "role": "Backend architecture & product engineering",
+      "tech_stack": [
+        "Spring Boot",
+        "PostgreSQL",
+        "Stripe",
+        "Docker"
+      ],
+      "features": [
+        "Document transaction and signer lifecycle rules",
+        "Secure signer PDF and field workflows",
+        "Final PDF generation with locking and after-commit processing",
+        "Subscription entitlements, usage limits and storage reservations",
+        "Stripe webhook idempotency and billing administration",
+        "Durable email outbox and post-transaction notifications"
+      ],
+      "github_link": null,
+      "live_link": null,
+      "status": "Private product",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T16:38:33.000000Z",
+      "images": []
+    },
+    {
+      "id": 2,
+      "title": "Lions Den",
+      "slug": "lions-den-hospitality-platform",
+      "description": "A multi-module hospitality product covering rooms, dining, wellness, experiences, offers, bookings, notifications and admin operations.",
+      "role": "Full-stack development",
+      "tech_stack": [
+        "Laravel",
+        "MySQL",
+        "Blade",
+        "Tailwind CSS"
+      ],
+      "features": [
+        "Room availability, guest booking and charge breakdown workflows",
+        "Dining reservation slot integrity and safe status flows",
+        "Independent CMS modules for rooms, offers, wellness and content",
+        "Admin dashboards, notification counts and operational summaries",
+        "Customer-only portal and account separation",
+        "Responsive booking and content interfaces"
+      ],
+      "github_link": null,
+      "live_link": null,
+      "status": "Active development",
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T16:38:33.000000Z",
+      "images": []
+    },
+    {
+      "id": 3,
+      "title": "ConvertTree",
+      "slug": "converttree",
+      "description": "An all-in-one utilities product for document, image, text and everyday conversion workflows with a compact tool-first interface.",
+      "role": "Product architecture & full-stack development",
+      "tech_stack": [
+        "Laravel",
+        "JavaScript",
+        "Vite",
+        "Tailwind CSS"
+      ],
+      "features": [
+        "Image conversion and optimization workflows",
+        "PDF and document utility modules",
+        "Tool-specific validation and browser-side processing",
+        "Reusable compact UI system across tool categories",
+        "Performance-focused production builds"
+      ],
+      "github_link": null,
+      "live_link": "https://www.converttree.com/",
+      "status": "Product build",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T16:38:33.000000Z",
+      "images": [
+        {
+          "url": "/project Images/converttree.webp",
+          "alt": "ConvertTree product preview"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Sayumi Travels",
+      "slug": "sayumi-travels-and-tours",
+      "description": "A dynamic travel and tours website with packages, destinations, enquiry flows and content administration.",
+      "role": "Full-stack Laravel development",
+      "tech_stack": [
+        "Laravel",
+        "MySQL",
+        "Tailwind CSS"
+      ],
+      "features": [
+        "Dynamic travel package management",
+        "Destination and service content pages",
+        "Booking enquiry workflow",
+        "Responsive customer-facing UI"
+      ],
+      "github_link": null,
+      "live_link": "https://sayumiglobal.com/",
+      "status": "Live",
+      "sort_order": 5,
+      "is_visible": true,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T18:20:48.000000Z",
+      "images": [
+        {
+          "url": "/project Images/sayumi.webp",
+          "alt": "Sayumi Travels preview"
+        },
+        {
+          "url": "/cms-media/images/ZnsudVh9tZEYqjQade5XdTDAlqQhkfaCgyMxEgxm.png",
+          "alt": "jkbk"
+        },
+        {
+          "url": "/cms-media/images/2qvkHTNPFD5W0iUToMnU7F8uUDw1o6uqxnWS0zJ3.png",
+          "alt": null
+        },
+        {
+          "url": "/cms-media/images/NCRKZa3WLSz47cHRbZV9eV3oqEyWQbFuMWUVFrDI.jpg",
+          "alt": null
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Nepal Formation",
+      "slug": "nepal-formation",
+      "description": "A focused company-registration website designed around service clarity, trust and direct lead conversion.",
+      "role": "Laravel website development",
+      "tech_stack": [
+        "Laravel",
+        "Blade",
+        "Tailwind CSS",
+        "SEO"
+      ],
+      "features": [
+        "Company-registration service pages",
+        "Direct WhatsApp and email contact flows",
+        "Responsive landing page structure",
+        "SEO-focused content architecture"
+      ],
+      "github_link": null,
+      "live_link": "https://nepalformation.com/",
+      "status": "Website",
+      "sort_order": 6,
+      "is_visible": true,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T16:38:33.000000Z",
+      "images": []
+    }
+  ],
+  "blogs": [
+    {
+      "id": 1,
+      "title": "What an e-signature workflow taught me about state",
+      "category": "Backend",
+      "description": "Why lifecycle guards, transaction boundaries and idempotency matter when one user action touches documents, billing and notifications.",
+      "content": "Building an e-signature workflow changed the way I think about application state. A signing transaction is not just a row that moves from pending to complete. It connects documents, signers, fields, sessions, generated files, usage limits, emails and billing events.\n\nThe important lesson was to make illegal transitions difficult. Structure edits should only be allowed while a document is still editable. Closed transactions should not accept new signer sessions. Finalization should not run twice because two requests arrived at nearly the same time.\n\nThat pushed the backend toward explicit lifecycle guards, pessimistic locking where it mattered, idempotent webhook handling and post-commit work for operations that should only happen after a database transaction succeeds.",
+      "link": null,
+      "published_at": "2026-09-01T00:00:00.000000Z",
+      "is_published": true,
+      "sort_order": 1,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T16:38:33.000000Z"
+    },
+    {
+      "id": 2,
+      "title": "A CMS becomes useful when the workflow is designed first",
+      "category": "Laravel",
+      "description": "What I learned from building repeated admin modules for hospitality, education and business websites.",
+      "content": "It is easy to call any admin panel a CMS, but CRUD screens alone do not make a useful content system. The real work is deciding what editors need to control, what should stay fixed, and which relationships should be visible instead of hidden in the database.\n\nAcross different Laravel projects I started reusing patterns for status controls, image management, ordering, project scoping and safer deletion. That made new modules faster to build without making every screen feel identical.\n\nThe biggest improvement came from treating the admin experience as part of the product instead of an internal afterthought.",
+      "link": null,
+      "published_at": "2026-09-02T00:00:00.000000Z",
+      "is_published": true,
+      "sort_order": 2,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T16:38:33.000000Z"
+    },
+    {
+      "id": 3,
+      "title": "When a portfolio should not need a backend",
+      "category": "Frontend",
+      "description": "Why the public portfolio can stay deployable by itself while the local admin remains available when I need it.",
+      "content": "A portfolio is mostly read-only content, so the public deployment should not fail just because an API is offline. The better trade-off is to keep a strong local fallback while making the admin/API available when content editing is needed.\n\nIn development the React app connects to Laravel and reflects admin changes. In a frontend-only production build, the same UI falls back to bundled portfolio data.\n\nThat gives the project fewer production dependencies without throwing away the admin system I already built.",
+      "link": null,
+      "published_at": "2026-09-03T00:00:00.000000Z",
+      "is_published": true,
+      "sort_order": 3,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T16:38:33.000000Z"
+    }
+  ],
+  "experience": [
+    {
+      "id": 1,
+      "title": "Full-Stack Web Development",
+      "company": "Softsaron Pvt. Ltd. · Project & freelance work",
+      "year_label": "Present",
+      "icon": "Laptop",
+      "description": "Building Laravel applications, admin systems, booking flows, CMS modules and product interfaces while working across backend logic and frontend implementation.",
+      "sort_order": 1,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T16:38:33.000000Z"
+    },
+    {
+      "id": 2,
+      "title": "Backend Java Developer Intern",
+      "company": "FoneNxt",
+      "year_label": "Jan 2024 — Apr 2024",
+      "icon": "Briefcase",
+      "description": "Worked with Java, PostgreSQL, backend use-case flows and structured team development practices.",
+      "sort_order": 2,
+      "created_at": "2026-09-11T16:38:33.000000Z",
+      "updated_at": "2026-09-11T16:38:33.000000Z"
+    },
+    {
+      "id": 3,
+      "title": "Bachelor of Computer Application",
+      "company": "Patan Multiple Campus · Studies completed — graduation pending",
+      "year_label": "2020 — 2025",
+      "icon": "GraduationCap",
+      "description": "Coursework included programming, databases, web development, software engineering and application development fundamentals.",
+      "sort_order": 3,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "label": "Laravel",
+      "icon": null,
+      "sort_order": 1,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 2,
+      "label": "PHP",
+      "icon": null,
+      "sort_order": 2,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 3,
+      "label": "Spring Boot",
+      "icon": null,
+      "sort_order": 3,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 4,
+      "label": "Java",
+      "icon": null,
+      "sort_order": 4,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 5,
+      "label": "REST APIs",
+      "icon": null,
+      "sort_order": 5,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 6,
+      "label": "React",
+      "icon": null,
+      "sort_order": 6,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 7,
+      "label": "Tailwind CSS",
+      "icon": null,
+      "sort_order": 7,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 8,
+      "label": "JavaScript",
+      "icon": null,
+      "sort_order": 8,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 9,
+      "label": "Vite",
+      "icon": null,
+      "sort_order": 9,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 10,
+      "label": "Blade",
+      "icon": null,
+      "sort_order": 10,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 11,
+      "label": "PostgreSQL",
+      "icon": null,
+      "sort_order": 11,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 12,
+      "label": "MySQL",
+      "icon": null,
+      "sort_order": 12,
+      "created_at": "2026-09-11T16:38:34.000000Z",
+      "updated_at": "2026-09-11T16:38:34.000000Z"
+    },
+    {
+      "id": 13,
+      "label": "SQL",
+      "icon": null,
+      "sort_order": 13,
+      "created_at": "2026-09-11T16:38:35.000000Z",
+      "updated_at": "2026-09-11T16:38:35.000000Z"
+    },
+    {
+      "id": 14,
+      "label": "Git",
+      "icon": null,
+      "sort_order": 14,
+      "created_at": "2026-09-11T16:38:35.000000Z",
+      "updated_at": "2026-09-11T16:38:35.000000Z"
+    },
+    {
+      "id": 15,
+      "label": "Docker",
+      "icon": null,
+      "sort_order": 15,
+      "created_at": "2026-09-11T16:38:35.000000Z",
+      "updated_at": "2026-09-11T16:38:35.000000Z"
+    },
+    {
+      "id": 16,
+      "label": "Vercel",
+      "icon": null,
+      "sort_order": 16,
+      "created_at": "2026-09-11T16:38:35.000000Z",
+      "updated_at": "2026-09-11T16:38:35.000000Z"
+    },
+    {
+      "id": 17,
+      "label": "Render",
+      "icon": null,
+      "sort_order": 17,
+      "created_at": "2026-09-11T16:38:35.000000Z",
+      "updated_at": "2026-09-11T16:38:35.000000Z"
+    },
+    {
+      "id": 18,
+      "label": "Stripe",
+      "icon": null,
+      "sort_order": 18,
+      "created_at": "2026-09-11T16:38:35.000000Z",
+      "updated_at": "2026-09-11T16:38:35.000000Z"
+    }
+  ],
+  "faqs": [
+    {
+      "id": 1,
+      "question": "Are you available for freelance or full-time work?",
+      "answer": "Yes! I am currently open to both freelance projects and full-time opportunities. Feel free to reach out through the contact section and let's discuss your project or job opening.",
+      "sort_order": 1,
+      "is_active": 1,
+      "created_at": "2026-09-11T16:38:36.000000Z",
+      "updated_at": "2026-09-11T16:38:36.000000Z"
+    },
+    {
+      "id": 2,
+      "question": "What technologies do you specialize in?",
+      "answer": "I primarily work with Laravel, PHP, MySQL, and Tailwind CSS for backend and full-stack web development. I also have experience with React for frontend interfaces and Java with Spring for backend systems.",
+      "sort_order": 2,
+      "is_active": 1,
+      "created_at": "2026-09-11T16:38:36.000000Z",
+      "updated_at": "2026-09-11T16:38:36.000000Z"
+    },
+    {
+      "id": 3,
+      "question": "How long does a typical project take?",
+      "answer": "It depends on the project scope and complexity. A simple website can take 1-2 weeks, while a full-featured web application with admin panel, authentication, and complex features may take 4-8 weeks or more.",
+      "sort_order": 3,
+      "is_active": 1,
+      "created_at": "2026-09-11T16:38:36.000000Z",
+      "updated_at": "2026-09-11T16:38:36.000000Z"
+    },
+    {
+      "id": 4,
+      "question": "What is your development process?",
+      "answer": "I start by understanding the requirements and goals. Then I plan the architecture, build the backend logic, create the frontend interface, test thoroughly, and finally deploy. I maintain clear communication throughout the process.",
+      "sort_order": 4,
+      "is_active": 1,
+      "created_at": "2026-09-11T16:38:36.000000Z",
+      "updated_at": "2026-09-11T16:38:36.000000Z"
+    },
+    {
+      "id": 5,
+      "question": "Can you work with an existing team or codebase?",
+      "answer": "Absolutely. I am comfortable collaborating with teams using Git workflows, code reviews, and agile practices. I can also jump into existing codebases, understand the architecture, and contribute effectively.",
+      "sort_order": 5,
+      "is_active": 1,
+      "created_at": "2026-09-11T16:38:36.000000Z",
+      "updated_at": "2026-09-11T16:38:36.000000Z"
+    },
+    {
+      "id": 6,
+      "question": "Do you provide support after project delivery?",
+      "answer": "Yes, I offer post-delivery support including bug fixes, minor updates, and maintenance. For ongoing support, we can discuss a maintenance plan that fits your needs and budget.",
+      "sort_order": 6,
+      "is_active": 1,
+      "created_at": "2026-09-11T16:38:36.000000Z",
+      "updated_at": "2026-09-11T16:38:36.000000Z"
+    }
+  ],
+  "reviews": []
+}

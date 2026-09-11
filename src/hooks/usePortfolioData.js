@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { API_ENABLED, API_URL, apiUrl } from "../config/api.js";
 import { portfolioData as defaultData } from "../data/portfolioData.js";
+import cmsSnapshot from "../data/cmsSnapshot.json";
 
 const toneCycle = ["ink", "forest", "sand", "blue", "sunset", "plum"];
 
@@ -122,8 +123,9 @@ function mergePortfolio(payload) {
       }
     : defaultData.profile;
 
-  const backendProjects = Array.isArray(payload.projects) ? payload.projects : [];
-  const projectItems = backendProjects.length
+  const hasProjectPayload = Array.isArray(payload.projects);
+  const backendProjects = hasProjectPayload ? payload.projects : [];
+  const projectItems = hasProjectPayload
     ? backendProjects.map((project, index) => {
         const fallback = defaultData.projectsSection.items.find((item) => item.slug === project.slug) || {};
         const rawImages = arrayFromJson(project.images);
@@ -157,16 +159,38 @@ function mergePortfolio(payload) {
           challenge:
             fallback.challenge ||
             "The challenge was turning real product requirements into reliable workflows, clear data rules, and a usable interface without making the system fragile.",
+          problem:
+            fallback.problem ||
+            project.description ||
+            "The project needed a dependable product flow that could handle real requirements without becoming difficult to maintain.",
+          contribution:
+            fallback.contribution ||
+            project.role ||
+            "I worked across the implementation, business rules, and user-facing flow to turn the requirements into a maintainable product.",
+          architecture:
+            fallback.architecture ||
+            ["Input", "Business rules", "Application flow", "Output"],
+          decisions:
+            fallback.decisions ||
+            [
+              "Keep business rules explicit instead of hiding important state changes inside the interface.",
+              "Prefer maintainable boundaries that make future changes safer.",
+              "Design backend behavior and user flow together so edge cases have one clear source of truth.",
+            ],
           outcome:
             fallback.outcome ||
             "The result is a maintainable product flow with clearer boundaries, safer state changes, and room to keep evolving the feature set.",
+          takeaway:
+            fallback.takeaway ||
+            "The project reflects how I approach product work: understand the workflow first, then make the implementation support it cleanly.",
           tone: fallback.tone || toneCycle[index % toneCycle.length],
         };
       })
     : defaultData.projectsSection.items;
 
-  const backendBlogs = Array.isArray(payload.blogs) ? payload.blogs : [];
-  const blogItems = backendBlogs.length
+  const hasBlogPayload = Array.isArray(payload.blogs);
+  const backendBlogs = hasBlogPayload ? payload.blogs : [];
+  const blogItems = hasBlogPayload
     ? backendBlogs.map((blog) => ({
         id: String(blog.id),
         title: blog.title,
@@ -180,8 +204,9 @@ function mergePortfolio(payload) {
       }))
     : defaultData.blogsSection.items;
 
-  const backendExperience = Array.isArray(payload.experience) ? payload.experience : [];
-  const journeyItems = backendExperience.length
+  const hasExperiencePayload = Array.isArray(payload.experience);
+  const backendExperience = hasExperiencePayload ? payload.experience : [];
+  const journeyItems = hasExperiencePayload
     ? backendExperience.map((item) => ({
         id: String(item.id),
         period: item.year_label,
@@ -192,8 +217,9 @@ function mergePortfolio(payload) {
       }))
     : defaultData.journeySection.items;
 
-  const backendSkills = Array.isArray(payload.skills) ? payload.skills : [];
-  const backendSkillGroups = backendSkills.length ? classifySkills(backendSkills) : [];
+  const hasSkillPayload = Array.isArray(payload.skills);
+  const backendSkills = hasSkillPayload ? payload.skills : [];
+  const backendSkillGroups = hasSkillPayload ? classifySkills(backendSkills) : [];
 
   const site = { ...defaultData.site, ...(settings.site || {}) };
   const navItems = Array.isArray(settings.navItems) && settings.navItems.length
@@ -216,7 +242,7 @@ function mergePortfolio(payload) {
   const techStack = {
     ...defaultData.techStack,
     ...(settings.techStack || {}),
-    groups: settings.techStack?.groups || (backendSkillGroups.length ? backendSkillGroups : defaultData.techStack.groups),
+    groups: settings.techStack?.groups || (hasSkillPayload ? backendSkillGroups : defaultData.techStack.groups),
   };
 
   const projectsSection = {
@@ -259,14 +285,17 @@ function mergePortfolio(payload) {
   };
 }
 
+const hasBundledSnapshot = Boolean(cmsSnapshot && Object.keys(cmsSnapshot).length);
+const bundledData = hasBundledSnapshot ? mergePortfolio(cmsSnapshot) : defaultData;
+
 export function usePortfolioData() {
-  const [data, setData] = useState(defaultData);
+  const [data, setData] = useState(bundledData);
   const [loading, setLoading] = useState(API_ENABLED);
   const [error, setError] = useState(null);
 
   async function fetchData(signal) {
     if (!API_ENABLED) {
-      setData(defaultData);
+      setData(bundledData);
       setLoading(false);
       return;
     }
@@ -290,7 +319,7 @@ export function usePortfolioData() {
       if (err.name === "AbortError") return;
       console.warn("Portfolio API unavailable; using bundled fallback data.", err);
       setError(err.message || "Backend unavailable");
-      setData(defaultData);
+      setData(bundledData);
     } finally {
       setLoading(false);
     }

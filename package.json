@@ -10,7 +10,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync:portfolio": "node scripts/sync-portfolio.mjs"
   },
   "dependencies": {
     "@react-oauth/google": "^0.13.5",
