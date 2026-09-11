@@ -2,26 +2,26 @@ import Container from "../common/Container";
 
 export default function TechStack({ techStack }) {
   return (
-    <section id="skills" className="relative overflow-hidden border-b border-white/[0.08] bg-[#0a0c10] py-20 text-white sm:py-24">
-      <div className="pointer-events-none absolute left-1/3 top-[-180px] h-80 w-80 rounded-full bg-[#5b6cff]/18 blur-[120px]" />
-      <Container className="relative">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <section id="skills" className="border-b border-black/[0.07] bg-[#f5f3ee] py-20 text-[#171817] sm:py-24">
+      <Container>
+        <div className="grid gap-6 lg:grid-cols-[1fr_.8fr] lg:items-end">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#7890ff]">{techStack.label}</p>
-            <h2 className="mt-3 text-3xl font-black tracking-[-0.045em] sm:text-4xl">Tools are the easy part. Knowing where to use them isn’t.</h2>
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3557c8]">{techStack.label}</p>
+            <h2 className="mt-3 max-w-3xl text-3xl font-black tracking-[-0.045em] sm:text-4xl">A practical stack for shipping complete products.</h2>
           </div>
-          <p className="max-w-md text-sm leading-6 text-white/40">A backend-heavy stack with enough frontend range to own the full user flow.</p>
+          <p className="max-w-md text-sm leading-7 text-black/48 lg:justify-self-end">Backend-heavy by preference, full-stack by habit.</p>
         </div>
-        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+
+        <div className="mt-10 grid border-y border-black/[0.08] sm:grid-cols-2 lg:grid-cols-4">
           {techStack.groups.map((group, index) => (
-            <div key={group.name} className="rounded-[22px] border border-white/[0.09] bg-white/[0.035] p-6 transition duration-300 hover:-translate-y-1 hover:border-[#7890ff]/35 hover:bg-[#7890ff]/[0.05] sm:p-7">
+            <div key={group.name} className={`py-7 sm:px-6 lg:px-7 ${index > 0 ? "lg:border-l lg:border-black/[0.08]" : ""}`}>
               <div className="flex items-center justify-between">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c9ff4b]">{group.name}</p>
-                <span className="text-[9px] font-black text-white/20">0{index + 1}</span>
+                <p className="text-xs font-black uppercase tracking-[0.15em] text-[#171817]">{group.name}</p>
+                <span className="text-[9px] font-bold text-black/20">0{index + 1}</span>
               </div>
-              <div className="mt-5 flex flex-wrap gap-2">
+              <div className="mt-5 space-y-2">
                 {group.items.map((item) => (
-                  <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-[11px] font-bold text-white/58">{item}</span>
+                  <p key={item} className="text-sm font-medium text-black/50">{item}</p>
                 ))}
               </div>
             </div>

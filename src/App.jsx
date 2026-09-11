@@ -13,7 +13,7 @@ export default function App() {
   const { site, navItems, profile } = portfolioData;
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#0a0c10] text-[#11131a]">
+    <main className="min-h-screen overflow-x-hidden bg-[#f5f3ee] text-[#171817]">
       <ScrollProgress reducedMotion={reducedMotion} />
       <Header site={site} navItems={navItems} reducedMotion={reducedMotion} />
 
