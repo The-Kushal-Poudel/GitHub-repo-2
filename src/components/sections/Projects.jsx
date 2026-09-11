@@ -44,17 +44,28 @@ function formatIndex(value) {
 function ProjectVisual({ project }) {
   if (project.image) {
     return (
-      <div className="relative h-full w-full overflow-hidden bg-[#ece9e2]">
-        <img
-          src={project.image}
-          alt={project.imageAlt || `${project.title} project preview`}
-          loading="lazy"
-          decoding="async"
-          className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.2,.65,.3,1)] group-hover:scale-[1.018]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/[0.02]" />
-        <div className="absolute left-5 top-5 rounded-full border border-white/20 bg-black/20 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-md">
+      <div className="relative h-full w-full overflow-hidden bg-[#e7e4dc] p-3 sm:p-4">
+        <div className="absolute left-4 top-4 z-20 rounded-full border border-black/[0.08] bg-[#fbfaf7]/90 px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.15em] text-black/48 shadow-sm backdrop-blur-md sm:left-5 sm:top-5">
           {project.status}
+        </div>
+
+        <div className="relative h-full overflow-hidden rounded-[12px] border border-black/[0.09] bg-[#f8f7f3] shadow-[0_12px_28px_rgba(23,24,23,0.10)] sm:rounded-[14px]">
+          <div className="flex h-7 items-center gap-1.5 border-b border-black/[0.07] bg-[#f8f7f3] px-3 sm:h-8">
+            <span className="h-1.5 w-1.5 rounded-full bg-black/15" />
+            <span className="h-1.5 w-1.5 rounded-full bg-black/10" />
+            <span className="h-1.5 w-1.5 rounded-full bg-black/[0.06]" />
+            <div className="ml-2 h-3.5 w-24 rounded-full bg-black/[0.045] sm:w-32" />
+          </div>
+          <div className="relative h-[calc(100%-1.75rem)] overflow-hidden bg-[#dedbd3] sm:h-[calc(100%-2rem)]">
+            <img
+              src={project.image}
+              alt={project.imageAlt || `${project.title} project preview`}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover object-top transition-transform duration-[900ms] ease-[cubic-bezier(.2,.65,.3,1)] group-hover:scale-[1.012]"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.07] via-transparent to-white/[0.02]" />
+          </div>
         </div>
       </div>
     );

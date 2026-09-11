@@ -1,10 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+  X,
 } from "lucide-react";
 import Container from "../components/common/Container";
 import SEO from "../components/common/SEO";
@@ -107,6 +111,46 @@ function BrowserVisual({ project, tone }) {
   );
 }
 
+
+function ScreenshotFrame({ image, alt, onOpen, wide = false }) {
+  return (
+    <figure
+      className={`${wide ? "sm:col-span-2" : ""} group overflow-hidden rounded-[16px] border border-black/[0.08] bg-[#e7e4dd] shadow-[0_10px_30px_rgba(22,23,22,0.05)] sm:rounded-[20px]`}
+    >
+      <button
+        type="button"
+        onClick={onOpen}
+        className="block w-full text-left"
+        aria-label={`Open ${alt} fullscreen`}
+      >
+        <div className="flex h-9 items-center gap-1.5 border-b border-black/[0.07] bg-[#f8f7f3] px-3.5">
+          <span className="h-1.5 w-1.5 rounded-full bg-black/15" />
+          <span className="h-1.5 w-1.5 rounded-full bg-black/10" />
+          <span className="h-1.5 w-1.5 rounded-full bg-black/[0.06]" />
+          <div className="ml-2 h-4 max-w-[220px] flex-1 rounded-full bg-black/[0.045]" />
+          <span className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-full text-black/30 transition group-hover:bg-black/[0.05] group-hover:text-black/60">
+            <Maximize2 size={12} />
+          </span>
+        </div>
+        <div className="relative overflow-hidden bg-[#dedbd3]">
+          <img
+            src={image.url}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+            className="max-h-[720px] w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.006]"
+          />
+        </div>
+      </button>
+      {image.alt && (
+        <figcaption className="border-t border-black/[0.06] bg-[#fbfaf7] px-4 py-3 text-[10px] font-semibold leading-5 text-black/42">
+          {image.alt}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
 function SectionIntro({ number, label, title, children }) {
   return (
     <div className="grid gap-4 border-t border-black/[0.09] pt-6 sm:pt-7 md:grid-cols-[160px_1fr] md:gap-12">
@@ -135,10 +179,38 @@ export default function ProjectDetail({ data }) {
     projectIndex >= 0 && projects.length > 1
       ? projects[(projectIndex + 1) % projects.length]
       : null;
+  const gallery = (project?.images || []).filter(
+    (item, index) => item?.url && (index > 0 || item.url !== project?.image)
+  );
+  const [lightboxIndex, setLightboxIndex] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setLightboxIndex(null);
   }, [slug]);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setLightboxIndex(null);
+      if (event.key === "ArrowLeft" && gallery.length > 1) {
+        setLightboxIndex((current) => (current - 1 + gallery.length) % gallery.length);
+      }
+      if (event.key === "ArrowRight" && gallery.length > 1) {
+        setLightboxIndex((current) => (current + 1) % gallery.length);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [lightboxIndex, gallery.length]);
 
   if (!project) {
     return (
@@ -170,10 +242,6 @@ export default function ProjectDetail({ data }) {
         "Prefer maintainable boundaries over clever abstractions that make future changes harder.",
         "Design the user flow and backend behavior together so edge cases have one clear source of truth.",
       ];
-  const gallery = (project.images || []).filter(
-    (item, index) => item?.url && (index > 0 || item.url !== project.image)
-  );
-
   return (
     <article className="bg-[#f5f3ee] text-[#171817]">
       <SEO
@@ -367,18 +435,18 @@ export default function ProjectDetail({ data }) {
               {gallery.length > 0 && (
                 <SectionIntro number="05" label="Screens" title="A closer look at the product.">
                   <div className="mt-7 grid gap-3 sm:mt-8 sm:grid-cols-2 sm:gap-4">
-                    {gallery.map((image, index) => (
-                      <figure
-                        key={`${image.url}-${index}`}
-                        className={`${index % 3 === 0 ? "sm:col-span-2" : ""} overflow-hidden rounded-[16px] border border-black/[0.08] bg-[#e7e4dd] sm:rounded-[20px]`}
-                      >
-                        <img
-                          src={image.url}
-                          alt={image.alt || `${project.title} screen ${index + 2}`}
-                          className="h-full max-h-[680px] w-full object-cover object-top"
+                    {gallery.map((image, index) => {
+                      const alt = image.alt || `${project.title} screen ${index + 2}`;
+                      return (
+                        <ScreenshotFrame
+                          key={`${image.url}-${index}`}
+                          image={image}
+                          alt={alt}
+                          wide={index % 3 === 0}
+                          onOpen={() => setLightboxIndex(index)}
                         />
-                      </figure>
-                    ))}
+                      );
+                    })}
                   </div>
                 </SectionIntro>
               )}
@@ -411,6 +479,71 @@ export default function ProjectDetail({ data }) {
           </div>
         </Container>
       </section>
+
+      {lightboxIndex !== null && gallery[lightboxIndex] && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#111210]/95 p-3 sm:p-7"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${project.title} screenshot viewer`}
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setLightboxIndex(null);
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => setLightboxIndex(null)}
+            className="absolute right-4 top-4 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/[0.08] text-white/75 backdrop-blur-md transition hover:bg-white hover:text-[#171817] sm:right-6 sm:top-6"
+            aria-label="Close screenshot viewer"
+          >
+            <X size={17} />
+          </button>
+
+          {gallery.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={() => setLightboxIndex((lightboxIndex - 1 + gallery.length) % gallery.length)}
+                className="absolute left-3 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-black/25 text-white/75 backdrop-blur-md transition hover:bg-white hover:text-[#171817] sm:left-6"
+                aria-label="Previous screenshot"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setLightboxIndex((lightboxIndex + 1) % gallery.length)}
+                className="absolute right-3 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-black/25 text-white/75 backdrop-blur-md transition hover:bg-white hover:text-[#171817] sm:right-6"
+                aria-label="Next screenshot"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </>
+          )}
+
+          <div className="flex max-h-[92vh] max-w-[min(94vw,1500px)] flex-col overflow-hidden rounded-[16px] border border-white/10 bg-[#1c1d1b] shadow-2xl sm:rounded-[22px]">
+            <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-white/[0.08] bg-[#20211f] px-4">
+              <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+              <span className="h-1.5 w-1.5 rounded-full bg-white/15" />
+              <span className="h-1.5 w-1.5 rounded-full bg-white/10" />
+              <span className="ml-auto text-[9px] font-bold tabular-nums text-white/30">
+                {String(lightboxIndex + 1).padStart(2, "0")} / {String(gallery.length).padStart(2, "0")}
+              </span>
+            </div>
+            <div className="min-h-0 overflow-auto bg-[#111210]">
+              <img
+                src={gallery[lightboxIndex].url}
+                alt={gallery[lightboxIndex].alt || `${project.title} screenshot ${lightboxIndex + 2}`}
+                className="mx-auto h-auto max-h-[82vh] w-auto max-w-full object-contain"
+              />
+            </div>
+            {gallery[lightboxIndex].alt && (
+              <p className="shrink-0 border-t border-white/[0.08] px-4 py-3 text-xs leading-5 text-white/48 sm:px-5">
+                {gallery[lightboxIndex].alt}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
 
       {nextProject && (
         <section className="border-t border-white/[0.08] bg-[#191b1a] py-12 text-white sm:py-[72px] lg:py-20">

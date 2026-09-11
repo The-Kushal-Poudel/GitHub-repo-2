@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { apiUrl } from "../../config/api.js";
 import { useAdminAuth } from "../hooks/useAdminAuth";
 import ImageUpload from "../components/ImageUpload";
-import { Plus, Edit2, Trash2, Eye, EyeOff, X, Save, AlertCircle } from "lucide-react";
+import { Plus, Edit2, Trash2, Eye, EyeOff, X, Save, AlertCircle, ChevronUp, ChevronDown, Image as ImageIcon } from "lucide-react";
 
 
 const initialForm = {
@@ -95,6 +95,16 @@ export default function Projects() {
 
   const handleImageUpload = (url) => {
     setForm((prev) => ({ ...prev, image_url: url }));
+  };
+
+  const moveImage = (fromIndex, toIndex) => {
+    setForm((prev) => {
+      if (toIndex < 0 || toIndex >= prev.images.length) return prev;
+      const images = [...prev.images];
+      const [moved] = images.splice(fromIndex, 1);
+      images.splice(toIndex, 0, moved);
+      return { ...prev, images };
+    });
   };
 
   const handleDelete = async (id) => {
@@ -445,68 +455,124 @@ export default function Projects() {
               </div>
 
               <div className="sm:col-span-2">
-                <div className="flex items-center justify-between mb-4">
-                  <label className="block text-xs font-black uppercase tracking-[0.18em] text-[#8c806f]">
-                    Project Images
-                  </label>
+                <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-[0.18em] text-[#8c806f]">
+                      Project Images
+                    </label>
+                    <p className="mt-1.5 max-w-xl text-xs leading-5 text-[#8c806f]">
+                      The first image is the cover used in the project carousel and case-study hero. Add more screenshots below and reorder them anytime.
+                    </p>
+                  </div>
                   <button
                     type="button"
                     onClick={() => setForm(prev => ({ ...prev, images: [...prev.images, { url: "", alt: "" }] }))}
-                    className="text-xs font-semibold text-[#a78d67] hover:text-[#151412] transition-colors"
+                    className="inline-flex h-9 shrink-0 items-center gap-1.5 self-start rounded-full border border-[#dfd5c6] bg-white px-3.5 text-xs font-bold text-[#6f604d] transition hover:border-[#c9b79d] hover:text-[#151412] sm:self-auto"
                   >
-                    + Add Image
+                    <Plus size={13} /> Add image
                   </button>
                 </div>
-                
-                <div className="space-y-4 mb-5">
+
+                <div className="mb-5 space-y-3">
                   {form.images.map((img, index) => (
-                    <div key={index} className="flex flex-col sm:flex-row gap-4 p-4 border border-[#e9e2d7] rounded-lg bg-[#f8f3eb]/50">
-                      <div className="flex-1">
-                        <ImageUpload
-                          label={`Image ${index + 1}`}
-                          value={img.url}
-                          onUpload={(url) => {
-                            const newImages = [...form.images];
-                            newImages[index].url = url;
-                            setForm(prev => ({ ...prev, images: newImages }));
-                          }}
-                        />
+                    <div key={index} className="overflow-hidden rounded-xl border border-[#e4dccf] bg-[#faf7f1]">
+                      <div className="flex items-center justify-between gap-3 border-b border-[#e9e2d7] bg-white/70 px-4 py-2.5">
+                        <div className="flex min-w-0 items-center gap-2.5">
+                          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#f0eadf] text-[#8b7454]">
+                            <ImageIcon size={13} />
+                          </span>
+                          <div className="min-w-0">
+                            <p className="text-xs font-black text-[#151412]">
+                              {index === 0 ? "Cover image" : `Screenshot ${index + 1}`}
+                            </p>
+                            <p className="text-[10px] text-[#968a79]">
+                              {index === 0 ? "Shown first across the portfolio" : `Position ${index + 1}`}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex shrink-0 items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => moveImage(index, index - 1)}
+                            disabled={index === 0}
+                            className="grid h-8 w-8 place-items-center rounded-md text-[#786d5f] transition hover:bg-[#f0eadf] disabled:cursor-default disabled:opacity-25"
+                            title="Move image up"
+                            aria-label={`Move image ${index + 1} up`}
+                          >
+                            <ChevronUp size={15} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => moveImage(index, index + 1)}
+                            disabled={index === form.images.length - 1}
+                            className="grid h-8 w-8 place-items-center rounded-md text-[#786d5f] transition hover:bg-[#f0eadf] disabled:cursor-default disabled:opacity-25"
+                            title="Move image down"
+                            aria-label={`Move image ${index + 1} down`}
+                          >
+                            <ChevronDown size={15} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newImages = form.images.filter((_, i) => i !== index);
+                              setForm(prev => ({ ...prev, images: newImages }));
+                            }}
+                            className="grid h-8 w-8 place-items-center rounded-md text-red-500 transition hover:bg-red-50"
+                            title="Remove image"
+                            aria-label={`Remove image ${index + 1}`}
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex-1 flex flex-col justify-end">
-                        <label className="block text-xs font-black uppercase tracking-[0.18em] text-[#8c806f] mb-2">
-                          Alt Text
-                        </label>
-                        <input
-                          type="text"
-                          value={img.alt}
-                          onChange={(e) => {
-                            const newImages = [...form.images];
-                            newImages[index].alt = e.target.value;
-                            setForm(prev => ({ ...prev, images: newImages }));
-                          }}
-                          placeholder="Image description"
-                          className="h-11 w-full rounded-md border border-[#e9e2d7] bg-white px-4 text-sm outline-none transition focus:border-[#a78d67]"
-                        />
-                      </div>
-                      <div className="flex flex-col justify-end pb-1">
-                         <button
-                           type="button"
-                           onClick={() => {
-                             const newImages = form.images.filter((_, i) => i !== index);
-                             setForm(prev => ({ ...prev, images: newImages }));
-                           }}
-                           className="text-red-500 hover:bg-red-50 p-2 rounded transition-colors"
-                           title="Remove Image"
-                         >
-                           <Trash2 size={18} />
-                         </button>
+
+                      <div className="grid gap-4 p-4 lg:grid-cols-[minmax(0,1fr)_minmax(260px,.75fr)]">
+                        <div>
+                          <ImageUpload
+                            label={index === 0 ? "Cover file" : `Screenshot ${index + 1}`}
+                            value={img.url}
+                            onUpload={(url) => {
+                              const newImages = form.images.map((item, imageIndex) =>
+                                imageIndex === index ? { ...item, url } : item
+                              );
+                              setForm(prev => ({ ...prev, images: newImages }));
+                            }}
+                          />
+                        </div>
+                        <div className="flex flex-col justify-end">
+                          <label className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-[#8c806f]">
+                            Alt Text
+                          </label>
+                          <textarea
+                            rows="3"
+                            value={img.alt || ""}
+                            onChange={(e) => {
+                              const newImages = form.images.map((item, imageIndex) =>
+                                imageIndex === index ? { ...item, alt: e.target.value } : item
+                              );
+                              setForm(prev => ({ ...prev, images: newImages }));
+                            }}
+                            placeholder="Describe what this screenshot shows"
+                            className="w-full resize-none rounded-md border border-[#e9e2d7] bg-white p-3 text-sm leading-6 outline-none transition focus:border-[#a78d67]"
+                          />
+                          <p className="mt-2 text-[10px] leading-4 text-[#968a79]">
+                            Keep this descriptive. It helps accessibility and becomes the screenshot caption on the case study.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   ))}
                   {form.images.length === 0 && (
-                    <div className="text-sm text-[#8c806f] italic p-6 text-center border border-dashed border-[#e9e2d7] rounded-lg">
-                      No images added yet. Click "+ Add Image" above.
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setForm(prev => ({ ...prev, images: [{ url: "", alt: "" }] }))}
+                      className="flex w-full flex-col items-center justify-center rounded-xl border border-dashed border-[#ddd2c1] bg-[#faf7f1] px-6 py-9 text-center transition hover:border-[#c9b79d] hover:bg-[#f7f1e8]"
+                    >
+                      <ImageIcon size={22} className="text-[#a78d67]" />
+                      <span className="mt-3 text-sm font-bold text-[#5f574d]">Add the project cover</span>
+                      <span className="mt-1 text-xs text-[#968a79]">Upload a screenshot here instead of editing code.</span>
+                    </button>
                   )}
                 </div>
 
