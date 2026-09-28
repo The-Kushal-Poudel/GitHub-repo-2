@@ -2,95 +2,60 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Container from "../common/Container";
 
+const accentBorders = ["border-t-[#4f73ff]", "border-t-[#ff7858]", "border-t-[#caff4f]", "border-t-[#9ed7ff]"];
+
 export default function About({ about, profile, reducedMotion }) {
   return (
-    <section
-      id="about"
-      className="border-b border-white/[0.08] bg-[#191b1a] py-16 text-white sm:py-20 lg:py-28"
-    >
+    <section id="about" className="border-b border-[#152238]/10 bg-[#fffaf3] py-18 text-[#152238] sm:py-22 lg:py-28">
       <Container>
-        <div className="grid gap-8 border-b border-white/[0.1] pb-10 sm:gap-10 sm:pb-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-20 lg:pb-14">
+        <div className="grid gap-10 lg:grid-cols-[1.08fr_.92fr] lg:items-end lg:gap-20">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#91a6f0]">
-              {about.label}
-            </p>
-            <h2 className="mt-3 max-w-2xl text-balance text-[2.25rem] font-black leading-[0.96] tracking-[-0.055em] sm:mt-4 sm:text-5xl lg:text-6xl">
-              {about.title}
-            </h2>
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#ff7858]">{about.label}</p>
+            <h2 className="mt-4 max-w-4xl text-balance text-[2.8rem] font-black leading-[.92] tracking-[-.06em] sm:text-6xl lg:text-[5.9rem]">{about.title}</h2>
           </div>
-
-          <div className="max-w-2xl lg:justify-self-end">
-            <p className="text-sm leading-7 text-white/58 sm:text-base sm:leading-8">
-              {about.description}
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white/34">
+          <div>
+            <p className="max-w-2xl text-[16px] leading-8 text-[#152238]/58">{about.description}</p>
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-[9px] font-black uppercase tracking-[0.12em] text-[#152238]/35">
               {profile.location && <span>{profile.location}</span>}
-              {profile.availability && (
-                <span className="inline-flex items-center gap-2 text-white/52">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#91a6f0]" />
-                  {profile.availability}
-                </span>
-              )}
+              {profile.availability && <span className="inline-flex items-center gap-2 text-[#152238]/55"><span className="h-1.5 w-1.5 rounded-full bg-[#4f73ff]" />{profile.availability}</span>}
             </div>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-[0.78fr_1.22fr]">
-          <div className="flex flex-col justify-between border-b border-white/[0.1] py-8 lg:border-b-0 lg:border-r lg:py-10 lg:pr-12">
-            <div>
-              <p className="max-w-sm text-[1.35rem] font-semibold leading-[1.35] tracking-[-0.035em] text-white/86 sm:text-2xl">
-                I care about the part after the mockup — when workflows, edge cases and business rules have to hold up in the real product.
-              </p>
-            </div>
+        <div className="mt-14 grid overflow-hidden rounded-[30px] border border-[#152238]/10 bg-[#f6f0e7] lg:grid-cols-[.72fr_1.28fr]">
+          <div className="relative flex min-h-[340px] flex-col justify-between overflow-hidden border-b border-[#152238]/10 p-7 lg:border-b-0 lg:border-r lg:p-9">
+            <div className="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-[#4f73ff]/10" aria-hidden="true" />
+            <div className="absolute bottom-10 right-9 h-20 w-20 rounded-full bg-[#caff4f]" aria-hidden="true" />
+            <p className="relative z-10 max-w-md text-[1.45rem] font-semibold leading-[1.34] tracking-[-.035em] text-[#152238]/88 sm:text-[1.7rem]">
+              I care about the part after the mockup — when workflows, edge cases and business rules have to hold up in the real product.
+            </p>
 
-            <div className="mt-9 flex items-center gap-4 sm:mt-12">
-              <img
-                src={profile.image}
-                alt={profile.name}
-                loading="lazy"
-                decoding="async"
-                className="h-12 w-12 rounded-xl object-cover grayscale-[12%]"
-              />
+            <div className="relative z-10 mt-10 flex items-center gap-4">
+              <img src={profile.image} alt={profile.name} loading="lazy" decoding="async" className="h-14 w-14 rounded-2xl object-cover" />
               <div>
-                <p className="text-sm font-bold tracking-[-0.02em]">{profile.name}</p>
-                <a
-                  href={profile.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-1 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.11em] text-white/35 transition-colors hover:text-white"
-                >
-                  LinkedIn <ArrowUpRight size={12} />
-                </a>
+                <p className="text-sm font-black tracking-[-.02em]">{profile.name}</p>
+                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[.1em] text-[#4f73ff]">LinkedIn <ArrowUpRight size={12} /></a>
               </div>
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:pl-12">
+          <div className="grid sm:grid-cols-2">
             {about.principles.map((item, index) => (
               <motion.article
                 key={item.id}
-                initial={reducedMotion ? false : { opacity: 0, y: 12 }}
+                initial={reducedMotion ? false : { opacity: 0, y: 14 }}
                 whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.45, delay: index * 0.045 }}
-                className={`group relative min-h-[190px] border-white/[0.09] py-7 sm:min-h-[220px] sm:px-7 sm:py-8 ${
-                  index % 2 === 0 ? "sm:border-r" : ""
-                } ${index < 2 ? "border-b" : ""}`}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className={`group min-h-[220px] border-t-4 ${accentBorders[index % accentBorders.length]} p-7 sm:min-h-[250px] sm:p-8 ${index % 2 === 0 ? "sm:border-r sm:border-r-[#152238]/10" : ""} ${index < 2 ? "border-b border-b-[#152238]/10" : ""}`}
               >
                 <div className="flex items-start justify-between gap-4">
-                  <p className="text-[9px] font-black tracking-[0.16em] text-white/22">
-                    {item.number}
-                  </p>
-                  <span className="mt-1 h-px w-7 bg-white/12 transition-all duration-300 group-hover:w-10 group-hover:bg-[#91a6f0]/60" />
+                  <span className="text-[9px] font-black tracking-[0.16em] text-[#152238]/28">{item.number}</span>
+                  <span className="h-2 w-2 rounded-full bg-[#152238]/12 transition duration-300 group-hover:scale-150 group-hover:bg-[#4f73ff]" />
                 </div>
-
-                <div className="mt-8 sm:mt-10">
-                  <h3 className="text-[1.12rem] font-bold tracking-[-0.03em] sm:text-xl">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 max-w-sm text-sm leading-7 text-white/46">
-                    {item.text}
-                  </p>
+                <div className="mt-10">
+                  <h3 className="text-xl font-black tracking-[-.035em]">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-[#152238]/52">{item.text}</p>
                 </div>
               </motion.article>
             ))}

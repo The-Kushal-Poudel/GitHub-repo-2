@@ -1,30 +1,35 @@
 import Container from "../common/Container";
 
+const groupStyles = [
+  "bg-[#4f73ff] text-white",
+  "bg-[#ff7858] text-white",
+  "bg-[#caff4f] text-[#0d1830]",
+  "bg-[#9ed7ff] text-[#10203a]",
+];
+
 export default function TechStack({ techStack }) {
   return (
-    <section id="skills" className="border-b border-black/[0.07] bg-[#f5f3ee] py-16 text-[#171817] sm:py-20 lg:py-24">
+    <section id="skills" className="border-b border-[#152238]/10 bg-[#f6f0e7] py-18 text-[#152238] sm:py-22 lg:py-24">
       <Container>
-        <div className="grid gap-6 lg:grid-cols-[1fr_.8fr] lg:items-end">
+        <div className="grid gap-6 lg:grid-cols-[1fr_.7fr] lg:items-end">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3557c8]">{techStack.label}</p>
-            <h2 className="mt-3 max-w-3xl text-[2rem] font-black leading-[1.02] tracking-[-0.045em] sm:text-4xl">A practical stack for shipping complete products.</h2>
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#4f73ff]">{techStack.label}</p>
+            <h2 className="mt-3 max-w-3xl text-[2.5rem] font-black leading-[.96] tracking-[-.055em] sm:text-5xl lg:text-6xl">A practical stack for shipping complete products.</h2>
           </div>
-          <p className="max-w-md text-sm leading-7 text-black/48 lg:justify-self-end">Backend-heavy by preference, full-stack by habit.</p>
+          <p className="max-w-md text-sm leading-7 text-[#152238]/48 lg:justify-self-end">Backend-heavy by preference, full-stack by habit.</p>
         </div>
 
-        <div className="mt-8 grid divide-y divide-black/[0.08] border-y border-black/[0.08] sm:mt-10 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4">
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
           {techStack.groups.map((group, index) => (
-            <div key={group.name} className={`py-6 sm:px-6 sm:py-7 ${index % 2 === 1 ? "sm:border-l sm:border-black/[0.08]" : ""} ${index > 1 ? "sm:border-t sm:border-black/[0.08] lg:border-t-0" : ""} ${index > 0 ? "lg:border-l lg:border-black/[0.08]" : ""} lg:px-7`}>
+            <article key={group.name} className={`min-h-[260px] rounded-[24px] p-6 shadow-[0_12px_35px_rgba(21,34,56,.05)] ${groupStyles[index % groupStyles.length]}`}>
               <div className="flex items-center justify-between">
-                <p className="text-xs font-black uppercase tracking-[0.15em] text-[#171817]">{group.name}</p>
-                <span className="text-[9px] font-bold text-black/20">0{index + 1}</span>
+                <p className="text-[11px] font-black uppercase tracking-[0.14em]">{group.name}</p>
+                <span className="text-[9px] font-black opacity-45">0{index + 1}</span>
               </div>
-              <div className="mt-5 space-y-2">
-                {group.items.map((item) => (
-                  <p key={item} className="text-sm font-medium text-black/50">{item}</p>
-                ))}
+              <div className="mt-12 space-y-3">
+                {group.items.map((item) => <p key={item} className="text-[15px] font-bold opacity-75">{item}</p>)}
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </Container>
