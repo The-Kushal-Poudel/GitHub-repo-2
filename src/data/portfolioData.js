@@ -20,7 +20,7 @@ export const portfolioData = {
     role: "Full-Stack Developer",
     location: "Kathmandu, Nepal",
     email: "kushalpoudel240@gmail.com",
-    image: "/images/pic3.webp",
+    image: "/images/kushal-hero-photo.jpg",
     cv: "/Kushal_Poudel_CV.pdf",
     cvFileName: "Kushal_Poudel_CV.pdf",
     github: "https://github.com/The-Kushal-Poudel",
@@ -196,7 +196,22 @@ export const portfolioData = {
         tone: "sand",
         status: "Product build",
         liveLink: "https://www.converttree.com/",
-        image: "/project Images/converttree.webp",
+        image: "/project-images/converttree/converttree-home.webp",
+        imageAlt: "ConvertTree homepage — all-in-one online tools platform",
+        images: [
+          {
+            url: "/project-images/converttree/converttree-home.webp",
+            alt: "ConvertTree homepage — all-in-one online tools platform",
+          },
+          {
+            url: "/project-images/converttree/converttree-image-to-pdf.webp",
+            alt: "ConvertTree Image to PDF tool with drag-to-reorder preview",
+          },
+          {
+            url: "/project-images/converttree/converttree-bulk-email.webp",
+            alt: "ConvertTree Bulk Email workflow and campaign setup",
+          },
+        ],
       },
       {
         id: "paisaa-kaha-gayo",

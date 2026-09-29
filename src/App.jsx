@@ -42,7 +42,7 @@ export default function App() {
   const { site, navItems, profile } = data;
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#fffaf3] text-[#152238]">
+    <div className="min-h-screen overflow-x-hidden bg-[#dce3dc] text-[#111815]">
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>

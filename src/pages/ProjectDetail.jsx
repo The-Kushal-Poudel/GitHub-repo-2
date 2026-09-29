@@ -214,7 +214,7 @@ export default function ProjectDetail({ data }) {
 
   if (!project) {
     return (
-      <div className="bg-[#f5f3ee]">
+      <div className="detail-page-offset bg-[#f5f3ee]">
         <Container className="flex min-h-[70vh] flex-col items-start justify-center py-20">
           <p className={labelClass}>404</p>
           <h1 className="mt-4 text-[2.5rem] font-black leading-none tracking-[-0.05em] sm:text-5xl">
@@ -243,7 +243,7 @@ export default function ProjectDetail({ data }) {
         "Design the user flow and backend behavior together so edge cases have one clear source of truth.",
       ];
   return (
-    <article className="bg-[#f5f3ee] text-[#171817]">
+    <article className="detail-page-offset bg-[#f5f3ee] text-[#171817]">
       <SEO
         title={`${project.title} — Case Study`}
         description={project.description}

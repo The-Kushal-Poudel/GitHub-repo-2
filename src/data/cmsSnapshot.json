@@ -110,7 +110,7 @@
     "seo": {
       "title": "Kushal Poudel | Full-Stack Developer",
       "description": "Portfolio of Kushal Poudel — full-stack developer building production-minded products with Laravel, Spring Boot, React and SQL.",
-      "ogImage": "/images/pic3.webp"
+      "ogImage": "/images/kushal-hero-photo.jpg"
     },
     "theme": {
       "primary": "#171817",
@@ -125,7 +125,7 @@
     "location": "Kathmandu, Nepal",
     "email": "kushalpoudel240@gmail.com",
     "phone": "",
-    "image_url": "/images/pic3.webp",
+    "image_url": "/images/kushal-hero-photo.jpg",
     "cv_url": "/Kushal_Poudel_CV.pdf",
     "github_url": "https://github.com/The-Kushal-Poudel",
     "linkedin_url": "https://www.linkedin.com/in/kushal-poudel-317b25241/",
@@ -221,8 +221,16 @@
       "updated_at": "2026-09-11T16:38:33.000000Z",
       "images": [
         {
-          "url": "/project Images/converttree.webp",
-          "alt": "ConvertTree product preview"
+          "url": "/project-images/converttree/converttree-home.webp",
+          "alt": "ConvertTree homepage — all-in-one online tools platform"
+        },
+        {
+          "url": "/project-images/converttree/converttree-image-to-pdf.webp",
+          "alt": "ConvertTree Image to PDF tool with drag-to-reorder preview"
+        },
+        {
+          "url": "/project-images/converttree/converttree-bulk-email.webp",
+          "alt": "ConvertTree Bulk Email workflow and campaign setup"
         }
       ]
     },

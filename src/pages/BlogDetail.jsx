@@ -14,7 +14,7 @@ export default function BlogDetail({ data }) {
 
   if (!blog) {
     return (
-      <div className="bg-[#f5f3ee]">
+      <div className="detail-page-offset bg-[#f5f3ee]">
         <Container className="flex min-h-[70vh] flex-col justify-center py-20">
           <h1 className="text-5xl font-black tracking-[-0.05em]">Note not found.</h1>
           <Link to="/" className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-[#171817] px-5 py-3 text-sm font-bold text-white">
@@ -26,7 +26,7 @@ export default function BlogDetail({ data }) {
   }
 
   return (
-    <article className="bg-[#f5f3ee] text-[#171817]">
+    <article className="detail-page-offset bg-[#f5f3ee] text-[#171817]">
       <SEO title={blog.title} description={blog.description} url={`/blog/${blog.id}`} type="article" />
       <section className="bg-[#191b1a] py-10 text-white sm:py-16 lg:py-20">
         <Container className="max-w-[1040px]">
