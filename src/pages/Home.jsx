@@ -16,8 +16,6 @@ export default function Home({ data, reducedMotion }) {
       {
         selector: [
           ".about-copy-panel",
-          ".about-copy-panel h2",
-          ".about-name-title",
           ".about-copy-panel p",
           ".about-button",
           ".about-portrait-panel",

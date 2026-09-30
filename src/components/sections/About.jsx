@@ -12,7 +12,7 @@ export default function About({ about, profile }) {
           <div className="about-copy-panel">
             <p className="section-tech-label">02 / {about.label}</p>
             <span className="section-script-title">About me</span>
-            <h2>{profile.name.toUpperCase()}</h2>
+            <h2 className="about-name-title">{profile.name.toUpperCase()}</h2>
             <p className="about-role-line">{profile.role} · {profile.location}</p>
             <p className="about-description">{about.description}</p>
 

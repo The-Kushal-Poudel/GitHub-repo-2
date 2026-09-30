@@ -4909,3 +4909,346 @@ body {
     margin-bottom: 18px !important;
   }
 }
+
+
+/* =========================================================
+   ABOUT SECTION RESTORE
+   The compact pass previously collapsed the absolutely-positioned
+   About layout by setting min-height:auto.
+   ========================================================= */
+
+.about-reference-frame {
+  position: relative !important;
+  min-height: 880px !important;
+}
+
+@media (max-width: 900px) {
+  .about-reference-frame {
+    min-height: 940px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .about-reference-frame {
+    min-height: 820px !important;
+  }
+}
+
+
+/* =========================================================
+   ABOUT NAME — VISIBILITY + HIERARCHY FIX
+   ========================================================= */
+
+.about-copy-panel .about-name-title {
+  display: block !important;
+  position: relative !important;
+  z-index: 4 !important;
+  margin: 8px 0 16px !important;
+  padding: 0 !important;
+  color: #12161b !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-size: clamp(3.6rem, 6.8vw, 7.2rem) !important;
+  line-height: .84 !important;
+  letter-spacing: -.07em !important;
+  font-weight: 900 !important;
+  clip-path: none !important;
+  filter: none !important;
+  translate: 0 0 !important;
+  transform: none !important;
+}
+
+.about-copy-panel .section-script-title {
+  position: relative !important;
+  z-index: 5 !important;
+  margin-bottom: 2px !important;
+}
+
+.about-copy-panel .about-role-line {
+  margin-top: 6px !important;
+}
+
+.about-copy-panel .about-description {
+  margin-top: 14px !important;
+}
+
+@media (max-width: 760px) {
+  .about-copy-panel .about-name-title {
+    font-size: clamp(3rem, 13vw, 5.2rem) !important;
+    margin: 6px 0 14px !important;
+  }
+}
+
+
+/* =========================================================
+   ABOUT — BALANCED LEFT / RIGHT SPLIT
+   Left content now has the same visual weight as the image side.
+   ========================================================= */
+
+.about-reference-frame {
+  position: relative !important;
+  min-height: 760px !important;
+  overflow: hidden !important;
+  display: block !important;
+}
+
+/* LEFT PANEL — full height, no floating-card feeling */
+.about-copy-panel {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+
+  width: 52% !important;
+  height: 100% !important;
+
+  padding:
+    clamp(42px, 5vw, 72px)
+    clamp(42px, 5vw, 76px)
+    clamp(38px, 4.5vw, 68px) !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(250, 249, 246, .98) 0%,
+      rgba(244, 245, 243, .97) 100%
+    ) !important;
+
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  z-index: 3 !important;
+}
+
+/* soft diagonal edge toward the image */
+.about-copy-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -88px;
+  width: 150px;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      102deg,
+      rgba(244,245,243,1) 0%,
+      rgba(244,245,243,1) 44%,
+      rgba(244,245,243,.96) 45%,
+      rgba(244,245,243,0) 47%
+    );
+
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* RIGHT PANEL — aligned to same full height */
+.about-portrait-panel {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+
+  width: 52% !important;
+  height: 100% !important;
+
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+
+  background: #dfe4e5 !important;
+  z-index: 2 !important;
+}
+
+.about-portrait-panel img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: 58% 48% !important;
+}
+
+/* cleaner diagonal separator */
+.about-portrait-slash {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+
+  width: 10px !important;
+  height: 100% !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(196,133,119,.78),
+      rgba(121,161,177,.78)
+    ) !important;
+
+  transform: skewX(-10deg) translateX(-4px) !important;
+  transform-origin: top !important;
+
+  z-index: 5 !important;
+}
+
+/* Content hierarchy */
+.about-copy-panel .section-tech-label {
+  margin: 0 0 10px !important;
+}
+
+.about-copy-panel .section-script-title {
+  margin: 0 0 8px !important;
+}
+
+.about-copy-panel .about-name-title {
+  margin: 0 0 14px !important;
+  font-size: clamp(3.5rem, 5.7vw, 6.4rem) !important;
+}
+
+.about-copy-panel .about-role-line {
+  margin: 0 0 14px !important;
+}
+
+.about-copy-panel .about-description {
+  max-width: 620px !important;
+  margin: 0 0 20px !important;
+}
+
+.about-meta-grid {
+  margin-top: 0 !important;
+}
+
+.about-signature {
+  margin-top: 26px !important;
+}
+
+.about-actions {
+  margin-top: 14px !important;
+}
+
+/* Bottom principles stay edge-to-edge, overlapping neither panel */
+.about-principles-strip {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+
+  width: 100% !important;
+  margin: 0 !important;
+
+  z-index: 6 !important;
+}
+
+/* Leave room above principles strip */
+.about-copy-panel,
+.about-portrait-panel {
+  padding-bottom: 100px !important;
+}
+
+/* Decorative outline stays subtle */
+.about-outline-word {
+  z-index: 1 !important;
+  opacity: .55 !important;
+}
+
+/* Keep navigation dots on image side */
+.about-dot-rail {
+  right: 16px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 8 !important;
+}
+
+/* Mobile: stack as two equal visual blocks */
+@media (max-width: 900px) {
+  .about-reference-frame {
+    min-height: 1120px !important;
+  }
+
+  .about-copy-panel {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: auto !important;
+
+    width: 100% !important;
+    height: 53% !important;
+
+    padding:
+      46px
+      clamp(24px, 7vw, 52px)
+      90px !important;
+  }
+
+  .about-copy-panel::after {
+    display: none !important;
+  }
+
+  .about-portrait-panel {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 53% !important;
+    bottom: 0 !important;
+
+    width: 100% !important;
+    height: 47% !important;
+
+    padding-bottom: 94px !important;
+  }
+
+  .about-portrait-panel img {
+    object-position: 50% 38% !important;
+  }
+
+  .about-portrait-slash {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 8px !important;
+
+    transform: none !important;
+  }
+
+  .about-dot-rail {
+    right: 14px !important;
+    top: 72% !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .about-reference-frame {
+    min-height: 1040px !important;
+  }
+
+  .about-copy-panel {
+    height: 58% !important;
+    padding:
+      38px
+      20px
+      88px !important;
+  }
+
+  .about-portrait-panel {
+    top: 58% !important;
+    height: 42% !important;
+  }
+
+  .about-copy-panel .about-name-title {
+    font-size: clamp(3rem, 13vw, 4.8rem) !important;
+  }
+
+  .about-description {
+    font-size: 13px !important;
+  }
+
+  .about-meta-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
