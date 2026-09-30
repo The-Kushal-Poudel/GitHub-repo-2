@@ -5405,3 +5405,151 @@ body {
     height: 100% !important;
   }
 }
+
+
+/* =========================================================
+   ABOUT FINAL LAYOUT FIX
+   - buttons stay above the principles strip
+   - portrait fills the right panel again
+   - removes the blank area caused by reducing image height
+   ========================================================= */
+
+@media (min-width: 901px) {
+  .about-reference-frame {
+    min-height: 760px !important;
+  }
+
+  .about-copy-panel {
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100% !important;
+
+    /* Reserve content space for the bottom strip without clipping actions. */
+    padding-top: 42px !important;
+    padding-right: clamp(42px, 5vw, 76px) !important;
+    padding-bottom: 154px !important;
+    padding-left: clamp(42px, 5vw, 76px) !important;
+
+    justify-content: flex-start !important;
+    overflow: visible !important;
+  }
+
+  .about-copy-panel .section-tech-label {
+    margin-bottom: 6px !important;
+  }
+
+  .about-copy-panel .section-script-title {
+    margin-bottom: 4px !important;
+  }
+
+  .about-copy-panel .about-name-title {
+    margin-bottom: 10px !important;
+  }
+
+  .about-copy-panel .about-role-line {
+    margin-bottom: 10px !important;
+  }
+
+  .about-copy-panel .about-description {
+    margin-bottom: 14px !important;
+  }
+
+  .about-meta-grid {
+    margin-top: 0 !important;
+  }
+
+  .about-signature {
+    margin-top: 14px !important;
+    font-size: 48px !important;
+  }
+
+  .about-actions {
+    position: relative !important;
+    z-index: 12 !important;
+    margin-top: 8px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    translate: 0 0 !important;
+    filter: none !important;
+  }
+
+  .about-button {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .about-portrait-panel {
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100% !important;
+    padding-bottom: 0 !important;
+  }
+
+  .about-portrait-panel img {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 40% !important;
+  }
+
+  /* Principles stay over the bottom edge of both panels. */
+  .about-principles-strip {
+    min-height: 132px !important;
+    z-index: 20 !important;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 621px) {
+  .about-reference-frame {
+    min-height: 1120px !important;
+  }
+
+  .about-copy-panel {
+    height: 53% !important;
+    padding: 42px clamp(26px, 6vw, 52px) 34px !important;
+    justify-content: flex-start !important;
+    overflow: visible !important;
+  }
+
+  .about-actions {
+    position: relative !important;
+    z-index: 12 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .about-portrait-panel {
+    top: 53% !important;
+    height: 47% !important;
+    padding-bottom: 0 !important;
+  }
+
+  .about-portrait-panel img {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 36% !important;
+  }
+
+  .about-principles-strip {
+    z-index: 20 !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .about-actions {
+    position: relative !important;
+    z-index: 12 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .about-portrait-panel img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 36% !important;
+  }
+}
