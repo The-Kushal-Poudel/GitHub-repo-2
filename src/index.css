@@ -6746,3 +6746,598 @@ section {
     transition: none !important;
   }
 }
+
+
+/* =========================================================
+   GRAVITY-INSPIRED WHOLE HOMEPAGE PASS
+   Principle: less UI, more experience.
+   ========================================================= */
+
+/* ---------- Global ---------- */
+:root {
+  --g-ink: #111417;
+  --g-muted: #6f777f;
+  --g-paper: #f0efe9;
+  --g-paper-2: #e9ebe8;
+  --g-line: rgba(17,20,23,.12);
+  --g-accent: #7fa8b9;
+}
+
+body {
+  background: var(--g-paper) !important;
+}
+
+section {
+  position: relative;
+}
+
+/* Larger negative space, fewer visible boxes */
+.about-reference-section,
+.stack-reference-section,
+.career-editorial-section,
+.blogs-reference-section,
+.contact-reference-section {
+  background:
+    radial-gradient(circle at 84% 12%, rgba(127,168,185,.08), transparent 26%),
+    linear-gradient(180deg, #f0efe9 0%, #e9ebe8 100%) !important;
+}
+
+/* =========================================================
+   HERO — sparse / immersive
+   ========================================================= */
+
+.hero-video-page {
+  min-height: 100svh !important;
+  background: #10151a !important;
+}
+
+.hero-video-overlay {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(8,11,15,.94) 0%,
+      rgba(8,11,15,.74) 22%,
+      rgba(8,11,15,.32) 44%,
+      rgba(8,11,15,.08) 68%,
+      rgba(8,11,15,.03) 100%
+    ) !important;
+}
+
+.hero-video-copy {
+  left: clamp(26px, 5vw, 76px) !important;
+  width: min(560px, 42vw) !important;
+}
+
+.hero-video-script {
+  opacity: .68 !important;
+  font-size: clamp(44px, 4.4vw, 68px) !important;
+}
+
+.hero-video-role {
+  margin-bottom: 12px !important;
+  color: rgba(255,255,255,.56) !important;
+  font-size: 9px !important;
+  letter-spacing: .18em !important;
+}
+
+.hero-video-copy h1 {
+  font-size: clamp(72px, 8vw, 132px) !important;
+  line-height: .77 !important;
+  letter-spacing: -.09em !important;
+}
+
+.hero-video-copy h1 span {
+  -webkit-text-stroke: 1px rgba(255,255,255,.48) !important;
+}
+
+.hero-video-cta {
+  margin-top: 28px !important;
+  color: rgba(255,255,255,.84) !important;
+  border-color: rgba(255,255,255,.34) !important;
+  font-size: 10px !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+
+.hero-video-index {
+  color: rgba(255,255,255,.28) !important;
+}
+
+/* =========================================================
+   ABOUT — flatten the UI, keep content
+   ========================================================= */
+
+.about-reference-section {
+  padding-block: clamp(80px, 8vw, 118px) !important;
+}
+
+.about-reference-frame {
+  min-height: 760px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  overflow: hidden !important;
+}
+
+.about-copy-panel {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.about-copy-panel::after {
+  display: none !important;
+}
+
+.about-portrait-panel {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.about-portrait-panel img {
+  filter: saturate(.76) contrast(1.02) !important;
+}
+
+.about-outline-word {
+  right: -2vw !important;
+  top: -2vw !important;
+  font-size: clamp(8rem, 18vw, 18rem) !important;
+  opacity: .42 !important;
+}
+
+.about-copy-panel .section-script-title {
+  color: #789dad !important;
+}
+
+.about-copy-panel .about-name-title {
+  font-size: clamp(3.7rem, 6vw, 6.6rem) !important;
+  line-height: .82 !important;
+}
+
+.about-role-line {
+  color: #627f8e !important;
+  letter-spacing: .02em !important;
+}
+
+.about-description {
+  max-width: 600px !important;
+  font-size: 13px !important;
+  line-height: 1.78 !important;
+  color: #5e666d !important;
+}
+
+.about-meta-grid {
+  border-top: 1px solid var(--g-line) !important;
+  border-bottom: 1px solid var(--g-line) !important;
+}
+
+.about-meta-grid > div {
+  background: transparent !important;
+}
+
+.about-actions {
+  gap: 12px !important;
+}
+
+.about-button {
+  border-radius: 999px !important;
+}
+
+.about-button-dark {
+  background: var(--g-ink) !important;
+}
+
+.about-button-light {
+  background: transparent !important;
+  border: 1px solid var(--g-line) !important;
+}
+
+/* Principles become a thin information rail, not cards */
+.about-principles-strip {
+  background: transparent !important;
+  border-top: 1px solid var(--g-line) !important;
+}
+
+.about-principles-strip > div {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-right: 1px solid var(--g-line) !important;
+}
+
+.about-principles-strip > div > strong {
+  font-size: 12px !important;
+}
+
+.about-principles-strip > div > p {
+  font-size: 9px !important;
+  line-height: 1.45 !important;
+  color: #777e84 !important;
+}
+
+/* =========================================================
+   TECH STACK — kinetic typography instead of card gallery
+   ========================================================= */
+
+.stack-reference-section {
+  overflow: hidden !important;
+  padding-block: clamp(82px, 9vw, 126px) !important;
+}
+
+.stack-reference-header {
+  display: grid !important;
+  grid-template-columns: .65fr 1fr !important;
+  gap: clamp(24px, 6vw, 80px) !important;
+  align-items: end !important;
+  margin-bottom: 34px !important;
+}
+
+.stack-reference-header h2 {
+  font-size: clamp(4rem, 8vw, 8rem) !important;
+  line-height: .78 !important;
+  letter-spacing: -.08em !important;
+}
+
+.stack-gallery-shell {
+  overflow: hidden !important;
+  border-top: 1px solid var(--g-line) !important;
+  border-bottom: 1px solid var(--g-line) !important;
+  padding: 30px 0 !important;
+}
+
+.stack-gallery-track {
+  display: flex !important;
+  align-items: center !important;
+  gap: clamp(28px, 4vw, 58px) !important;
+  width: max-content !important;
+  animation: gravityStackMarquee 28s linear infinite;
+}
+
+.stack-gallery-shell:hover .stack-gallery-track {
+  animation-play-state: paused;
+}
+
+.stack-gallery-card {
+  width: auto !important;
+  min-width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  color: var(--g-ink) !important;
+  display: block !important;
+}
+
+.stack-gallery-card.is-featured {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.stack-card-visual {
+  display: none !important;
+}
+
+.stack-gallery-card h3,
+.stack-gallery-card strong {
+  font-size: clamp(2rem, 4vw, 4.8rem) !important;
+  line-height: .9 !important;
+  letter-spacing: -.055em !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+
+.stack-card-items {
+  display: none !important;
+}
+
+.stack-gallery-card:nth-child(odd) {
+  transform: translateY(-10px);
+}
+
+.stack-gallery-card:nth-child(even) {
+  transform: translateY(10px);
+  opacity: .55;
+}
+
+.stack-gallery-fade {
+  display: none !important;
+}
+
+.stack-reference-footer {
+  margin-top: 18px !important;
+  color: #777f85 !important;
+}
+
+@keyframes gravityStackMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-32%); }
+}
+
+/* =========================================================
+   PROJECTS — already interactive orbit, refine styling
+   ========================================================= */
+
+.gravity-projects-section {
+  padding-block: clamp(82px, 9vw, 124px) !important;
+}
+
+.gravity-projects-head {
+  margin-bottom: 6px !important;
+}
+
+.gravity-project-node {
+  transition:
+    scale .24s cubic-bezier(.22,1,.36,1),
+    filter .24s ease !important;
+}
+
+.gravity-project-media {
+  border-radius: 0 !important;
+  box-shadow: 0 18px 42px rgba(30,37,42,.10) !important;
+}
+
+.gravity-project-label strong {
+  font-size: 13px !important;
+}
+
+/* =========================================================
+   CAREER — oversized editorial progression
+   ========================================================= */
+
+.career-editorial-section {
+  padding-block: clamp(82px, 9vw, 126px) !important;
+}
+
+.career-editorial-head {
+  border-bottom: 0 !important;
+  padding-bottom: 18px !important;
+}
+
+.career-editorial-heading h2 {
+  font-size: clamp(4.2rem, 8vw, 8.8rem) !important;
+  line-height: .78 !important;
+}
+
+.career-editorial-body {
+  margin-top: 22px !important;
+}
+
+.career-editorial-rail {
+  opacity: .52 !important;
+}
+
+.career-editorial-item {
+  min-height: 150px !important;
+  padding: 24px 0 28px !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--g-line) !important;
+}
+
+.career-editorial-item.is-current {
+  background: transparent !important;
+}
+
+.career-editorial-item.is-current::before {
+  width: 1px !important;
+  background: #7fa8b9 !important;
+}
+
+.career-editorial-main h3 {
+  font-size: clamp(2.2rem, 4.4vw, 5rem) !important;
+}
+
+.career-editorial-company {
+  color: #658694 !important;
+}
+
+.career-editorial-current {
+  background: transparent !important;
+  border: 1px solid var(--g-line) !important;
+}
+
+.career-editorial-arrow {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+/* =========================================================
+   BLOGS — editorial index, less card UI
+   ========================================================= */
+
+.blogs-reference-section {
+  padding-block: clamp(82px, 9vw, 126px) !important;
+}
+
+.blogs-reference-head {
+  max-width: 900px;
+  margin-inline: auto !important;
+  text-align: center;
+}
+
+.blogs-reference-head h2 {
+  font-size: clamp(4.6rem, 8vw, 8.4rem) !important;
+  line-height: .8 !important;
+}
+
+.blog-featured-card,
+.blogs-featured-card,
+.blog-small-card,
+.blogs-small-card {
+  border: 0 !important;
+  border-top: 1px solid var(--g-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.blog-featured-card {
+  margin-top: 42px !important;
+}
+
+.blog-card-grid,
+.blogs-card-grid {
+  gap: 0 !important;
+}
+
+.blog-small-card,
+.blogs-small-card {
+  border-right: 1px solid var(--g-line) !important;
+}
+
+.blog-small-card:last-child,
+.blogs-small-card:last-child {
+  border-right: 0 !important;
+}
+
+/* =========================================================
+   CONTACT — stronger close, less form chrome
+   ========================================================= */
+
+.contact-reference-section {
+  padding-block: clamp(88px, 10vw, 138px) !important;
+}
+
+.contact-reference-panel {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.contact-reference-panel::after {
+  opacity: .55 !important;
+}
+
+.contact-reference-head h2 {
+  font-size: clamp(5rem, 10vw, 10rem) !important;
+  line-height: .75 !important;
+  letter-spacing: -.08em !important;
+}
+
+.contact-reference-watermark {
+  opacity: .06 !important;
+}
+
+.contact-editorial-row {
+  border-top: 1px solid var(--g-line) !important;
+  border-bottom: 1px solid var(--g-line) !important;
+}
+
+.contact-editorial-row > * {
+  border-right: 1px solid var(--g-line) !important;
+}
+
+.contact-message-layout {
+  border-bottom: 1px solid var(--g-line) !important;
+}
+
+.contact-submit-button {
+  border-radius: 999px !important;
+  padding-inline: 22px !important;
+}
+
+/* =========================================================
+   FOOTER — minimal end
+   ========================================================= */
+
+.wave-footer {
+  min-height: 150px !important;
+  background: #11161a !important;
+}
+
+.wave-footer-shapes {
+  opacity: .18 !important;
+  height: 86px !important;
+}
+
+.wave-footer-content {
+  bottom: 22px !important;
+  color: #fff !important;
+}
+
+.wave-footer-left strong {
+  color: #fff !important;
+}
+
+.wave-footer-left span,
+.wave-footer-center {
+  color: rgba(255,255,255,.42) !important;
+}
+
+.wave-footer-links a {
+  color: rgba(255,255,255,.82) !important;
+  background: transparent !important;
+  border-color: rgba(255,255,255,.18) !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  .stack-reference-header {
+    grid-template-columns: 1fr !important;
+  }
+
+  .stack-gallery-shell {
+    overflow-x: auto !important;
+  }
+
+  .stack-gallery-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .stack-gallery-card {
+    flex: 0 0 auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-video-copy {
+    width: calc(100% - 40px) !important;
+  }
+
+  .about-reference-frame {
+    min-height: auto !important;
+  }
+
+  .stack-reference-header h2,
+  .career-editorial-heading h2,
+  .blogs-reference-head h2,
+  .contact-reference-head h2 {
+    font-size: clamp(3.7rem, 16vw, 6.6rem) !important;
+  }
+
+  .stack-gallery-track {
+    gap: 28px !important;
+  }
+
+  .stack-gallery-card h3,
+  .stack-gallery-card strong {
+    font-size: 2.2rem !important;
+  }
+
+  .career-editorial-item {
+    padding: 22px 0 !important;
+  }
+
+  .blog-small-card,
+  .blogs-small-card {
+    border-right: 0 !important;
+  }
+
+  .wave-footer {
+    min-height: 220px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack-gallery-track {
+    animation: none !important;
+  }
+}
