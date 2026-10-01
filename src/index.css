@@ -6161,3 +6161,177 @@ section {
     translate: 0 0 !important;
   }
 }
+
+
+/* =========================================================
+   CONTACT — BUTTON VISIBILITY + TEXT CONTRAST FIX
+   ========================================================= */
+
+.contact-reference-section {
+  overflow: visible !important;
+  padding-bottom: clamp(88px, 8vw, 128px) !important;
+}
+
+.contact-reference-panel,
+.contact-editorial-form {
+  overflow: visible !important;
+}
+
+/* Make the content comfortably readable against the pale background */
+.contact-reference-section,
+.contact-reference-section p,
+.contact-reference-section label,
+.contact-reference-section span,
+.contact-reference-section small {
+  color: #3f4852 !important;
+}
+
+.contact-reference-head h2,
+.contact-reference-title {
+  color: #7fa7d9 !important;
+  opacity: 1 !important;
+}
+
+.contact-reference-head .section-script-title,
+.contact-script-line,
+.contact-script-accent {
+  color: #6f98aa !important;
+  opacity: 1 !important;
+}
+
+.contact-reference-head p {
+  color: #59636e !important;
+  opacity: 1 !important;
+}
+
+.contact-field label,
+.contact-field > span,
+.contact-editorial-row label,
+.contact-editorial-row span {
+  color: #75669a !important;
+  opacity: .95 !important;
+}
+
+.contact-field input,
+.contact-field textarea,
+.contact-field select,
+.contact-editorial-row input,
+.contact-editorial-row textarea,
+.contact-editorial-row select {
+  color: #2e3640 !important;
+  opacity: 1 !important;
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder,
+.contact-editorial-row input::placeholder,
+.contact-editorial-row textarea::placeholder {
+  color: #7d8792 !important;
+  opacity: .92 !important;
+}
+
+.contact-message-field p,
+.contact-message-field span,
+.contact-elsewhere,
+.contact-elsewhere p,
+.contact-elsewhere span,
+.contact-elsewhere a {
+  color: #3e4650 !important;
+  opacity: 1 !important;
+}
+
+.contact-elsewhere h3,
+.contact-elsewhere strong {
+  color: #7399c8 !important;
+  opacity: 1 !important;
+}
+
+/* Stronger social icon/label contrast */
+.contact-social-link,
+.contact-elsewhere a {
+  color: #252c34 !important;
+}
+
+.contact-social-link svg,
+.contact-elsewhere a svg {
+  color: currentColor !important;
+  stroke: currentColor !important;
+  opacity: 1 !important;
+}
+
+/* Ensure submit area never gets clipped */
+.contact-submit-row,
+.contact-form-actions {
+  position: relative !important;
+  z-index: 20 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  min-height: 58px !important;
+  margin-top: 24px !important;
+  padding-bottom: 8px !important;
+  overflow: visible !important;
+}
+
+.contact-submit-button {
+  position: relative !important;
+  z-index: 22 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+
+  min-height: 44px !important;
+  padding: 0 18px !important;
+
+  border-radius: 999px !important;
+  background: #18212a !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  box-shadow: 0 10px 24px rgba(24,33,42,.14) !important;
+
+  translate: 0 0 !important;
+  filter: none !important;
+  clip-path: none !important;
+}
+
+/* The contact section previously ended too close to the CTA. */
+.contact-editorial-form {
+  padding-bottom: 18px !important;
+}
+
+@media (max-width: 768px) {
+  .contact-reference-section {
+    padding-bottom: 92px !important;
+  }
+
+  .contact-submit-row,
+  .contact-form-actions {
+    margin-top: 20px !important;
+    min-height: 54px !important;
+  }
+
+  .contact-submit-button {
+    width: 100% !important;
+    min-height: 46px !important;
+    justify-content: space-between !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-reference-section {
+    padding-bottom: 86px !important;
+  }
+
+  .contact-reference-head p {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+  }
+
+  .contact-message-field textarea {
+    min-height: 170px !important;
+  }
+}
